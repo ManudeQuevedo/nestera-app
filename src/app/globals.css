@@ -1,26 +1,332 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+@custom-variant dark (&:is(.dark *));
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  
+  /* Custom colors for explicit usage */
+  --color-canvas: #e7ecef;
+  --color-canvas-dark: #1e293b;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/*
+  Premium Minimalist Theme - App Shell
+  --------------------------------------
+  Background: #e7ecef (Light cool grey)
+  Cards:      #ffffff (Pure white, borderless)
+  Sidebar:    #ffffff (White with shadow separation)
+*/
+
+/* Light Mode - Premium Minimalist */
+:root {
+  --radius: 0.75rem;
+  
+  /* Background: #e7ecef - Cool grey canvas */
+  --background: #e7ecef;
+  /* Foreground: Slate-900 */
+  --foreground: #0f172a;
+  
+  /* Card: Pure white */
+  --card: #ffffff;
+  --card-foreground: #0f172a;
+  
+  /* Popover */
+  --popover: #ffffff;
+  --popover-foreground: #0f172a;
+  
+  /* Primary: Slate-900 */
+  --primary: #0f172a;
+  --primary-foreground: #ffffff;
+  
+  /* Secondary */
+  --secondary: #f1f5f9;
+  --secondary-foreground: #0f172a;
+  
+  /* Muted */
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+  
+  /* Accent */
+  --accent: #f1f5f9;
+  --accent-foreground: #0f172a;
+  
+  /* Destructive */
+  --destructive: #ef4444;
+  
+  /* Border/Input - Very subtle */
+  --border: #e2e8f0;
+  --input: #e2e8f0;
+  
+  /* Ring */
+  --ring: #0f172a;
+  
+  /* Chart colors */
+  --chart-1: #22c55e;
+  --chart-2: #3b82f6;
+  --chart-3: #f97316;
+  --chart-4: #ec4899;
+  --chart-5: #8b5cf6;
+  
+  /* Sidebar: White */
+  --sidebar: #ffffff;
+  --sidebar-foreground: #0f172a;
+  --sidebar-primary: #0f172a;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f1f5f9;
+  --sidebar-accent-foreground: #0f172a;
+  --sidebar-border: #e2e8f0;
+  --sidebar-ring: #0f172a;
+}
+
+/*
+  Nautical Dark Mode Theme
+  -------------------------
+  Background: #002855 (Deep Navy)
+  Cards:      #023e7d (Rich Blue)
+  Text:       #e7ecef (Light Grey)
+  Muted:      #93c5fd (Soft Blue)
+*/
+.dark {
+  /* Background: #002855 - Deep Navy */
+  --background: #002855;
+  /* Foreground: #93c5fd - Soft blue for all text */
+  --foreground: #93c5fd;
+  
+  /* Card: #023e7d - Rich Blue surfaces */
+  --card: #023e7d;
+  --card-foreground: #93c5fd;
+  
+  /* Popover: Same as card */
+  --popover: #023e7d;
+  --popover-foreground: #e7ecef;
+  
+  /* Primary: Light text on dark buttons */
+  --primary: #e7ecef;
+  --primary-foreground: #002855;
+  
+  /* Secondary: Slightly lighter navy */
+  --secondary: #034078;
+  --secondary-foreground: #e7ecef;
+  
+  /* Muted: Navy hover states with soft blue text */
+  --muted: #034078;
+  --muted-foreground: #93c5fd;
+  
+  /* Accent */
+  --accent: #034078;
+  --accent-foreground: #e7ecef;
+  
+  /* Destructive */
+  --destructive: #ef4444;
+  
+  /* Input/Border: Low contrast to blend with blue */
+  --input: #034078;
+  --border: #034078;
+  
+  /* Ring: Soft blue focus */
+  --ring: #93c5fd;
+  
+  /* Chart colors - Vibrant on navy */
+  --chart-1: #4ade80;
+  --chart-2: #60a5fa;
+  --chart-3: #fb923c;
+  --chart-4: #f472b6;
+  --chart-5: #a78bfa;
+  
+  /* Sidebar: Rich Blue to match cards (layered depth) */
+  --sidebar: #023e7d;
+  --sidebar-foreground: #e7ecef;
+  --sidebar-primary: #e7ecef;
+  --sidebar-primary-foreground: #002855;
+  --sidebar-accent: #034078;
+  --sidebar-accent-foreground: #e7ecef;
+  --sidebar-border: #034078;
+  --sidebar-ring: #93c5fd;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  
+  /* App Shell - Fixed viewport */
+  html, body {
+    @apply h-screen w-screen overflow-hidden;
+  }
+  
+  body {
+    @apply antialiased transition-colors duration-300;
+    background-color: var(--background);
+    color: var(--foreground);
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+  
+  /* High contrast typography */
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+    color: var(--foreground);
+  }
+  
+  /* Dark mode headings - Soft blue with bold weight */
+  .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
+    color: #93c5fd;
+    font-weight: 700;
+  }
+  
+  /* Force inputs to use correct theme colors */
+  input, select, textarea {
+    background-color: var(--card);
+    color: var(--foreground);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Scrollable canvas - main content area */
+  .scrollable-canvas {
+    @apply h-full w-full overflow-y-auto;
+    scrollbar-width: thin;
+    scrollbar-color: #cbd5e1 transparent;
+  }
+  
+  .scrollable-canvas::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .scrollable-canvas::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  
+  .scrollable-canvas::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    border-radius: 3px;
+  }
+  
+  .scrollable-canvas::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
+  }
+  
+  .dark .scrollable-canvas {
+    scrollbar-color: #034078 transparent;
+  }
+  
+  .dark .scrollable-canvas::-webkit-scrollbar-thumb {
+    background-color: #034078;
+  }
+  
+  .dark .scrollable-canvas::-webkit-scrollbar-thumb:hover {
+    background-color: #93c5fd;
+  }
+  
+  /* Hidden scrollbar variant */
+  .scrollable-hidden {
+    @apply overflow-y-auto;
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+  
+  .scrollable-hidden::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Premium Card styling - Borderless white islands */
+@layer components {
+  /* Light mode cards - NO BORDERS, soft shadow */
+  [data-slot="card"] {
+    background-color: var(--card) !important;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    border: none !important;
+    border-radius: 0.75rem;
+  }
+  
+  [data-slot="card"]:hover {
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  }
+  
+  /* Dark mode cards - Nautical elevation */
+  .dark [data-slot="card"] {
+    background-color: var(--card) !important;
+    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.4);
+    border: 1px solid rgba(147, 197, 253, 0.1) !important;
+  }
+  
+  .dark [data-slot="card"]:hover {
+    box-shadow: 0 8px 12px -2px rgb(0 0 0 / 0.5);
+    border-color: rgba(147, 197, 253, 0.2) !important;
+  }
+  
+  /* Premium white card utility */
+  .premium-card {
+    background-color: var(--card);
+    border-radius: 0.75rem;
+    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
+    border: none;
+  }
+}
+
+/* Gradient text utility */
+@layer utilities {
+  .text-gradient-hero {
+    @apply bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent;
+  }
+  
+  .dark .text-gradient-hero {
+    @apply from-white to-white/60;
+  }
+}
+
+/* Premium Glass utilities */
+@layer utilities {
+  .glass {
+    @apply backdrop-blur-xl;
+    background-color: rgba(255, 255, 255, 0.9);
+    box-shadow: 0 8px 32px 0 rgb(0 0 0 / 0.1);
+  }
+  
+  .dark .glass {
+    background-color: rgba(2, 62, 125, 0.9);
+    border: 1px solid rgba(147, 197, 253, 0.15);
+  }
 }
