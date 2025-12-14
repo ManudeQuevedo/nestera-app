@@ -27,7 +27,7 @@ import { Badge } from "@/components/ui/badge";
 import { Transaction } from "@/types/finance";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 interface ExpenseTrendChartProps {
   transactions: Transaction[];
@@ -50,9 +50,23 @@ function seededRandom(seed: number): number {
   return x - Math.floor(x);
 }
 
+// Map next-intl locale to BCP 47 locale tag
+const getDateLocale = (locale: string) => {
+  const localeMap: Record<string, string> = {
+    es: "es-MX",
+    en: "en-US",
+  };
+  return localeMap[locale] || locale;
+};
+
 // Generate mock data for demo with consistent values
-const generateMockData = (days: number, seedOffset: number = 0) => {
+const generateMockData = (
+  days: number,
+  locale: string,
+  seedOffset: number = 0
+) => {
   const data = [];
+  const dateLocale = getDateLocale(locale);
   // Use a stable date reference (start of today) to avoid hydration issues
   const now = new Date();
   now.setHours(0, 0, 0, 0);
@@ -71,7 +85,7 @@ const generateMockData = (days: number, seedOffset: number = 0) => {
 
     data.push({
       date: date.toISOString().split("T")[0],
-      dateLabel: date.toLocaleDateString("en-US", {
+      dateLabel: date.toLocaleDateString(dateLocale, {
         weekday: "short",
         month: "short",
         day: "numeric",
@@ -86,7 +100,7 @@ const generateMockData = (days: number, seedOffset: number = 0) => {
   return data;
 };
 
-// Custom Tooltip
+// Custom Tooltip with Glass Style
 interface TooltipProps {
   active?: boolean;
   payload?: any[];
@@ -106,8 +120,8 @@ function CustomChartTooltip({
   const rate = EXCHANGE_RATES[currency];
 
   return (
-    <div className="bg-card border rounded-lg shadow-lg p-3 text-sm">
-      <p className="font-medium mb-2">{label}</p>
+    <div className="bg-slate-900/95 dark:bg-slate-950/95 backdrop-blur-xl border border-white/10 rounded-lg shadow-2xl p-3 text-sm">
+      <p className="font-medium mb-2 text-white">{label}</p>
       {payload.map((entry: any, index: number) => (
         <div key={index} className="flex items-center justify-between gap-4">
           <div className="flex items-center gap-2">
@@ -115,9 +129,9 @@ function CustomChartTooltip({
               className="w-3 h-3 rounded-full"
               style={{ backgroundColor: entry.color }}
             />
-            <span className="text-muted-foreground">{entry.name}:</span>
+            <span className="text-slate-400">{entry.name}:</span>
           </div>
-          <span className="font-mono font-medium">
+          <span className="font-mono font-medium text-white">
             {symbol}
             {Math.round(entry.value * rate).toLocaleString()}
           </span>
@@ -135,6 +149,7 @@ export function ExpenseTrendChart({
   const tCommon = useTranslations("Common");
   const tInsights = useTranslations("Insights");
   const tJFK = useTranslations("JFKSchool");
+  const locale = useLocale();
   const [timeRange, setTimeRange] = React.useState<TimeRange>("7d");
   const [currency, setCurrency] = React.useState<Currency>("MXN");
   const [showIncome, setShowIncome] = React.useState(true);
@@ -142,11 +157,11 @@ export function ExpenseTrendChart({
   const [showAnts, setShowAnts] = React.useState(true);
   const [showJFK, setShowJFK] = React.useState(true);
 
-  // Generate mock data based on time range
+  // Generate mock data based on time range and locale
   const chartData = React.useMemo(() => {
     const days = timeRange === "1d" ? 1 : 7;
-    return generateMockData(days);
-  }, [timeRange]);
+    return generateMockData(days, locale);
+  }, [timeRange, locale]);
 
   // Calculate totals and comparison
   const { totals, comparison } = React.useMemo(() => {
@@ -162,7 +177,7 @@ export function ExpenseTrendChart({
 
     // For comparison, generate previous period data with different seed
     const prevDays = timeRange === "1d" ? 1 : 7;
-    const prevData = generateMockData(prevDays, 1000000);
+    const prevData = generateMockData(prevDays, locale, 1000000);
     const previous = prevData.reduce(
       (acc, d) => ({
         income: acc.income + d.income,
@@ -198,14 +213,14 @@ export function ExpenseTrendChart({
     {
       key: "income",
       name: tInsights("income"),
-      color: "#10b981",
+      color: "#34d399", // Emerald-400
       show: showIncome,
       toggle: setShowIncome,
     },
     {
       key: "expense",
       name: tInsights("expenses"),
-      color: "#64748b",
+      color: "#f43f5e", // Rose-500
       show: showExpense,
       toggle: setShowExpense,
     },
@@ -229,7 +244,7 @@ export function ExpenseTrendChart({
 
   if (isEmpty) {
     return (
-      <Card className="h-full bg-white dark:bg-card shadow-sm rounded-xl border-none">
+      <Card className="h-full">
         <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-4">
           <div className="flex items-center gap-2">
             <CardTitle className="text-base font-medium">
@@ -252,18 +267,18 @@ export function ExpenseTrendChart({
   }
 
   return (
-    <Card className="h-full bg-white dark:bg-card shadow-sm rounded-xl border-none">
+    <Card className="h-full">
       <CardHeader className="space-y-0 pb-2">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <CardTitle className="text-base font-medium">
+            <CardTitle className="text-base font-medium tracking-tight">
               {t("spending")}
             </CardTitle>
-            <Info className="h-4 w-4 text-muted-foreground" />
+            <Info className="h-4 w-4 text-slate-400" />
           </div>
           <Link
             href="/report"
-            className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors flex items-center gap-1">
+            className="text-sm font-medium text-slate-400 hover:text-white transition-colors flex items-center gap-1">
             {t("viewAll")}
             <ArrowUpRight className="h-4 w-4" />
           </Link>
@@ -271,7 +286,7 @@ export function ExpenseTrendChart({
 
         {/* Comparison Badge */}
         <div className="flex items-center gap-2 mt-2">
-          <span className="text-2xl font-bold">
+          <span className="text-2xl font-bold tracking-tight">
             {symbol}
             {Math.round(comparison.totalSpend * rate).toLocaleString()}
           </span>
@@ -280,8 +295,8 @@ export function ExpenseTrendChart({
             className={cn(
               "gap-1",
               comparison.isHigher
-                ? "border-red-200 bg-red-50 text-red-700 dark:border-red-800 dark:bg-red-950 dark:text-red-400"
-                : "border-green-200 bg-green-50 text-green-700 dark:border-green-800 dark:bg-green-950 dark:text-green-400"
+                ? "border-rose-500/30 bg-rose-500/10 text-rose-400"
+                : "border-emerald-500/30 bg-emerald-500/10 text-emerald-400"
             )}>
             {comparison.isHigher ? (
               <TrendingUp className="w-3 h-3" />
@@ -299,8 +314,8 @@ export function ExpenseTrendChart({
         <div className="flex flex-wrap items-center justify-between gap-3">
           {/* Time Range Toggle */}
           <div className="flex items-center gap-2">
-            <Calendar className="w-4 h-4 text-muted-foreground" />
-            <div className="flex bg-muted/50 rounded-lg p-1">
+            <Calendar className="w-4 h-4 text-slate-400" />
+            <div className="flex bg-slate-100 dark:bg-white/5 rounded-lg p-1">
               {(["1d", "7d"] as TimeRange[]).map((range) => (
                 <Button
                   key={range}
@@ -308,7 +323,7 @@ export function ExpenseTrendChart({
                   size="sm"
                   className={cn(
                     "h-7 text-xs",
-                    timeRange === range && "bg-card shadow-sm"
+                    timeRange === range && "bg-white dark:bg-white/10 shadow-sm"
                   )}
                   onClick={() => setTimeRange(range)}>
                   {range === "1d" ? tCommon("today") : tInsights("week")}
@@ -318,7 +333,7 @@ export function ExpenseTrendChart({
           </div>
 
           {/* Currency Toggle */}
-          <div className="flex bg-muted/50 rounded-lg p-1">
+          <div className="flex bg-slate-100 dark:bg-white/5 rounded-lg p-1">
             {(["MXN", "USD", "EUR"] as Currency[]).map((curr) => (
               <Button
                 key={curr}
@@ -326,7 +341,7 @@ export function ExpenseTrendChart({
                 size="sm"
                 className={cn(
                   "h-7 text-xs px-2",
-                  currency === curr && "bg-card shadow-sm"
+                  currency === curr && "bg-white dark:bg-white/10 shadow-sm"
                 )}
                 onClick={() => setCurrency(curr)}>
                 {curr}
@@ -343,10 +358,14 @@ export function ExpenseTrendChart({
               variant={series.show ? "default" : "outline"}
               size="sm"
               onClick={() => series.toggle(!series.show)}
-              className={cn("h-7 text-xs gap-1", series.show && "text-white")}
+              className={cn(
+                "h-7 text-xs gap-1 transition-all",
+                series.show && "text-white border-transparent"
+              )}
               style={{
-                backgroundColor: series.show ? series.color : undefined,
-                borderColor: series.color,
+                backgroundColor: series.show ? series.color : "transparent",
+                borderColor: series.show ? series.color : series.color,
+                color: series.show ? "white" : series.color,
               }}>
               {series.show ? (
                 <Eye className="w-3 h-3" />
@@ -364,30 +383,39 @@ export function ExpenseTrendChart({
           <ResponsiveContainer width="100%" height="100%">
             <AreaChart data={chartData}>
               <defs>
+                {/* Premium Gradient: Income - Emerald */}
                 <linearGradient id="gradIncome" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#10b981" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#10b981" stopOpacity={0.05} />
+                  <stop offset="0%" stopColor="#34d399" stopOpacity={0.5} />
+                  <stop offset="100%" stopColor="#34d399" stopOpacity={0} />
                 </linearGradient>
+                {/* Premium Gradient: Expense - Rose */}
                 <linearGradient id="gradExpense" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#64748b" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#64748b" stopOpacity={0.05} />
+                  <stop offset="0%" stopColor="#f43f5e" stopOpacity={0.5} />
+                  <stop offset="100%" stopColor="#f43f5e" stopOpacity={0} />
                 </linearGradient>
+                {/* Gradient: Ants - Amber */}
                 <linearGradient id="gradAnts" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#f59e0b" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#f59e0b" stopOpacity={0.05} />
+                  <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.4} />
+                  <stop offset="100%" stopColor="#f59e0b" stopOpacity={0} />
                 </linearGradient>
+                {/* Gradient: JFK - Violet */}
                 <linearGradient id="gradJFK" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="5%" stopColor="#8b5cf6" stopOpacity={0.4} />
-                  <stop offset="95%" stopColor="#8b5cf6" stopOpacity={0.05} />
+                  <stop offset="0%" stopColor="#8b5cf6" stopOpacity={0.4} />
+                  <stop offset="100%" stopColor="#8b5cf6" stopOpacity={0} />
                 </linearGradient>
               </defs>
-              <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
+              {/* Extremely faint grid lines */}
+              <CartesianGrid
+                strokeDasharray="3 3"
+                stroke="rgba(255,255,255,0.03)"
+                vertical={false}
+              />
               <XAxis
                 dataKey="dateLabel"
                 tickLine={false}
                 axisLine={false}
                 tickMargin={10}
-                className="text-xs"
+                tick={{ fill: "#94a3b8", fontSize: 12 }}
               />
               <YAxis
                 axisLine={false}
@@ -395,18 +423,23 @@ export function ExpenseTrendChart({
                 tickFormatter={(value) =>
                   `${symbol}${((value * rate) / 1000).toFixed(0)}k`
                 }
-                className="text-xs"
+                tick={{ fill: "#94a3b8", fontSize: 12 }}
                 width={50}
               />
               <Tooltip content={<CustomChartTooltip currency={currency} />} />
-              <Legend />
+              <Legend
+                wrapperStyle={{ paddingTop: "10px" }}
+                formatter={(value) => (
+                  <span className="text-slate-400 text-sm">{value}</span>
+                )}
+              />
 
               {showIncome && (
                 <Area
                   type="monotone"
                   dataKey="income"
                   name={tInsights("income")}
-                  stroke="#10b981"
+                  stroke="#34d399"
                   strokeWidth={2}
                   fill="url(#gradIncome)"
                 />
@@ -416,7 +449,7 @@ export function ExpenseTrendChart({
                   type="monotone"
                   dataKey="expense"
                   name={tInsights("expenses")}
-                  stroke="#64748b"
+                  stroke="#f43f5e"
                   strokeWidth={2}
                   fill="url(#gradExpense)"
                 />

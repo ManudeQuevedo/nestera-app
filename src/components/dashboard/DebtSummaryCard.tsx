@@ -6,8 +6,6 @@ import { Progress } from "@/components/ui/progress";
 import { Debt } from "@/types/finance";
 import {
   CreditCard,
-  AlertCircle,
-  TrendingDown,
   Calendar,
   Shield,
   ShieldCheck,
@@ -31,13 +29,13 @@ function getDebtHealthScore(debts: Debt[]): {
     return {
       score: "excellent",
       labelKey: "debtFree",
-      color: "text-green-500",
+      color: "text-emerald-500",
     };
   }
 
   const hasLate = debts.some((d) => d.status === "late");
   if (hasLate) {
-    return { score: "poor", labelKey: "poor", color: "text-red-500" };
+    return { score: "poor", labelKey: "poor", color: "text-rose-500" };
   }
 
   const highInterest = debts.filter(
@@ -51,7 +49,11 @@ function getDebtHealthScore(debts: Debt[]): {
     return { score: "good", labelKey: "good", color: "text-blue-500" };
   }
 
-  return { score: "excellent", labelKey: "excellent", color: "text-green-500" };
+  return {
+    score: "excellent",
+    labelKey: "excellent",
+    color: "text-emerald-500",
+  };
 }
 
 function getUpcomingPayments(debts: Debt[]) {
@@ -86,46 +88,51 @@ export function DebtSummaryCard({ totalDebt, debts }: DebtSummaryCardProps) {
     <Card className="h-full">
       <CardHeader className="pb-3">
         <div className="flex items-center justify-between">
-          <CardTitle className="text-lg flex items-center gap-2">
-            <CreditCard className="w-5 h-5 text-muted-foreground" />
+          <CardTitle className="text-base font-medium tracking-tight flex items-center gap-2">
+            <CreditCard className="w-4 h-4 text-slate-400" />
             {t("debtSummary")}
           </CardTitle>
-          <Link href="/debts" className="text-sm text-primary hover:underline">
+          <Link
+            href="/debts"
+            className="text-xs text-slate-400 hover:text-slate-600 dark:hover:text-white transition-colors">
             {t("viewAll")}
           </Link>
         </div>
       </CardHeader>
       <CardContent className="space-y-4">
         {/* Total Debt */}
-        <div className="space-y-1">
-          <p className="text-sm text-muted-foreground">{t("totalDebt")}</p>
-          <p className="text-2xl font-bold text-red-600 dark:text-red-400">
+        <div className="space-y-0.5">
+          <p className="text-xs text-slate-400 uppercase tracking-wider">
+            {t("totalDebt")}
+          </p>
+          <p className="text-2xl font-bold tracking-tight tabular-nums text-rose-500">
             ${totalDebt.toLocaleString()}
           </p>
         </div>
 
         {/* Upcoming Payments */}
         <div className="space-y-2">
-          <p className="text-sm font-medium flex items-center gap-1">
-            <Calendar className="w-3.5 h-3.5" />
+          <p className="text-xs text-slate-400 uppercase tracking-wider flex items-center gap-1">
+            <Calendar className="w-3 h-3" />
             {t("upcomingPayments")}
           </p>
           {upcoming.length === 0 ? (
-            <p className="text-sm text-muted-foreground">
-              {t("noUpcomingPayments")}
-            </p>
+            <p className="text-sm text-slate-500">{t("noUpcomingPayments")}</p>
           ) : (
             <div className="space-y-1.5">
               {upcoming.map((debt) => (
                 <div
                   key={debt.id}
                   className="flex items-center justify-between text-sm">
-                  <span className="truncate max-w-[140px]">{debt.concept}</span>
+                  <span className="truncate max-w-[140px] text-[13px] tracking-tight">
+                    {debt.concept}
+                  </span>
                   <Badge
                     variant="outline"
                     className={cn(
-                      "text-xs",
-                      debt.daysUntil <= 3 && "border-red-500/50 text-red-600"
+                      "text-[10px] font-medium px-1.5 py-0 h-5 border-slate-200 dark:border-white/10",
+                      debt.daysUntil <= 3 &&
+                        "border-rose-500/50 text-rose-500 bg-rose-500/5"
                     )}>
                     {debt.daysUntil === 0
                       ? tCommon("today")
@@ -140,12 +147,14 @@ export function DebtSummaryCard({ totalDebt, debts }: DebtSummaryCardProps) {
         </div>
 
         {/* Debt Health Score */}
-        <div className="pt-2 border-t space-y-2">
+        <div className="pt-3 border-t border-slate-200/50 dark:border-white/5 space-y-2">
           <div className="flex items-center justify-between">
-            <p className="text-sm font-medium">{t("debtHealth")}</p>
+            <p className="text-xs text-slate-400 uppercase tracking-wider">
+              {t("debtHealth")}
+            </p>
             <div className="flex items-center gap-1.5">
-              <HealthIcon className={cn("w-4 h-4", health.color)} />
-              <span className={cn("text-sm font-medium", health.color)}>
+              <HealthIcon className={cn("w-3.5 h-3.5", health.color)} />
+              <span className={cn("text-xs font-medium", health.color)}>
                 {t(`health.${health.labelKey}`)}
               </span>
             </div>
@@ -161,11 +170,11 @@ export function DebtSummaryCard({ totalDebt, debts }: DebtSummaryCardProps) {
                 : 25
             }
             className={cn(
-              "h-2",
-              health.score === "excellent" && "[&>div]:bg-green-500",
+              "h-1.5",
+              health.score === "excellent" && "[&>div]:bg-emerald-500",
               health.score === "good" && "[&>div]:bg-blue-500",
               health.score === "fair" && "[&>div]:bg-amber-500",
-              health.score === "poor" && "[&>div]:bg-red-500"
+              health.score === "poor" && "[&>div]:bg-rose-500"
             )}
           />
         </div>

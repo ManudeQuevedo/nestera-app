@@ -32,7 +32,16 @@ interface DebtsClientProps {
   debts: Debt[];
 }
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+
+// Map next-intl locale to BCP 47 locale tag
+const getDateLocale = (locale: string) => {
+  const localeMap: Record<string, string> = {
+    es: "es-MX",
+    en: "en-US",
+  };
+  return localeMap[locale] || locale;
+};
 
 // ... existing code ...
 
@@ -235,6 +244,8 @@ function DebtStrategyCard({ debts }: { debts: Debt[] }) {
 
 function DebtCard({ debt }: { debt: Debt }) {
   const t = useTranslations("Debts");
+  const locale = useLocale();
+  const dateLocale = getDateLocale(locale);
   const { monthlyPayment, monthlyInterest, totalCost, health } =
     useDebtMath(debt);
   const Icon = DEBT_ICONS[debt.debt_type] || CreditCard;
@@ -398,7 +409,7 @@ function DebtCard({ debt }: { debt: Debt }) {
                 <span>{t("payoffDate")}</span>
               </div>
               <p className="font-semibold">
-                {payoffDate.toLocaleDateString("en-US", {
+                {payoffDate.toLocaleDateString(dateLocale, {
                   month: "short",
                   year: "numeric",
                 })}
@@ -425,6 +436,8 @@ function DebtCard({ debt }: { debt: Debt }) {
 
 export function DebtsClient({ debts }: DebtsClientProps) {
   const t = useTranslations("Debts");
+  const locale = useLocale();
+  const dateLocale = getDateLocale(locale);
 
   const totalDebt = debts.reduce((sum, d) => sum + d.balance, 0);
   const activeDebts = debts.filter((d) => d.status !== "paid_off");
@@ -455,7 +468,7 @@ export function DebtsClient({ debts }: DebtsClientProps) {
                 {activeDebts[0]?.next_payment_due_date
                   ? new Date(
                       activeDebts[0].next_payment_due_date
-                    ).toLocaleDateString("en-US")
+                    ).toLocaleDateString(dateLocale)
                   : "—"}
               </p>
             </div>

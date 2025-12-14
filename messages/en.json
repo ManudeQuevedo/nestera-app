@@ -1,4 +1,90 @@
 {
+  "Landing": {
+    "login": "Log In",
+    "getStarted": "Get Started",
+    "tryProFree": "Try Pro Free",
+    "tagline": "Smart Family Finance",
+    "startFree": "Start Free",
+    "goToDashboard": "Go to Dashboard",
+    "learnMore": "Learn More",
+    "rights": "All rights reserved.",
+    "nav": {
+      "about": "About",
+      "solution": "Solution",
+      "pricing": "Pricing",
+      "goToDashboard": "Go to Dashboard",
+      "logout": "Log Out"
+    },
+    "hero": {
+      "title": "Master Your Mexican Finances",
+      "subtitle": "Organize, understand, and improve your household's financial life with calm, intelligent guidance designed for Mexican families."
+    },
+    "solution": {
+      "title": "Everything You Need",
+      "subtitle": "A complete financial operating system for your family"
+    },
+    "features": {
+      "tracking": {
+        "title": "Expense Tracking",
+        "description": "Track income, expenses, and recurring payments effortlessly."
+      },
+      "budget": {
+        "title": "Smart Budgets",
+        "description": "Set family budgets and see your progress in real-time."
+      },
+      "insights": {
+        "title": "AI Insights",
+        "description": "Get intelligent recommendations to optimize your spending."
+      },
+      "reports": {
+        "title": "Visual Reports",
+        "description": "Beautiful charts and reports to understand your money flow."
+      },
+      "family": {
+        "title": "Family Sharing",
+        "description": "Share finances with your partner and make decisions together."
+      },
+      "security": {
+        "title": "Bank-Level Security",
+        "description": "Your data is encrypted and protected at all times."
+      }
+    },
+    "pricing": {
+      "title": "Simple, Transparent Pricing",
+      "subtitle": "Start free, upgrade when you need more.",
+      "month": "month",
+      "free": {
+        "name": "Free",
+        "cta": "Get Started",
+        "features": {
+          "tracking": "Basic expense tracking",
+          "budgets": "Up to 5 budget categories",
+          "reports": "Monthly reports"
+        }
+      },
+      "pro": {
+        "name": "Pro",
+        "badge": "Most Popular",
+        "cta": "Start 14-Day Trial",
+        "features": {
+          "everything": "Everything in Free",
+          "ai": "AI-powered insights",
+          "family": "Family sharing (up to 5)",
+          "export": "Excel & PDF exports",
+          "priority": "Priority support"
+        }
+      }
+    },
+    "cta": {
+      "title": "Ready to Take Control?",
+      "subtitle": "Join thousands of Mexican families managing their finances with confidence."
+    },
+    "footer": {
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "contact": "Contact"
+    }
+  },
   "Sidebar": {
     "dashboard": "Dashboard",
     "debts": "Debts",
@@ -54,7 +140,25 @@
     "overallProgress": "Overall Progress",
     "noRecentTransactions": "No recent transactions",
     "tryClearingFilters": "Try clearing your filters",
-    "addTransactions": "Add some transactions to see them here"
+    "addTransactions": "Add some transactions to see them here",
+    "compass": {
+      "title": "Financial Health",
+      "score": "Score",
+      "scoreLabels": {
+        "excellent": "Excellent",
+        "great": "Great",
+        "good": "Good",
+        "fair": "Fair",
+        "needsWork": "Needs Work",
+        "critical": "Critical"
+      },
+      "insights": {
+        "spendingDown": "You're on track. Your spending dropped {percent}% this week. Great job!",
+        "spendingUp": "Your spending is up {percent}% this week. Consider reviewing your recent transactions.",
+        "positiveBalance": "You're maintaining a positive balance. Keep tracking your expenses to stay on track.",
+        "buildSavings": "Let's work on building your savings. Start by reviewing your ant expenses."
+      }
+    }
   },
   "Transactions": {
     "title": "Transactions",
@@ -198,6 +302,7 @@
     "today": "Today",
     "week": "Week",
     "month": "Month",
+    "months": "months",
     "year": "Year",
     "vsLastPeriod": "vs last period",
     "spendingBreakdown": "Spending Breakdown",
@@ -470,4 +575,3 @@
     "welcome": "Welcome, {name}!"
   }
 }
-```

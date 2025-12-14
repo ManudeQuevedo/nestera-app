@@ -48,13 +48,24 @@ interface JFKSchoolClientProps {
   totalPaid: number;
 }
 
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+
+// Map next-intl locale to BCP 47 locale tag
+const getDateLocale = (locale: string) => {
+  const localeMap: Record<string, string> = {
+    es: "es-MX",
+    en: "en-US",
+  };
+  return localeMap[locale] || locale;
+};
 
 // ... existing code ...
 
 export function JFKSchoolClient({ payments, totalPaid }: JFKSchoolClientProps) {
   const t = useTranslations("JFKSchool");
   const tCommon = useTranslations("Common");
+  const locale = useLocale();
+  const dateLocale = getDateLocale(locale);
 
   const [selectedPayment, setSelectedPayment] = useState<SchoolPayment | null>(
     null
@@ -86,8 +97,7 @@ export function JFKSchoolClient({ payments, totalPaid }: JFKSchoolClientProps) {
       // But here we are using "en-US" hardcoded.
       // We should potentially use the current locale or generic formatting.
       // However, to keep it simple and consistent with current locale context:
-      const monthKey = date.toLocaleDateString("en-US", {
-        // Todo: Use user locale
+      const monthKey = date.toLocaleDateString(dateLocale, {
         month: "long",
         year: "numeric",
       });
@@ -197,7 +207,7 @@ export function JFKSchoolClient({ payments, totalPaid }: JFKSchoolClientProps) {
                               </p>
                               <p className="text-xs text-muted-foreground uppercase">
                                 {new Date(payment.date).toLocaleDateString(
-                                  "en-US",
+                                  dateLocale,
                                   { weekday: "short" }
                                 )}
                               </p>
@@ -265,7 +275,7 @@ export function JFKSchoolClient({ payments, totalPaid }: JFKSchoolClientProps) {
                             </span>
                             <span className="font-medium">
                               {new Date(payment.date).toLocaleDateString(
-                                "en-US",
+                                dateLocale,
                                 {
                                   month: "long",
                                   day: "numeric",
@@ -356,7 +366,7 @@ export function JFKSchoolClient({ payments, totalPaid }: JFKSchoolClientProps) {
                     key={payment.id}
                     className="cursor-pointer hover:bg-muted/50">
                     <TableCell>
-                      {new Date(payment.date).toLocaleDateString("en-US", {
+                      {new Date(payment.date).toLocaleDateString(dateLocale, {
                         month: "short",
                         day: "numeric",
                         year: "numeric",

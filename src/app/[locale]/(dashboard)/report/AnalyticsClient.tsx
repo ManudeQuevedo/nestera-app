@@ -51,7 +51,7 @@ import {
   Cell,
 } from "recharts";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
 
 // ============================================
 // CURRENCY CONFIG
@@ -76,12 +76,22 @@ function formatCurrency(amount: number, currency: Currency): string {
   return `${symbol}${Math.round(amount * rate).toLocaleString()}`;
 }
 
+// Map next-intl locale to BCP 47 locale tag
+const getDateLocale = (locale: string) => {
+  const localeMap: Record<string, string> = {
+    es: "es-MX",
+    en: "en-US",
+  };
+  return localeMap[locale] || locale;
+};
+
 // ============================================
 // MOCK DATA - Financial Performance (Daily)
 // ============================================
-const generateMockData = () => {
+const generateMockData = (locale: string) => {
   const data = [];
   const startDate = new Date("2024-10-01");
+  const dateLocale = getDateLocale(locale);
 
   for (let i = 0; i < 90; i++) {
     const date = new Date(startDate);
@@ -97,7 +107,7 @@ const generateMockData = () => {
 
     data.push({
       date: date.toISOString().split("T")[0],
-      dateLabel: date.toLocaleDateString("en-US", {
+      dateLabel: date.toLocaleDateString(dateLocale, {
         month: "short",
         day: "numeric",
       }),
@@ -110,8 +120,6 @@ const generateMockData = () => {
 
   return data;
 };
-
-const fullAnalyticsData = generateMockData();
 
 // ============================================
 // MOCK DATA - Ant Exterminator (6 Months)
@@ -274,16 +282,20 @@ type DateRange = "30d" | "60d" | "90d";
 
 function FinancialPerformanceTab({ currency }: { currency: Currency }) {
   const t = useTranslations("Insights");
+  const locale = useLocale();
   const [dateRange, setDateRange] = useState<DateRange>("30d");
   const [showIncome, setShowIncome] = useState(true);
   const [showExpense, setShowExpense] = useState(true);
   const [showDebt, setShowDebt] = useState(true);
   const [showAnts, setShowAnts] = useState(true);
 
+  // Generate data with locale for proper date formatting
+  const fullAnalyticsData = useMemo(() => generateMockData(locale), [locale]);
+
   const filteredData = useMemo(() => {
     const days = dateRange === "30d" ? 30 : dateRange === "60d" ? 60 : 90;
     return fullAnalyticsData.slice(-days);
-  }, [dateRange]);
+  }, [dateRange, fullAnalyticsData]);
 
   const totals = useMemo(() => {
     return filteredData.reduce(

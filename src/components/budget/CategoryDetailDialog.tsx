@@ -44,6 +44,16 @@ import {
 } from "lucide-react";
 import { Category, Transaction } from "@/types/finance";
 import { cn } from "@/lib/utils";
+import { useLocale } from "next-intl";
+
+// Map next-intl locale to BCP 47 locale tag
+const getDateLocale = (locale: string) => {
+  const localeMap: Record<string, string> = {
+    es: "es-MX",
+    en: "en-US",
+  };
+  return localeMap[locale] || locale;
+};
 
 type Currency = "MXN" | "USD" | "EUR";
 
@@ -95,6 +105,8 @@ export function CategoryDetailDialog({
   const [editing, setEditing] = useState(false);
   const [budget, setBudget] = useState(category.budget_limit.toString());
   const [saving, setSaving] = useState(false);
+  const locale = useLocale();
+  const dateLocale = getDateLocale(locale);
 
   // Add Expense Form State
   const [showAddForm, setShowAddForm] = useState(false);
@@ -462,7 +474,7 @@ export function CategoryDetailDialog({
                               "Transaction"}
                           </p>
                           <p className="text-xs text-muted-foreground">
-                            {new Date(tx.date).toLocaleDateString("en-US", {
+                            {new Date(tx.date).toLocaleDateString(dateLocale, {
                               month: "short",
                               day: "numeric",
                             })}

@@ -42,70 +42,57 @@
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
   
-  /* Custom colors for explicit usage */
-  --color-canvas: #e7ecef;
-  --color-canvas-dark: #1e293b;
+  /* Nestera Premium Palette */
+  --color-obsidian: #030712;
+  --color-smoked-glass: rgba(11, 17, 33, 0.6);
+  --color-smoked-glass-heavy: rgba(11, 17, 33, 0.8);
 }
 
 /*
-  Premium Minimalist Theme - App Shell
-  --------------------------------------
-  Background: #e7ecef (Light cool grey)
-  Cards:      #ffffff (Pure white, borderless)
-  Sidebar:    #ffffff (White with shadow separation)
+  Nestera Premium Theme
+  ----------------------
+  Light: #e7ecef background, pure white cards
+  Dark: Obsidian (#030712) with Smoked Glass surfaces
 */
 
 /* Light Mode - Premium Minimalist */
 :root {
   --radius: 0.75rem;
   
-  /* Background: #e7ecef - Cool grey canvas */
   --background: #e7ecef;
-  /* Foreground: Slate-900 */
   --foreground: #0f172a;
   
-  /* Card: Pure white */
   --card: #ffffff;
   --card-foreground: #0f172a;
   
-  /* Popover */
   --popover: #ffffff;
   --popover-foreground: #0f172a;
   
-  /* Primary: Slate-900 */
   --primary: #0f172a;
   --primary-foreground: #ffffff;
   
-  /* Secondary */
   --secondary: #f1f5f9;
   --secondary-foreground: #0f172a;
   
-  /* Muted */
   --muted: #f1f5f9;
   --muted-foreground: #64748b;
   
-  /* Accent */
   --accent: #f1f5f9;
   --accent-foreground: #0f172a;
   
-  /* Destructive */
   --destructive: #ef4444;
   
-  /* Border/Input - Very subtle */
   --border: #e2e8f0;
   --input: #e2e8f0;
   
-  /* Ring */
   --ring: #0f172a;
   
-  /* Chart colors */
   --chart-1: #22c55e;
   --chart-2: #3b82f6;
   --chart-3: #f97316;
   --chart-4: #ec4899;
   --chart-5: #8b5cf6;
   
-  /* Sidebar: White */
   --sidebar: #ffffff;
   --sidebar-foreground: #0f172a;
   --sidebar-primary: #0f172a;
@@ -117,69 +104,57 @@
 }
 
 /*
-  Nautical Dark Mode Theme
-  -------------------------
-  Background: #002855 (Deep Navy)
-  Cards:      #023e7d (Rich Blue)
-  Text:       #e7ecef (Light Grey)
-  Muted:      #93c5fd (Soft Blue)
+  Smoked Glass Dark Theme
+  ------------------------
+  Background: #030712 (True Obsidian)
+  Cards: rgba(11,17,33,0.6) + backdrop-blur (Smoked Glass)
+  Sidebar: rgba(11,17,33,0.8) (Heavier opacity for nav)
 */
 .dark {
-  /* Background: #002855 - Deep Navy */
-  --background: #002855;
-  /* Foreground: #93c5fd - Soft blue for all text */
-  --foreground: #93c5fd;
+  --background: #030712;
+  --foreground: #e2e8f0;
   
-  /* Card: #023e7d - Rich Blue surfaces */
-  --card: #023e7d;
-  --card-foreground: #93c5fd;
+  /* Smoked Glass cards */
+  --card: rgba(11, 17, 33, 0.6);
+  --card-foreground: #e2e8f0;
   
-  /* Popover: Same as card */
-  --popover: #023e7d;
-  --popover-foreground: #e7ecef;
+  --popover: rgba(11, 17, 33, 0.9);
+  --popover-foreground: #ffffff;
   
-  /* Primary: Light text on dark buttons */
-  --primary: #e7ecef;
-  --primary-foreground: #002855;
+  --primary: #ffffff;
+  --primary-foreground: #030712;
   
-  /* Secondary: Slightly lighter navy */
-  --secondary: #034078;
-  --secondary-foreground: #e7ecef;
+  --secondary: rgba(11, 17, 33, 0.4);
+  --secondary-foreground: #e2e8f0;
   
-  /* Muted: Navy hover states with soft blue text */
-  --muted: #034078;
-  --muted-foreground: #93c5fd;
+  --muted: rgba(11, 17, 33, 0.5);
+  --muted-foreground: #64748b;
   
-  /* Accent */
-  --accent: #034078;
-  --accent-foreground: #e7ecef;
+  --accent: rgba(11, 17, 33, 0.6);
+  --accent-foreground: #ffffff;
   
-  /* Destructive */
-  --destructive: #ef4444;
+  --destructive: #f87171;
   
-  /* Input/Border: Low contrast to blend with blue */
-  --input: #034078;
-  --border: #034078;
+  --input: rgba(255, 255, 255, 0.05);
+  --border: rgba(255, 255, 255, 0.05);
   
-  /* Ring: Soft blue focus */
-  --ring: #93c5fd;
+  --ring: rgba(255, 255, 255, 0.2);
   
-  /* Chart colors - Vibrant on navy */
-  --chart-1: #4ade80;
+  --chart-1: #34d399;
   --chart-2: #60a5fa;
   --chart-3: #fb923c;
   --chart-4: #f472b6;
   --chart-5: #a78bfa;
   
-  /* Sidebar: Rich Blue to match cards (layered depth) */
-  --sidebar: #023e7d;
-  --sidebar-foreground: #e7ecef;
-  --sidebar-primary: #e7ecef;
-  --sidebar-primary-foreground: #002855;
-  --sidebar-accent: #034078;
-  --sidebar-accent-foreground: #e7ecef;
-  --sidebar-border: #034078;
-  --sidebar-ring: #93c5fd;
+  /* Smoked Glass sidebar (heavier) */
+  --sidebar: rgba(11, 17, 33, 0.8);
+  --sidebar-foreground: #e2e8f0;
+  --sidebar-primary: #ffffff;
+  --sidebar-primary-foreground: #030712;
+  --sidebar-accent: rgba(255, 255, 255, 0.05);
+  --sidebar-accent-foreground: #ffffff;
+  --sidebar-border: rgba(255, 255, 255, 0.05);
+  --sidebar-ring: rgba(255, 255, 255, 0.2);
 }
 
 @layer base {
@@ -187,7 +162,6 @@
     @apply border-border outline-ring/50;
   }
   
-  /* App Shell - Fixed viewport */
   html, body {
     @apply h-screen w-screen overflow-hidden;
   }
@@ -199,19 +173,22 @@
     font-feature-settings: "rlig" 1, "calt" 1;
   }
   
-  /* High contrast typography */
+  /* Typography - "Expensive" Text */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-semibold tracking-tight;
+    @apply font-medium;
+    letter-spacing: -0.025em; /* tracking-tight */
     color: var(--foreground);
   }
   
-  /* Dark mode headings - Soft blue with bold weight */
   .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
-    color: #93c5fd;
-    font-weight: 700;
+    @apply text-white font-medium;
   }
   
-  /* Force inputs to use correct theme colors */
+  /* Tabular numbers for currency alignment */
+  .tabular-nums {
+    font-variant-numeric: tabular-nums;
+  }
+  
   input, select, textarea {
     background-color: var(--card);
     color: var(--foreground);
@@ -223,7 +200,7 @@
     text-wrap: balance;
   }
   
-  /* Scrollable canvas - main content area */
+  /* Scrollable canvas */
   .scrollable-canvas {
     @apply h-full w-full overflow-y-auto;
     scrollbar-width: thin;
@@ -248,18 +225,17 @@
   }
   
   .dark .scrollable-canvas {
-    scrollbar-color: #034078 transparent;
+    scrollbar-color: rgba(255, 255, 255, 0.1) transparent;
   }
   
   .dark .scrollable-canvas::-webkit-scrollbar-thumb {
-    background-color: #034078;
+    background-color: rgba(255, 255, 255, 0.1);
   }
   
   .dark .scrollable-canvas::-webkit-scrollbar-thumb:hover {
-    background-color: #93c5fd;
+    background-color: rgba(255, 255, 255, 0.2);
   }
   
-  /* Hidden scrollbar variant */
   .scrollable-hidden {
     @apply overflow-y-auto;
     scrollbar-width: none;
@@ -271,13 +247,13 @@
   }
 }
 
-/* Premium Card styling - Borderless white islands */
+/* Card styling - Smoked Glass in Dark Mode */
 @layer components {
-  /* Light mode cards - NO BORDERS, soft shadow */
+  /* Light mode cards */
   [data-slot="card"] {
-    background-color: var(--card) !important;
+    background-color: var(--card);
     box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-    border: none !important;
+    border: none;
     border-radius: 0.75rem;
   }
   
@@ -285,28 +261,69 @@
     box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
   }
   
-  /* Dark mode cards - Nautical elevation */
+  /* Dark mode cards - Smoked Glass */
   .dark [data-slot="card"] {
-    background-color: var(--card) !important;
-    box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.4);
-    border: 1px solid rgba(147, 197, 253, 0.1) !important;
+    background: rgba(11, 17, 33, 0.6);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    box-shadow: 0 8px 32px -4px rgb(0 0 0 / 0.3);
+    border: 1px solid rgba(255, 255, 255, 0.05);
   }
   
   .dark [data-slot="card"]:hover {
-    box-shadow: 0 8px 12px -2px rgb(0 0 0 / 0.5);
-    border-color: rgba(147, 197, 253, 0.2) !important;
-  }
-  
-  /* Premium white card utility */
-  .premium-card {
-    background-color: var(--card);
-    border-radius: 0.75rem;
-    box-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-    border: none;
+    box-shadow: 0 12px 40px -8px rgb(0 0 0 / 0.4);
+    border-color: rgba(255, 255, 255, 0.08);
   }
 }
 
-/* Gradient text utility */
+/* Glass Utilities */
+@layer utilities {
+  /* Smoked Glass - Primary surface */
+  .glass-card {
+    @apply backdrop-blur-md rounded-xl;
+    background: rgba(11, 17, 33, 0.6);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Glass Panel - Sidebar (heavier opacity) */
+  .glass-panel {
+    @apply backdrop-blur-xl rounded-2xl;
+    background: rgba(11, 17, 33, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+  
+  /* Glass Tooltip */
+  .glass-tooltip {
+    @apply backdrop-blur-xl rounded-lg;
+    background: rgba(3, 7, 18, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px -4px rgb(0 0 0 / 0.6);
+  }
+  
+  /* Glow Indicator - Active state */
+  .glow-indicator {
+    @apply w-0.5 h-6 bg-white rounded-r;
+    box-shadow: 0 0 12px 2px rgba(255, 255, 255, 0.4);
+  }
+  
+  /* Glow Text */
+  .glow-text {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+  
+  /* Obsidian Background */
+  .bg-obsidian {
+    background: #030712;
+  }
+  
+  /* Obsidian with subtle radial glow at top */
+  .bg-obsidian-gradient {
+    background: radial-gradient(ellipse 80% 40% at 50% 0%, rgba(30, 41, 59, 0.4), transparent),
+                #030712;
+  }
+}
+
+/* Gradient text */
 @layer utilities {
   .text-gradient-hero {
     @apply bg-gradient-to-r from-foreground to-foreground/60 bg-clip-text text-transparent;
@@ -317,16 +334,54 @@
   }
 }
 
-/* Premium Glass utilities */
+/* Score Glow Effects */
 @layer utilities {
-  .glass {
-    @apply backdrop-blur-xl;
-    background-color: rgba(255, 255, 255, 0.9);
-    box-shadow: 0 8px 32px 0 rgb(0 0 0 / 0.1);
+  .score-glow {
+    box-shadow: 0 0 40px 8px rgba(52, 211, 153, 0.25),
+                0 0 80px 16px rgba(52, 211, 153, 0.1);
   }
   
-  .dark .glass {
-    background-color: rgba(2, 62, 125, 0.9);
-    border: 1px solid rgba(147, 197, 253, 0.15);
+  .score-glow-warning {
+    box-shadow: 0 0 40px 8px rgba(251, 146, 60, 0.25),
+                0 0 80px 16px rgba(251, 146, 60, 0.1);
+  }
+  
+  .score-glow-danger {
+    box-shadow: 0 0 40px 8px rgba(248, 113, 113, 0.25),
+                0 0 80px 16px rgba(248, 113, 113, 0.1);
+  }
+}
+
+/* Chart Styles */
+.recharts-tooltip-wrapper .recharts-default-tooltip,
+.chart-tooltip {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  background: rgba(3, 7, 18, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  box-shadow: 0 8px 32px -4px rgb(0 0 0 / 0.6);
+}
+
+.dark .recharts-cartesian-grid line {
+  stroke: rgba(255, 255, 255, 0.03);
+}
+
+.dark .recharts-legend-item-text {
+  color: #64748b;
+}
+
+/* Empty State Ghost Styles */
+@layer components {
+  .ghost-state {
+    @apply flex flex-col items-center justify-center py-8 text-center;
+  }
+  
+  .ghost-state-icon {
+    @apply h-12 w-12 text-slate-700 dark:text-slate-800 mb-3;
+  }
+  
+  .ghost-state-text {
+    @apply text-sm text-slate-500 dark:text-slate-600 mb-4;
   }
 }

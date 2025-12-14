@@ -10,14 +10,10 @@ import {
   Activity,
   PieChart,
   Target,
-  TrendingUp,
   Settings,
-  HelpCircle,
-  LogOut,
   Menu,
   ChevronLeft,
   ChevronRight,
-  Users,
   GraduationCap,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -60,43 +56,22 @@ interface NavItem {
 }
 
 const mainNavItems: NavItem[] = [
-  { translationKey: "dashboard", href: "/", icon: LayoutDashboard },
+  { translationKey: "dashboard", href: "/dashboard", icon: LayoutDashboard },
   { translationKey: "debts", href: "/debts", icon: Wallet },
-  {
-    translationKey: "transactions",
-    href: "/transactions",
-    icon: Receipt,
-  },
+  { translationKey: "transactions", href: "/transactions", icon: Receipt },
   { translationKey: "insights", href: "/report", icon: FileText },
-  {
-    translationKey: "antExpenses",
-    href: "/ant-expenses",
-    icon: Activity,
-  },
-  {
-    translationKey: "budget",
-    href: "/budget",
-    icon: PieChart,
-  },
+  { translationKey: "antExpenses", href: "/ant-expenses", icon: Activity },
+  { translationKey: "budget", href: "/budget", icon: PieChart },
   { translationKey: "goals", href: "/goals", icon: Target },
-  {
-    translationKey: "jfkSchool",
-    href: "/jfk-school",
-    icon: GraduationCap,
-  },
+  { translationKey: "jfkSchool", href: "/jfk-school", icon: GraduationCap },
 ];
-
-const bottomNavItems: {
-  name: string;
-  href: string;
-  icon: typeof HelpCircle;
-}[] = [];
 
 interface SidebarContentProps {
   pathname: string;
   onLinkClick?: () => void;
   collapsed: boolean;
   onToggleCollapse?: () => void;
+  isFloating?: boolean;
 }
 
 function SidebarContent({
@@ -104,145 +79,133 @@ function SidebarContent({
   onLinkClick,
   collapsed,
   onToggleCollapse,
+  isFloating = false,
 }: SidebarContentProps) {
   const t = useTranslations("Sidebar");
+
   return (
     <TooltipProvider delayDuration={0}>
       <div
         className={cn(
-          "flex flex-col h-full bg-white dark:bg-sidebar text-sidebar-foreground shadow-sm transition-all duration-300",
-          collapsed ? "w-[72px]" : "w-64"
+          "flex flex-col h-full transition-all duration-300",
+          // Light mode
+          "bg-white dark:bg-transparent",
+          // Dark mode: Glass panel
+          "dark:glass-panel",
+          // Width
+          collapsed ? "w-[72px]" : "w-60"
         )}>
-        {/* Header - App Title */}
+        {/* Header */}
         <div
           className={cn(
-            "h-16 flex items-center border-b border-border/30",
-            collapsed ? "justify-center px-2 gap-1" : "justify-between px-4"
+            "h-14 flex items-center border-b border-slate-200/50 dark:border-white/5",
+            collapsed ? "justify-center px-2" : "justify-between px-4"
           )}>
-          <div
-            className={cn(
-              "flex items-center gap-3 font-semibold",
-              collapsed && "gap-0"
-            )}>
-            <div className="h-9 w-9 bg-primary rounded-xl flex items-center justify-center text-primary-foreground font-bold shadow-md shrink-0">
-              <Users className="h-5 w-5" />
+          <div className={cn("flex items-center gap-3", collapsed && "gap-0")}>
+            {/* Logo */}
+            <div className="h-8 w-8 bg-gradient-to-br from-emerald-400 to-emerald-600 rounded-lg flex items-center justify-center text-white font-bold text-sm shadow-lg shrink-0">
+              N
             </div>
             {!collapsed && (
-              <span className="text-base font-semibold tracking-tight">
-                {t("familyWealth")}
+              <span className="text-sm font-semibold tracking-tight text-slate-900 dark:text-white">
+                Nestera
               </span>
             )}
           </div>
-          {onToggleCollapse && (
+          {onToggleCollapse && !collapsed && (
             <Button
               variant="ghost"
               size="icon"
-              className={cn(
-                "h-8 w-8 text-muted-foreground shrink-0",
-                collapsed && "h-7 w-7"
-              )}
+              className="h-7 w-7 text-slate-400 hover:text-slate-600 dark:hover:text-white"
               onClick={onToggleCollapse}>
-              {collapsed ? (
-                <ChevronRight className="h-4 w-4" />
-              ) : (
-                <ChevronLeft className="h-4 w-4" />
-              )}
+              <ChevronLeft className="h-4 w-4" />
+            </Button>
+          )}
+          {onToggleCollapse && collapsed && (
+            <Button
+              variant="ghost"
+              size="icon"
+              className="h-7 w-7 text-slate-400 hover:text-slate-600 dark:hover:text-white absolute -right-3 top-4 bg-white dark:bg-slate-900 rounded-full shadow-md border border-slate-200 dark:border-white/10"
+              onClick={onToggleCollapse}>
+              <ChevronRight className="h-3 w-3" />
             </Button>
           )}
         </div>
 
         {/* Main Nav */}
-        <div className={cn("flex-1 overflow-y-auto space-y-1 px-3")}>
-          {mainNavItems.map((item) => {
-            const Icon = item.icon;
-            // Handle locale-prefixed paths for active state
-            // e.g. /es/budget should match /budget
-            const currentPath = pathname.replace(/^\/[a-z]{2}/, "") || "/";
-            const isActive =
-              currentPath === item.href ||
-              (item.href !== "/" && currentPath.startsWith(item.href));
+        <div
+          className={cn(
+            "flex-1 overflow-y-auto py-3",
+            collapsed ? "px-2" : "px-2"
+          )}>
+          <div className="space-y-1">
+            {mainNavItems.map((item) => {
+              const Icon = item.icon;
+              const currentPath = pathname.replace(/^\/[a-z]{2}/, "") || "/";
+              const isActive =
+                currentPath === item.href ||
+                (item.href !== "/" && currentPath.startsWith(item.href));
 
-            const button = (
-              <Link key={item.href} href={item.href} onClick={onLinkClick}>
-                <Button
-                  variant="ghost"
-                  className={cn(
-                    "w-full h-10 text-slate-500 hover:text-slate-900 hover:bg-slate-100/80 dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/10 relative rounded-lg",
-                    collapsed
-                      ? "justify-center px-0"
-                      : "justify-start gap-3 px-3",
-                    isActive &&
-                      "bg-slate-100 text-slate-900 font-medium dark:bg-white/10 dark:text-white"
-                  )}>
-                  {/* Active pill indicator */}
-                  {/* Icon with badge container */}
-                  <span className="relative inline-flex shrink-0">
-                    <Icon className="h-4 w-4" />
-                    {item.badge && (
-                      <span className="absolute -top-1.5 -right-1.5 bg-red-500 text-white text-[8px] h-4 w-4 flex items-center justify-center rounded-full font-medium">
-                        {item.badge}
+              const button = (
+                <Link key={item.href} href={item.href} onClick={onLinkClick}>
+                  <Button
+                    variant="ghost"
+                    className={cn(
+                      "w-full h-9 relative rounded-lg transition-all duration-200",
+                      "text-slate-500 hover:text-slate-900 hover:bg-slate-100/80",
+                      "dark:text-slate-400 dark:hover:text-white dark:hover:bg-white/5",
+                      collapsed
+                        ? "justify-center px-0"
+                        : "justify-start gap-3 px-3",
+                      isActive &&
+                        "bg-slate-100 text-slate-900 dark:bg-white/10 dark:text-white"
+                    )}>
+                    {/* Glow Indicator */}
+                    {isActive && (
+                      <div className="absolute left-0 top-1/2 -translate-y-1/2 hidden dark:block glow-indicator" />
+                    )}
+
+                    <span className="relative inline-flex shrink-0">
+                      <Icon className="h-4 w-4" />
+                      {item.badge && (
+                        <span className="absolute -top-1.5 -right-1.5 bg-rose-500 text-white text-[8px] h-4 w-4 flex items-center justify-center rounded-full font-medium">
+                          {item.badge}
+                        </span>
+                      )}
+                    </span>
+                    {!collapsed && (
+                      <span className="flex-1 text-left text-[13px] font-medium tracking-tight">
+                        {t(item.translationKey)}
                       </span>
                     )}
-                  </span>
-                  {!collapsed && (
-                    <span className="flex-1 text-left text-sm">
-                      {t(item.translationKey)}
-                    </span>
-                  )}
-                </Button>
-              </Link>
-            );
-
-            if (collapsed) {
-              return (
-                <Tooltip key={item.href}>
-                  <TooltipTrigger asChild>{button}</TooltipTrigger>
-                  <TooltipContent side="right" className="font-medium">
-                    {t(item.translationKey)}
-                  </TooltipContent>
-                </Tooltip>
+                  </Button>
+                </Link>
               );
-            }
 
-            return button;
-          })}
+              if (collapsed) {
+                return (
+                  <Tooltip key={item.href}>
+                    <TooltipTrigger asChild>{button}</TooltipTrigger>
+                    <TooltipContent
+                      side="right"
+                      className="font-medium text-xs bg-slate-900 text-white border-slate-800 dark:glass-tooltip dark:border-white/10">
+                      {t(item.translationKey)}
+                    </TooltipContent>
+                  </Tooltip>
+                );
+              }
+
+              return button;
+            })}
+          </div>
         </div>
 
         {/* Bottom Section */}
-        <div className={cn("space-y-1", collapsed ? "p-3" : "p-4")}>
-          {/* Bottom Nav Items */}
-          {bottomNavItems.map((item) => {
-            const button = (
-              <Link key={item.href} href={item.href}>
-                <Button
-                  variant="ghost"
-                  className={cn(
-                    "w-full h-10 text-muted-foreground hover:text-foreground",
-                    collapsed
-                      ? "justify-center px-0"
-                      : "justify-start gap-3 px-3"
-                  )}>
-                  <item.icon className="h-4 w-4 shrink-0" />
-                  {!collapsed && <span className="text-sm">{item.name}</span>}
-                </Button>
-              </Link>
-            );
-
-            if (collapsed) {
-              return (
-                <Tooltip key={item.href}>
-                  <TooltipTrigger asChild>{button}</TooltipTrigger>
-                  <TooltipContent side="right" className="font-medium">
-                    {item.name}
-                  </TooltipContent>
-                </Tooltip>
-              );
-            }
-
-            return button;
-          })}
-
-          {/* Settings - Opens Dialog instead of Link */}
+        <div
+          className={cn(
+            "space-y-1 border-t border-slate-200/50 dark:border-white/5",
+            collapsed ? "p-2" : "p-2"
+          )}>
           {collapsed ? (
             <Tooltip>
               <TooltipTrigger asChild>
@@ -252,14 +215,16 @@ function SidebarContent({
                       <Button
                         variant="ghost"
                         size="icon"
-                        className="w-full h-10 text-muted-foreground hover:text-foreground">
+                        className="w-full h-9 text-slate-400 hover:text-slate-600 dark:hover:text-white">
                         <Settings className="h-4 w-4" />
                       </Button>
                     }
                   />
                 </div>
               </TooltipTrigger>
-              <TooltipContent side="right" className="font-medium">
+              <TooltipContent
+                side="right"
+                className="font-medium text-xs bg-slate-900 text-white border-slate-800 dark:glass-tooltip dark:border-white/10">
                 {t("settings")}
               </TooltipContent>
             </Tooltip>
@@ -267,7 +232,6 @@ function SidebarContent({
             <SettingsDialog />
           )}
 
-          {/* Sign In / Sign Out - Dynamic */}
           {collapsed ? (
             <Tooltip>
               <TooltipTrigger asChild>
@@ -275,7 +239,9 @@ function SidebarContent({
                   <AuthButton collapsed={true} />
                 </div>
               </TooltipTrigger>
-              <TooltipContent side="right" className="font-medium">
+              <TooltipContent
+                side="right"
+                className="font-medium text-xs bg-slate-900 text-white border-slate-800 dark:glass-tooltip dark:border-white/10">
                 {t("signOut")}
               </TooltipContent>
             </Tooltip>
@@ -301,11 +267,13 @@ export function Sidebar({ categories }: SidebarProps) {
           <Button
             variant="ghost"
             size="icon"
-            className="fixed top-4 left-4 z-40 md:hidden bg-background/80 backdrop-blur-sm border shadow-sm">
+            className="fixed top-4 left-4 z-40 md:hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-slate-200 dark:border-white/10 shadow-lg">
             <Menu className="h-5 w-5" />
           </Button>
         </SheetTrigger>
-        <SheetContent side="left" className="p-0 w-64 bg-background border-r">
+        <SheetContent
+          side="left"
+          className="p-0 w-60 bg-white dark:bg-slate-900/95 dark:backdrop-blur-2xl border-r border-slate-200 dark:border-white/5">
           <SheetHeader className="sr-only">
             <SheetTitle>Navigation Menu</SheetTitle>
           </SheetHeader>
@@ -317,17 +285,22 @@ export function Sidebar({ categories }: SidebarProps) {
         </SheetContent>
       </Sheet>
 
-      {/* Desktop Sidebar */}
+      {/* Desktop Sidebar - Floating */}
       <div
         className={cn(
-          "hidden md:block fixed inset-y-0 left-0 z-30 transition-all duration-300",
-          collapsed ? "w-[72px]" : "w-64"
+          "hidden md:block fixed z-30 transition-all duration-300",
+          // Floating: margins on all sides except right
+          "top-4 bottom-4 left-4",
+          collapsed ? "w-[72px]" : "w-60"
         )}>
-        <SidebarContent
-          pathname={pathname}
-          collapsed={collapsed}
-          onToggleCollapse={() => setCollapsed(!collapsed)}
-        />
+        <div className="h-full">
+          <SidebarContent
+            pathname={pathname}
+            collapsed={collapsed}
+            onToggleCollapse={() => setCollapsed(!collapsed)}
+            isFloating={true}
+          />
+        </div>
       </div>
     </>
   );

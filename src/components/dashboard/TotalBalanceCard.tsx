@@ -1,8 +1,8 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ArrowUpRight, Plus, MoreHorizontal, Info, Send } from "lucide-react";
+import { ArrowUpRight, Plus, MoreHorizontal, Info } from "lucide-react";
 import { AddTransactionDrawer } from "@/components/transactions/AddTransactionDrawer";
 import { Category } from "@/types/finance";
 import { useTranslations } from "next-intl";
@@ -50,53 +50,55 @@ export function TotalBalanceCard({
   ];
 
   return (
-    <Card className="h-full bg-white dark:bg-card shadow-sm rounded-xl border-none relative overflow-hidden">
+    <Card className="h-full">
       <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-        <div className="flex items-center gap-2 text-muted-foreground">
-          <span className="text-sm font-medium">{t("totalBalance")}</span>
-          <Info className="h-4 w-4" />
+        <div className="flex items-center gap-2 text-slate-400">
+          <span className="text-xs font-medium uppercase tracking-wider">
+            {t("totalBalance")}
+          </span>
+          <Info className="h-3.5 w-3.5" />
         </div>
-        <Button variant="ghost" size="icon" className="h-8 w-8">
+        <Button
+          variant="ghost"
+          size="icon"
+          className="h-7 w-7 text-slate-400 hover:text-slate-600 dark:hover:text-white">
           <MoreHorizontal className="h-4 w-4" />
         </Button>
       </CardHeader>
-      <CardContent className="space-y-6">
+      <CardContent className="space-y-5">
         <div className="space-y-1">
-          <h2 className="text-4xl font-bold tracking-tight">
+          <h2 className="text-3xl font-bold tracking-tight tabular-nums">
             ${balance.toLocaleString()}
           </h2>
           <div className="flex items-center gap-2 text-sm">
-            <span className="text-green-600 font-medium flex items-center">
+            <span className="text-emerald-500 font-medium flex items-center tabular-nums">
               <ArrowUpRight className="h-3 w-3 mr-0.5" />
               $1,455.93
             </span>
-            <span className="text-muted-foreground">{t("fromLastMonth")}</span>
+            <span className="text-slate-400 text-xs">{t("fromLastMonth")}</span>
           </div>
         </div>
 
-        <div className="space-y-4">
-          <div className="flex items-center gap-2 text-sm text-muted-foreground">
+        <div className="space-y-3">
+          <div className="flex items-center gap-1.5 text-xs text-slate-400 uppercase tracking-wider">
             <span>{t("account")}</span>
             <Info className="h-3 w-3" />
           </div>
-          <div className="space-y-3">
+          <div className="space-y-2.5">
             {accounts.map((acc, i) => (
               <div
                 key={i}
                 className="flex items-center justify-between text-sm">
-                <div className="flex items-center gap-3">
-                  <div
-                    className={`h-4 w-4 rounded-full border-2 border-dashed ${acc.color.replace(
-                      "bg-",
-                      "border-"
-                    )} flex items-center justify-center`}
-                  />
-                  <span className="font-medium">{acc.name}</span>
-                  <span className="text-muted-foreground text-xs bg-muted px-1.5 py-0.5 rounded">
+                <div className="flex items-center gap-2.5">
+                  <div className={`h-2.5 w-2.5 rounded-full ${acc.color}`} />
+                  <span className="font-medium tracking-tight text-[13px]">
+                    {acc.name}
+                  </span>
+                  <span className="text-slate-500 text-[10px] bg-slate-100 dark:bg-white/5 px-1.5 py-0.5 rounded tabular-nums">
                     {acc.percent}%
                   </span>
                 </div>
-                <span className="text-muted-foreground">
+                <span className="text-slate-400 tabular-nums text-xs">
                   $
                   {acc.amount.toLocaleString(undefined, {
                     maximumFractionDigits: 2,
@@ -107,22 +109,23 @@ export function TotalBalanceCard({
           </div>
         </div>
 
-        <div className="flex gap-3 pt-2">
+        <div className="flex gap-2 pt-1">
           <AddTransactionDrawer
             categories={categories}
             trigger={
               <Button
                 variant="outline"
-                className="flex-1 shadow-sm border-dashed">
-                <Plus className="w-4 h-4 mr-2" />
+                size="sm"
+                className="flex-1 h-8 text-xs border-dashed border-slate-300 dark:border-white/10 text-slate-600 dark:text-slate-300">
+                <Plus className="w-3.5 h-3.5 mr-1.5" />
                 {t("record")}
               </Button>
             }
           />
           <Button
-            variant="outline"
+            variant="ghost"
             size="icon"
-            className="shrink-0 text-muted-foreground">
+            className="h-8 w-8 text-slate-400 hover:text-slate-600 dark:hover:text-white">
             <MoreHorizontal className="w-4 h-4" />
           </Button>
         </div>

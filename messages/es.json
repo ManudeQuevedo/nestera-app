@@ -1,4 +1,90 @@
 {
+  "Landing": {
+    "login": "Iniciar Sesión",
+    "getStarted": "Comenzar",
+    "tryProFree": "Prueba Pro Gratis",
+    "tagline": "Finanzas Familiares Inteligentes",
+    "startFree": "Comenzar Gratis",
+    "goToDashboard": "Ir al Panel",
+    "learnMore": "Saber Más",
+    "rights": "Todos los derechos reservados.",
+    "nav": {
+      "about": "Nosotros",
+      "solution": "Solución",
+      "pricing": "Precios",
+      "goToDashboard": "Ir al Panel",
+      "logout": "Cerrar Sesión"
+    },
+    "hero": {
+      "title": "Domina tus Finanzas Mexicanas",
+      "subtitle": "Organiza, entiende y mejora la vida financiera de tu hogar con orientación inteligente y tranquila diseñada para familias mexicanas."
+    },
+    "solution": {
+      "title": "Todo lo que Necesitas",
+      "subtitle": "Un sistema operativo financiero completo para tu familia"
+    },
+    "features": {
+      "tracking": {
+        "title": "Rastreo de Gastos",
+        "description": "Rastrea ingresos, gastos y pagos recurrentes sin esfuerzo."
+      },
+      "budget": {
+        "title": "Presupuestos Inteligentes",
+        "description": "Establece presupuestos familiares y ve tu progreso en tiempo real."
+      },
+      "insights": {
+        "title": "Análisis con IA",
+        "description": "Obtén recomendaciones inteligentes para optimizar tus gastos."
+      },
+      "reports": {
+        "title": "Reportes Visuales",
+        "description": "Hermosos gráficos y reportes para entender tu flujo de dinero."
+      },
+      "family": {
+        "title": "Compartido Familiar",
+        "description": "Comparte finanzas con tu pareja y tomen decisiones juntos."
+      },
+      "security": {
+        "title": "Seguridad Bancaria",
+        "description": "Tus datos están encriptados y protegidos en todo momento."
+      }
+    },
+    "pricing": {
+      "title": "Precios Simples y Transparentes",
+      "subtitle": "Comienza gratis, mejora cuando necesites más.",
+      "month": "mes",
+      "free": {
+        "name": "Gratis",
+        "cta": "Comenzar",
+        "features": {
+          "tracking": "Rastreo básico de gastos",
+          "budgets": "Hasta 5 categorías de presupuesto",
+          "reports": "Reportes mensuales"
+        }
+      },
+      "pro": {
+        "name": "Pro",
+        "badge": "Más Popular",
+        "cta": "Prueba 14 Días Gratis",
+        "features": {
+          "everything": "Todo lo de Gratis",
+          "ai": "Análisis con IA",
+          "family": "Compartido familiar (hasta 5)",
+          "export": "Exportar a Excel y PDF",
+          "priority": "Soporte prioritario"
+        }
+      }
+    },
+    "cta": {
+      "title": "¿Listo para Tomar el Control?",
+      "subtitle": "Únete a miles de familias mexicanas que administran sus finanzas con confianza."
+    },
+    "footer": {
+      "privacy": "Privacidad",
+      "terms": "Términos",
+      "contact": "Contacto"
+    }
+  },
   "Sidebar": {
     "dashboard": "Panel",
     "debts": "Deudas",
@@ -127,6 +213,24 @@
       "carolina": "Carolina",
       "medical": "Fondo de Emergencia Médica",
       "household": "Fondo de Emergencia del Hogar"
+    },
+    "compass": {
+      "title": "Salud Financiera",
+      "score": "Puntuación",
+      "scoreLabels": {
+        "excellent": "Excelente",
+        "great": "Muy Bien",
+        "good": "Bien",
+        "fair": "Regular",
+        "needsWork": "Requiere Atención",
+        "critical": "Crítico"
+      },
+      "insights": {
+        "spendingDown": "Vas por buen camino. Tus gastos bajaron un {percent}% esta semana. ¡Excelente trabajo!",
+        "spendingUp": "Tus gastos aumentaron {percent}% esta semana. Considera revisar tus transacciones recientes.",
+        "positiveBalance": "Tienes un balance positivo. Sigue rastreando tus gastos para mantenerte en buen camino.",
+        "buildSavings": "Trabajemos en construir tus ahorros. Comienza revisando tus gastos hormiga."
+      }
     }
   },
   "Transactions": {
@@ -271,6 +375,7 @@
     "today": "Hoy",
     "week": "Semana",
     "month": "Mes",
+    "months": "meses",
     "year": "Año",
     "vsLastPeriod": "vs periodo anterior",
     "spendingBreakdown": "Desglose de Gastos",

@@ -23,7 +23,16 @@ import {
   MoreHorizontal,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { useTranslations } from "next-intl";
+import { useTranslations, useLocale } from "next-intl";
+
+// Map next-intl locale to BCP 47 locale tag
+const getDateLocale = (locale: string) => {
+  const localeMap: Record<string, string> = {
+    es: "es-MX",
+    en: "en-US",
+  };
+  return localeMap[locale] || locale;
+};
 
 interface TransactionsTableProps {
   transactions: Transaction[];
@@ -64,6 +73,8 @@ export function TransactionsTable({
 }: TransactionsTableProps) {
   const t = useTranslations("Transactions");
   const tCommon = useTranslations("Common");
+  const locale = useLocale();
+  const dateLocale = getDateLocale(locale);
 
   const getCategoryName = (categoryId: string | null) => {
     if (!categoryId) return t("category"); // Or translation for uncategorized
@@ -151,11 +162,14 @@ export function TransactionsTable({
                 <TableCell className="font-medium">
                   <div className="flex flex-col">
                     <span>
-                      {new Date(transaction.date).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                        year: "numeric",
-                      })}
+                      {new Date(transaction.date).toLocaleDateString(
+                        dateLocale,
+                        {
+                          month: "short",
+                          day: "numeric",
+                          year: "numeric",
+                        }
+                      )}
                     </span>
                   </div>
                 </TableCell>

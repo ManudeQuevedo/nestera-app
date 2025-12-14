@@ -20,6 +20,16 @@ import {
 } from "@/components/ui/select";
 import { Pencil, Plus, X, Check, Loader2, FolderInput } from "lucide-react";
 import { Category, Transaction } from "@/types/finance";
+import { useLocale } from "next-intl";
+
+// Map next-intl locale to BCP 47 locale tag
+const getDateLocale = (locale: string) => {
+  const localeMap: Record<string, string> = {
+    es: "es-MX",
+    en: "en-US",
+  };
+  return localeMap[locale] || locale;
+};
 
 export type CategoryTier = "essentials" | "lifestyle" | "subscriptions";
 
@@ -47,6 +57,8 @@ export function CategoryDetailSheet({
   const [selectedTier, setSelectedTier] = useState<CategoryTier | undefined>(
     currentTier
   );
+  const locale = useLocale();
+  const dateLocale = getDateLocale(locale);
 
   const remaining = category.budget_limit - spent;
   const percent =
@@ -204,7 +216,7 @@ export function CategoryDetailSheet({
                         {tx.establishment || tx.description || "Transaction"}
                       </p>
                       <p className="text-xs text-muted-foreground">
-                        {new Date(tx.date).toLocaleDateString("en-US", {
+                        {new Date(tx.date).toLocaleDateString(dateLocale, {
                           month: "short",
                           day: "numeric",
                         })}

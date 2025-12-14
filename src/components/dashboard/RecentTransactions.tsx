@@ -19,6 +19,7 @@ import {
   ChevronRight,
   ArrowUpRight,
   ArrowDownLeft,
+  Receipt,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -34,6 +35,7 @@ import {
 import { cn } from "@/lib/utils";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTranslations } from "next-intl";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type SortOption = "newest" | "oldest" | "highest" | "lowest";
 
@@ -83,7 +85,7 @@ export function RecentTransactions({
     );
   }, [last10DaysTransactions, selectedCategories]);
 
-  // Apply sorting and limit to 10
+  // Apply sorting and limit
   const sortedTransactions = useMemo(() => {
     const sorted = [...filteredTransactions];
 
@@ -106,8 +108,8 @@ export function RecentTransactions({
         break;
     }
 
-    return sorted.slice(0, 10);
-  }, [filteredTransactions, sortBy]);
+    return sorted.slice(0, compact ? 5 : 10);
+  }, [filteredTransactions, sortBy, compact]);
 
   const getCategoryName = (id: string) =>
     categories.find((c) => c.id === id)?.name || "Uncategorized";
@@ -135,39 +137,43 @@ export function RecentTransactions({
 
   if (isLoading) {
     return (
-      <div className="w-full">
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-medium">{t("recentActivity")}</h2>
-          <Skeleton className="h-8 w-20" />
-        </div>
-        <div className="space-y-2">
-          {[1, 2, 3].map((i) => (
-            <Skeleton key={i} className="h-12 w-full rounded-lg" />
-          ))}
-        </div>
-      </div>
+      <Card className="h-full">
+        <CardHeader className="pb-3">
+          <div className="flex items-center justify-between">
+            <Skeleton className="h-5 w-32" />
+            <Skeleton className="h-7 w-20" />
+          </div>
+        </CardHeader>
+        <CardContent>
+          <div className="space-y-2">
+            {[1, 2, 3].map((i) => (
+              <Skeleton key={i} className="h-12 w-full rounded-lg" />
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     );
   }
 
   return (
-    <div className="w-full h-full">
-      <div className="bg-card border rounded-lg p-4 h-full">
-        {/* Header with Controls */}
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-base font-medium text-foreground">
+    <Card className="h-full">
+      <CardHeader className="pb-3">
+        <div className="flex items-center justify-between">
+          <CardTitle className="text-base font-medium tracking-tight flex items-center gap-2">
+            <Receipt className="w-4 h-4 text-slate-400" />
             {t("recentActivity")}
-          </h2>
+          </CardTitle>
 
-          <div className="flex items-center gap-2">
+          <div className="flex items-center gap-1">
             {/* Sort Dropdown */}
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <Button
                   variant="ghost"
                   size="sm"
-                  className="h-8 text-xs text-muted-foreground hover:text-foreground gap-1.5">
-                  <ArrowUpDown className="h-3.5 w-3.5" />
-                  {getSortLabel(sortBy)}
+                  className="h-7 text-[10px] text-slate-400 hover:text-slate-600 dark:hover:text-white gap-1">
+                  <ArrowUpDown className="h-3 w-3" />
+                  {!compact && getSortLabel(sortBy)}
                 </Button>
               </DropdownMenuTrigger>
               <DropdownMenuContent align="end" className="w-40">
@@ -198,179 +204,76 @@ export function RecentTransactions({
               </DropdownMenuContent>
             </DropdownMenu>
 
-            {/* Category Filter Dropdown */}
-            <DropdownMenu>
-              <DropdownMenuTrigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className={cn(
-                    "h-8 text-xs gap-1.5",
-                    selectedCategories.length > 0
-                      ? "text-primary"
-                      : "text-muted-foreground hover:text-foreground"
-                  )}>
-                  <Filter className="h-3.5 w-3.5" />
-                  {selectedCategories.length > 0
-                    ? `${selectedCategories.length} selected`
-                    : tCommon("filter")}
-                </Button>
-              </DropdownMenuTrigger>
-              <DropdownMenuContent align="end" className="w-48">
-                <DropdownMenuLabel className="text-xs">
-                  {tCommon("categories")}
-                </DropdownMenuLabel>
-                <DropdownMenuSeparator />
-                {availableCategories.length === 0 ? (
-                  <div className="px-2 py-1.5 text-xs text-muted-foreground">
-                    {tCommon("noCategories")}
-                  </div>
-                ) : (
-                  availableCategories.map((cat) => (
-                    <DropdownMenuCheckboxItem
-                      key={cat.id}
-                      checked={selectedCategories.includes(cat.id)}
-                      onCheckedChange={() => toggleCategory(cat.id)}
-                      className="text-xs">
-                      {cat.name}
-                    </DropdownMenuCheckboxItem>
-                  ))
-                )}
-                {selectedCategories.length > 0 && (
-                  <>
-                    <DropdownMenuSeparator />
-                    <Button
-                      variant="ghost"
-                      size="sm"
-                      className="w-full h-7 text-xs justify-start"
-                      onClick={() => setSelectedCategories([])}>
-                      {tCommon("clearAll")}
-                    </Button>
-                  </>
-                )}
-              </DropdownMenuContent>
-            </DropdownMenu>
-
             {/* See All Link */}
             <Link href="/transactions">
               <Button
                 variant="ghost"
                 size="sm"
-                className="h-8 text-xs text-muted-foreground hover:text-foreground gap-1">
+                className="h-7 text-[10px] text-slate-400 hover:text-slate-600 dark:hover:text-white gap-0.5">
                 {tCommon("seeAll")}
-                <ChevronRight className="h-3.5 w-3.5" />
+                <ChevronRight className="h-3 w-3" />
               </Button>
             </Link>
           </div>
         </div>
+      </CardHeader>
 
-        {/* Table */}
-        <div className="rounded-lg overflow-hidden">
-          <Table>
-            <TableHeader>
-              <TableRow className="hover:bg-transparent border-b border-border/30">
-                <TableHead className="text-xs font-medium text-muted-foreground py-2">
-                  {tCommon("table.description")}
-                </TableHead>
-                <TableHead className="text-xs font-medium text-muted-foreground py-2 hidden sm:table-cell">
-                  {tCommon("table.category")}
-                </TableHead>
-                <TableHead className="text-xs font-medium text-muted-foreground py-2 hidden md:table-cell">
-                  {tCommon("table.date")}
-                </TableHead>
-                <TableHead className="text-right text-xs font-medium text-muted-foreground py-2">
-                  {tCommon("table.amount")}
-                </TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {sortedTransactions.map((t) => (
-                <TableRow
-                  key={t.id}
-                  className="hover:bg-muted/50 border-b border-border/20 cursor-pointer transition-colors">
-                  {/* Description with type indicator */}
-                  <TableCell className="py-3">
-                    <div className="flex items-center gap-3">
-                      <div
-                        className={cn(
-                          "h-8 w-8 rounded-full flex items-center justify-center shrink-0",
-                          t.type === "income"
-                            ? "bg-green-500/10 text-green-500"
-                            : "bg-red-500/10 text-red-500"
-                        )}>
-                        {t.type === "income" ? (
-                          <ArrowDownLeft className="h-4 w-4" />
-                        ) : (
-                          <ArrowUpRight className="h-4 w-4" />
-                        )}
-                      </div>
-                      <div className="min-w-0">
-                        <p className="font-medium text-sm text-foreground truncate">
-                          {t.establishment || t.description || "Transaction"}
-                        </p>
-                        <p className="text-xs text-muted-foreground sm:hidden">
-                          {getCategoryName(t.category_id || "")}
-                        </p>
-                      </div>
-                    </div>
-                  </TableCell>
+      <CardContent className="pt-0">
+        {/* Transaction List */}
+        <div className="space-y-1">
+          {sortedTransactions.map((tx) => (
+            <div
+              key={tx.id}
+              className="flex items-center justify-between py-2 px-1 hover:bg-slate-50 dark:hover:bg-white/5 rounded-lg transition-colors cursor-pointer">
+              <div className="flex items-center gap-3 min-w-0">
+                <div
+                  className={cn(
+                    "h-8 w-8 rounded-full flex items-center justify-center shrink-0",
+                    tx.type === "income"
+                      ? "bg-emerald-500/10 text-emerald-500"
+                      : "bg-rose-500/10 text-rose-500"
+                  )}>
+                  {tx.type === "income" ? (
+                    <ArrowDownLeft className="h-4 w-4" />
+                  ) : (
+                    <ArrowUpRight className="h-4 w-4" />
+                  )}
+                </div>
+                <div className="min-w-0">
+                  <p className="font-medium text-[13px] tracking-tight truncate">
+                    {tx.establishment || tx.description || "Transaction"}
+                  </p>
+                  <p className="text-[10px] text-slate-400">
+                    {getCategoryName(tx.category_id || "")}
+                  </p>
+                </div>
+              </div>
+              <span
+                className={cn(
+                  "font-semibold text-sm tabular-nums shrink-0",
+                  tx.type === "income" ? "text-emerald-500" : "text-foreground"
+                )}>
+                {tx.type === "income" ? "+" : "-"}$
+                {tx.amount.toLocaleString(undefined, {
+                  minimumFractionDigits: 2,
+                })}
+              </span>
+            </div>
+          ))}
 
-                  {/* Category */}
-                  <TableCell className="py-3 hidden sm:table-cell">
-                    <span className="text-xs text-muted-foreground">
-                      {getCategoryName(t.category_id || "")}
-                    </span>
-                  </TableCell>
-
-                  {/* Date */}
-                  <TableCell className="py-3 hidden md:table-cell">
-                    <span className="text-xs text-muted-foreground">
-                      {new Date(t.date).toLocaleDateString("en-US", {
-                        month: "short",
-                        day: "numeric",
-                      })}
-                    </span>
-                  </TableCell>
-
-                  {/* Amount */}
-                  <TableCell className="py-3 text-right">
-                    <span
-                      className={cn(
-                        "font-semibold text-sm",
-                        t.type === "income"
-                          ? "text-green-500"
-                          : "text-foreground"
-                      )}>
-                      {t.type === "income" ? "+" : "-"}$
-                      {t.amount.toLocaleString(undefined, {
-                        minimumFractionDigits: 2,
-                      })}
-                    </span>
-                  </TableCell>
-                </TableRow>
-              ))}
-
-              {/* Empty State */}
-              {sortedTransactions.length === 0 && (
-                <TableRow className="hover:bg-transparent">
-                  <TableCell
-                    colSpan={4}
-                    className="h-32 text-center text-muted-foreground">
-                    <div className="flex flex-col items-center gap-2">
-                      <p className="text-sm">{t("noRecentTransactions")}</p>
-                      <p className="text-xs">
-                        {selectedCategories.length > 0
-                          ? t("tryClearingFilters")
-                          : t("addTransactions")}
-                      </p>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              )}
-            </TableBody>
-          </Table>
+          {/* Empty State */}
+          {sortedTransactions.length === 0 && (
+            <div className="ghost-state py-8">
+              <Receipt className="ghost-state-icon" />
+              <p className="ghost-state-text">
+                {selectedCategories.length > 0
+                  ? t("tryClearingFilters")
+                  : t("noRecentTransactions")}
+              </p>
+            </div>
+          )}
         </div>
-      </div>
-    </div>
+      </CardContent>
+    </Card>
   );
 }
