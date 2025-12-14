@@ -1,36 +1,96 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Nestera
 
-## Getting Started
+**Nestera** es una plataforma financiera enfocada en familias, diseñada para brindar claridad, calma y confianza en la gestión del dinero del hogar.
 
-First, run the development server:
+Ayuda a personas y familias a comprender, organizar y mejorar su vida financiera en conjunto, centralizando sus finanzas, mostrando la salud financiera general y ofreciendo orientación inteligente y fácil de entender.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+Nestera no se trata de hojas de cálculo ni de presión.
+Se trata de hacer que el dinero se sienta comprensible y manejable — en familia.
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+---
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 🌱 Por qué existe Nestera
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Administrar las finanzas familiares es emocionalmente complejo.
 
-## Learn More
+Entre pagos, despensa, suscripciones, gastos escolares, metas de ahorro y gastos inesperados, el dinero suele convertirse en una fuente de estrés en lugar de seguridad.
 
-To learn more about Next.js, take a look at the following resources:
+La mayoría de las herramientas financieras:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Están pensadas para individuos, no para familias
+- Se sienten frías, complejas o intimidantes
+- Muestran números sin contexto
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+**Nestera existe para cambiar eso.**
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🧭 Qué hace Nestera
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Nestera ofrece un espacio centralizado para las finanzas familiares, ayudando a los usuarios a:
+
+- Registrar ingresos, gastos y pagos recurrentes
+- Visualizar la salud financiera general de un vistazo
+- Comprender patrones y tendencias de gasto
+- Definir metas familiares compartidas
+- Tomar mejores decisiones con apoyo inteligente basado en IA
+
+El enfoque no es juzgar ni presionar, sino ofrecer claridad y acompañamiento.
+
+---
+
+## 🤝 Para quién es
+
+Nestera está diseñada para:
+
+- Familias que administran finanzas compartidas
+- Parejas que coordinan el presupuesto del hogar
+- Madres y padres que buscan estabilidad y planificación a futuro
+- Personas que desean una relación más tranquila con su dinero
+
+No se requiere experiencia financiera.
+
+---
+
+## 🧠 Orientación inteligente y humana
+
+Nestera utiliza inteligencia artificial para ayudar a interpretar los datos financieros de forma clara y cercana.
+
+En lugar de gráficos abrumadores o alertas agresivas, Nestera ofrece:
+
+- Explicaciones simples
+- Recomendaciones prácticas
+- Lenguaje empático y sin juicios
+
+El objetivo es entender, no generar presión.
+
+---
+
+## 🎯 Principios de la marca
+
+Nestera se rige por cuatro principios fundamentales:
+
+- **Seguridad** — Las finanzas deben sentirse protegidas y comprensibles
+- **Claridad** — Los números solo importan cuando tienen sentido
+- **En conjunto** — Las mejores decisiones se toman en equipo
+- **Inteligencia calmada** — La orientación inteligente no necesita estrés
+
+---
+
+## 🚀 Estado del proyecto
+
+Nestera se encuentra actualmente en desarrollo activo.
+
+Este repositorio contiene las bases del proyecto, incluyendo:
+
+- Dirección de marca
+- Estructura del producto
+- Trabajo inicial de implementación
+
+Se irán agregando más actualizaciones conforme la plataforma evolucione.
+
+---
+
+## 📌 Resumen en una frase
+
+**Nestera ayuda a las familias a comprender, organizar y mejorar su vida financiera en conjunto — con orientación inteligente y calmada.**
