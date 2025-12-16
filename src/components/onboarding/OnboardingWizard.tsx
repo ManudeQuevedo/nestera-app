@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -16,7 +16,9 @@ import { ManualAccountSetup } from "./steps/ManualAccountSetup";
 import { DebtConfiguration } from "./steps/DebtConfiguration";
 import { FamilyIdentity } from "./steps/FamilyIdentity";
 import { MealPreferences } from "./steps/MealPreferences";
-import { StatementUploader } from "@/components/importer/StatementUploader";
+import { SecuritySetup } from "./steps/SecuritySetup";
+import { useSearchParams, useRouter } from "next/navigation";
+
 // Fallback if StatementUploader props don't match or for styling
 const StatementStep = () => (
   <div className="p-4 border border-dashed rounded-lg bg-slate-50 dark:bg-slate-900 border-slate-300 dark:border-slate-700 min-h-[200px] flex items-center justify-center">
@@ -31,6 +33,24 @@ interface OnboardingWizardProps {
 export function OnboardingWizard({ plan }: OnboardingWizardProps) {
   const [step, setStep] = useState(0);
   const [formData, setFormData] = useState({});
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
+  useEffect(() => {
+    const stepParam = searchParams.get("step");
+    if (stepParam) {
+      const stepIndex = parseInt(stepParam);
+      if (!isNaN(stepIndex)) {
+        setStep(stepIndex);
+      }
+    }
+  }, [searchParams]);
+
+  const updateStepInUrl = (newStep: number) => {
+    setStep(newStep);
+    // Optional: Update URL without navigation to persist state on refresh if we wanted
+    // router.replace(`?step=${newStep}`);
+  };
 
   // Normalize plan
   const planKey = plan?.toUpperCase() || "FREE";
@@ -41,10 +61,12 @@ export function OnboardingWizard({ plan }: OnboardingWizardProps) {
   if (planKey === "FREE") {
     steps = [
       { component: CurrencySetup, title: "Currency Setup" },
+      { component: SecuritySetup, title: "Account Security" }, // Added Security Step
       { component: ManualAccountSetup, title: "Account Setup" },
     ];
   } else if (planKey === "PRO") {
     steps = [
+      { component: SecuritySetup, title: "Account Security" }, // Added First? or maybe after statement
       // Conceptually PRO users skip manual setup and go to statement upload
       { component: StatementStep, title: "Upload Statement" },
       { component: DebtConfiguration, title: "Debt Config" },
@@ -53,6 +75,7 @@ export function OnboardingWizard({ plan }: OnboardingWizardProps) {
     // PLUS or KICKSTART
     steps = [
       { component: FamilyIdentity, title: "Family Identity" },
+      { component: SecuritySetup, title: "Account Security" }, // Added here
       { component: StatementStep, title: "Upload Statement" },
       { component: MealPreferences, title: "Meal Preferences" },
     ];
@@ -63,7 +86,7 @@ export function OnboardingWizard({ plan }: OnboardingWizardProps) {
 
   const handleNext = () => {
     if (step < steps.length - 1) {
-      setStep(step + 1);
+      updateStepInUrl(step + 1);
     } else {
       handleSubmit();
     }
@@ -79,6 +102,15 @@ export function OnboardingWizard({ plan }: OnboardingWizardProps) {
   const updateData = (data: any) => {
     setFormData((prev) => ({ ...prev, ...data }));
   };
+
+  // Check if current step is SecuritySetup to custom render buttons or content?
+  // Actually SecuritySetup handles its own "Skip"/"Enable".
+  // "Enable" redirects. "Skip" calls nextStep.
+  // Note: Standard Wizard footer buttons might duplicate logic if Component also has buttons.
+  // We should pass `handleNext` to component.
+  // If Component handles navigation (like SecuritySetup), we might want to HIDE the footer buttons for that step.
+
+  const isSecurityStep = currentStep.component === SecuritySetup;
 
   return (
     <div className="max-w-xl mx-auto py-12 px-4">
@@ -100,22 +132,26 @@ export function OnboardingWizard({ plan }: OnboardingWizardProps) {
         <CardContent className="py-6 min-h-[300px] flex flex-col justify-center">
           {/* Render Current Step Component */}
           {/* We pass a specialized update function or props */}
-          <currentStep.component onUpdate={updateData} />
+          <currentStep.component onUpdate={updateData} nextStep={handleNext} />
         </CardContent>
-        <CardFooter className="flex justify-between pt-6 border-t border-slate-100 dark:border-white/5">
-          <Button
-            variant="ghost"
-            onClick={() => setStep(Math.max(0, step - 1))}
-            disabled={step === 0}
-            className="text-slate-500">
-            Back
-          </Button>
-          <Button
-            onClick={handleNext}
-            className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8">
-            {step === steps.length - 1 ? "Complete Setup" : "Next"}
-          </Button>
-        </CardFooter>
+
+        {/* Hide footer for Security Step as it has its own buttons */}
+        {!isSecurityStep && (
+          <CardFooter className="flex justify-between pt-6 border-t border-slate-100 dark:border-white/5">
+            <Button
+              variant="ghost"
+              onClick={() => updateStepInUrl(Math.max(0, step - 1))}
+              disabled={step === 0}
+              className="text-slate-500">
+              Back
+            </Button>
+            <Button
+              onClick={handleNext}
+              className="bg-slate-900 dark:bg-white text-white dark:text-slate-900 px-8">
+              {step === steps.length - 1 ? "Complete Setup" : "Next"}
+            </Button>
+          </CardFooter>
+        )}
       </Card>
     </div>
   );

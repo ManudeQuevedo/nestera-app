@@ -18,7 +18,7 @@ export async function updateSession(request: NextRequest) {
           return request.cookies.getAll()
         },
         setAll(cookiesToSet) {
-          cookiesToSet.forEach(({ name, value, options }) =>
+          cookiesToSet.forEach(({ name, value }) =>
             request.cookies.set(name, value)
           )
           supabaseResponse = NextResponse.next({
@@ -69,39 +69,22 @@ export async function updateSession(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
-  // User exists, check MFA status for protected routes
-  if (user && isProtectedRoute) {
-    try {
-      // Get MFA factors and AAL level
-      const { data: factors } = await supabase.auth.mfa.listFactors();
-      const { data: aalData } =
-        await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-
-      const hasTOTP = factors?.totp && factors.totp.length > 0;
-      const hasVerifiedTOTP =
-        factors?.totp?.some((f) => f.status === "verified");
-
-      // No MFA enrolled -> redirect to setup
-      if (!hasTOTP || !hasVerifiedTOTP) {
+  // User exists, but we want 2FA to be optional during onboarding.
+  // Check if fully onboarded
+  if (user && isProtectedRoute && !pathname.startsWith('/onboarding') && pathname !== '/onboarding') {
+      const { data: profile } = await supabase
+        .from('profiles')
+        .select('is_onboarded')
+        .eq('id', user.id)
+        .single();
+      
+      if (profile && !profile.is_onboarded) {
         const url = request.nextUrl.clone();
         const localeMatch = pathname.match(/^\/(en|es)/);
         const locale = localeMatch ? localeMatch[1] : "en";
-        url.pathname = `/${locale}/setup-mfa`;
+        url.pathname = `/${locale}/onboarding`;
         return NextResponse.redirect(url);
       }
-
-      // Has MFA but session is aal1 -> redirect to verify
-      if (aalData?.currentLevel !== "aal2") {
-        const url = request.nextUrl.clone();
-        const localeMatch = pathname.match(/^\/(en|es)/);
-        const locale = localeMatch ? localeMatch[1] : "en";
-        url.pathname = `/${locale}/verify-mfa`;
-        return NextResponse.redirect(url);
-      }
-    } catch (error) {
-      // If MFA check fails, allow access (fail open for better UX during development)
-      console.error("MFA check error:", error);
-    }
   }
 
   // User is on login page but already authenticated with aal2 -> redirect to dashboard

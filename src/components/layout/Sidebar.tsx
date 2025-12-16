@@ -1,6 +1,7 @@
 "use client";
 
-import { Link, usePathname } from "@/navigation";
+import { Link } from "@/navigation";
+import { usePathname } from "next/navigation";
 import { useTranslations } from "next-intl";
 import { canAccess } from "@/lib/permissions";
 import {
