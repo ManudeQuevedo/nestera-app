@@ -15,18 +15,24 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sparkles, Send, Loader2, User, Bot, X } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 import { cn } from "@/lib/utils";
+import { useTranslations, useLocale } from "next-intl";
 
 interface WiseChatProps {
   trigger?: React.ReactNode;
 }
 
 export function WiseChat({ trigger }: WiseChatProps) {
+  const t = useTranslations("Chat");
+  const locale = useLocale();
   const [open, setOpen] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { messages, input, handleInputChange, handleSubmit, isLoading, error } =
     useChat({
       api: "/api/chat",
+      body: {
+        locale, // Pass locale to API for language-aware responses
+      },
       onError: (err) => {
         console.error("Chat error:", err);
       },
@@ -39,6 +45,12 @@ export function WiseChat({ trigger }: WiseChatProps) {
     }
   }, [messages]);
 
+  const suggestions = [
+    t("suggestions.onTrack"),
+    t("suggestions.cutSpending"),
+    t("suggestions.payDebt"),
+  ];
+
   return (
     <Sheet open={open} onOpenChange={setOpen}>
       <SheetTrigger asChild>
@@ -47,7 +59,7 @@ export function WiseChat({ trigger }: WiseChatProps) {
             size="icon"
             className="h-12 w-12 rounded-full shadow-lg bg-primary text-primary-foreground fixed bottom-20 right-20 md:bottom-8 md:right-24 z-50">
             <Sparkles className="h-5 w-5" />
-            <span className="sr-only">Ask Wise</span>
+            <span className="sr-only">{t("name")}</span>
           </Button>
         )}
       </SheetTrigger>
@@ -60,10 +72,10 @@ export function WiseChat({ trigger }: WiseChatProps) {
             </div>
             <div className="flex-1">
               <SheetTitle className="text-lg text-primary-foreground">
-                Wise
+                {t("name")}
               </SheetTitle>
               <p className="text-xs text-primary-foreground/70">
-                Your Financial Wealth Coach
+                {t("subtitle")}
               </p>
             </div>
           </div>
@@ -78,19 +90,16 @@ export function WiseChat({ trigger }: WiseChatProps) {
                 <div className="h-16 w-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
                   <Sparkles className="h-8 w-8 text-primary" />
                 </div>
-                <h3 className="font-semibold text-lg mb-2">Hi, I'm Wise! 👋</h3>
+                <h3 className="font-semibold text-lg mb-2">{t("welcome")}</h3>
                 <p className="text-muted-foreground text-sm max-w-xs mx-auto">
-                  I'm your personal financial coach. Ask me anything about your
-                  spending, debts, or how to build wealth faster.
+                  {t("welcomeMessage")}
                 </p>
                 <div className="mt-6 space-y-2">
-                  <p className="text-xs text-muted-foreground">Try asking:</p>
+                  <p className="text-xs text-muted-foreground">
+                    {t("tryAsking")}
+                  </p>
                   <div className="flex flex-wrap gap-2 justify-center">
-                    {[
-                      "Am I on track this month?",
-                      "Where can I cut spending?",
-                      "How do I pay off debt faster?",
-                    ].map((suggestion) => (
+                    {suggestions.map((suggestion) => (
                       <button
                         key={suggestion}
                         onClick={() => {
@@ -199,7 +208,7 @@ export function WiseChat({ trigger }: WiseChatProps) {
                 <div className="rounded-2xl rounded-bl-md bg-muted px-4 py-3">
                   <div className="flex items-center gap-2 text-sm text-muted-foreground">
                     <Loader2 className="h-4 w-4 animate-spin" />
-                    Thinking...
+                    {t("thinking")}
                   </div>
                 </div>
               </div>
@@ -208,7 +217,7 @@ export function WiseChat({ trigger }: WiseChatProps) {
             {/* Error message */}
             {error && (
               <div className="p-3 rounded-lg bg-destructive/10 border border-destructive/30 text-destructive text-sm">
-                Something went wrong. Please try again.
+                {t("error")}
               </div>
             )}
           </div>
@@ -220,7 +229,7 @@ export function WiseChat({ trigger }: WiseChatProps) {
             <Input
               value={input}
               onChange={handleInputChange}
-              placeholder="Ask Wise anything..."
+              placeholder={t("placeholder")}
               disabled={isLoading}
               className="flex-1"
             />

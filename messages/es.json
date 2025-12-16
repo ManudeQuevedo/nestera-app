@@ -2,87 +2,276 @@
   "Landing": {
     "login": "Iniciar Sesión",
     "getStarted": "Comenzar",
-    "tryProFree": "Prueba Pro Gratis",
-    "tagline": "Finanzas Familiares Inteligentes",
+    "tryProFree": "Inicia tu Transformación",
+    "tagline": "De la ansiedad a la libertad financiera",
     "startFree": "Comenzar Gratis",
     "goToDashboard": "Ir al Panel",
-    "learnMore": "Saber Más",
-    "rights": "Todos los derechos reservados.",
+    "learnMore": "Descubre Cómo",
+    "rights": "Todos los derechos reservados. ",
     "nav": {
-      "about": "Nosotros",
+      "about": "El Problema",
       "solution": "Solución",
       "pricing": "Precios",
       "goToDashboard": "Ir al Panel",
       "logout": "Cerrar Sesión"
     },
     "hero": {
-      "title": "Domina tus Finanzas Mexicanas",
-      "subtitle": "Organiza, entiende y mejora la vida financiera de tu hogar con orientación inteligente y tranquila diseñada para familias mexicanas."
+      "badge": "Diseñado para México 🇲🇽",
+      "title": "Deja de sobrevivir a la Quincena.",
+      "titleHighlight": "Empieza a construir Patrimonio.",
+      "subtitle": "El 40% de los ingresos en México se van en 'Gastos Hormiga' y deudas fantasma. Nestera te devuelve el control de tu dinero con inteligencia y calma.",
+      "cta": "Inicia tu Transformación (14 días gratis)",
+      "microcopy": "Sin compromiso. Cancela cuando quieras. Tu información 100% segura en servidores mexicanos."
     },
-    "solution": {
-      "title": "Todo lo que Necesitas",
-      "subtitle": "Un sistema operativo financiero completo para tu familia"
-    },
-    "features": {
-      "tracking": {
-        "title": "Rastreo de Gastos",
-        "description": "Rastrea ingresos, gastos y pagos recurrentes sin esfuerzo."
-      },
-      "budget": {
-        "title": "Presupuestos Inteligentes",
-        "description": "Establece presupuestos familiares y ve tu progreso en tiempo real."
-      },
-      "insights": {
-        "title": "Análisis con IA",
-        "description": "Obtén recomendaciones inteligentes para optimizar tus gastos."
-      },
-      "reports": {
-        "title": "Reportes Visuales",
-        "description": "Hermosos gráficos y reportes para entender tu flujo de dinero."
-      },
-      "family": {
-        "title": "Compartido Familiar",
-        "description": "Comparte finanzas con tu pareja y tomen decisiones juntos."
-      },
-      "security": {
-        "title": "Seguridad Bancaria",
-        "description": "Tus datos están encriptados y protegidos en todo momento."
+    "problem": {
+      "badge": "El Ladrón Silencioso",
+      "title": "¿A dónde se fue la Quincena?",
+      "description": "Un café aquí, suscripciones olvidadas, el Oxxo allá, esos 'Paguitos' a Meses Sin Intereses... En México, las familias pierden entre el 15% y el 30% de su ingreso en fugas invisibles. Para algunos son $4,000; para otros, más de $15,000 al mes. No es que ganes poco, es que tu dinero tiene agujeros. Nestera los encuentra por ti.",
+      "stats": {
+        "lost": "15-30%",
+        "lostLabel": "de tu ingreso en fugas invisibles",
+        "subscriptions": "3-5",
+        "subscriptionsLabel": "Suscripciones y MSI olvidados",
+        "ants": "$15k+",
+        "antsLabel": "perdidos al mes en promedio"
       }
     },
+    "solution": {
+      "badge": "La Solución",
+      "title": "No es otro Excel aburrido.",
+      "subtitle": "El Excel te pide trabajo. Nestera te da respuestas. Conectamos tus cuentas, detectamos patrones y te decimos: 'Oye, bajaste tu gasto en Uber un 10% esta semana, ¡bien hecho!'. Es como tener un asesor financiero en tu bolsillo 24/7.",
+      "features": {
+        "msi": {
+          "title": "Control Maestro de Meses Sin Intereses",
+          "description": "Que el 'Pago Chiquito' no se haga una bola de nieve. Visualiza exactamente cuándo terminas de pagar esa pantalla o ese viaje."
+        },
+        "ants": {
+          "title": "Detector de Gastos Hormiga",
+          "description": "El café, el estacionamiento, la tiendita. Identificamos las fugas silenciosas que se comen tu aguinaldo."
+        },
+        "ai": {
+          "title": "Tu Asesor Personal (Sabio)",
+          "description": "Pregúntale lo que quieras. Te responde en español y entiende tu realidad mexicana."
+        },
+        "family": {
+          "title": "Finanzas en Pareja",
+          "description": "Compartan metas. Tomen decisiones juntos. Sin peleas por dinero."
+        }
+      },
+      "trustBadge": "Diseñado para la economía mexicana (MXN, Deducibles, SAT friendly)"
+    },
+    "methodology": {
+      "badge": "El Método",
+      "title": "Pequeños hábitos, libertad gigante.",
+      "description": "La libertad financiera no se logra ganando la lotería, sino entendiendo tus números diarios. Te ayudamos a crear rutinas de 5 minutos que transformarán tu ansiedad en tranquilidad.",
+      "steps": {
+        "step1": {
+          "title": "Conecta",
+          "description": "Vincula tus cuentas en 2 minutos"
+        },
+        "step2": {
+          "title": "Observa",
+          "description": "Mira a dónde va cada peso"
+        },
+        "step3": {
+          "title": "Actúa",
+          "description": "Recibe sugerencias inteligentes"
+        }
+      }
+    },
+    "philosophy": {
+      "badge": "Nuestro Manifiesto",
+      "title": "Por qué creamos Nestera",
+      "description": "Creemos que el dinero no es el fin, es la herramienta. Cuando controlas tu dinero, recuperas tu tiempo y tu paz. Nestera está diseñada para darte esa paz, no para regañarte por gastar.",
+      "quote": "\"No queremos que te sientas culpable. Queremos que te sientas en control.\""
+    },
+    "security": {
+      "badge": "Seguridad",
+      "title": "Tu privacidad es sagrada.",
+      "description": "Encriptación de grado bancario. Nunca vendemos tus datos. Tu información es tuya, punto.",
+      "features": {
+        "encryption": "Encriptación AES-256",
+        "privacy": "Cero venta de datos",
+        "mexico": "Datos protegidos en México"
+      }
+    },
+    "lifeOS": {
+        "title": "El dinero es solo el combustible. Tu vida es el viaje.",
+        "subtitle": "No solo rastrees gastos. Planifica tus cenas, organiza la escuela y sincroniza tu calendario familiar. Todo conectado a tu presupuesto.",
+        "features": {
+          "mealPrep": "Planifica el menú semanal y genera la lista del súper automática.",
+          "familyCalendar": "Cumpleaños, pagos de colegiatura y reuniones. Nada se te olvida.",
+          "smartShopping": "Controla el 'Gasto' desde el carrito del súper."
+        }
+      },
     "pricing": {
-      "title": "Precios Simples y Transparentes",
-      "subtitle": "Comienza gratis, mejora cuando necesites más.",
+      "title": "Invierte en tu paz mental.",
+      "subtitle": "Menos de lo que gastas en un café a la semana.",
       "month": "mes",
+      "billing": {
+        "monthly": "Mensual",
+        "yearly": "Anual",
+        "save": "Ahorra 2 meses",
+        "billedAnnually": "Facturado anualmente",
+        "billedMonthly": "Facturado mensualmente"
+      },
       "free": {
         "name": "Gratis",
-        "cta": "Comenzar",
+        "tagline": "Para empezar",
+        "cta": "Comenzar Gratis",
         "features": {
-          "tracking": "Rastreo básico de gastos",
-          "budgets": "Hasta 5 categorías de presupuesto",
-          "reports": "Reportes mensuales"
+          "tracking": "Rastreo Manual",
+          "charts": "Gráficos Básicos",
+          "users": "1 Usuario"
         }
       },
       "pro": {
         "name": "Pro",
-        "badge": "Más Popular",
-        "cta": "Prueba 14 Días Gratis",
+        "tagline": "Automatización",
+        "badge": "POPULAR",
+        "cta": "Comenzar Prueba Gratis",
         "features": {
-          "everything": "Todo lo de Gratis",
-          "ai": "Análisis con IA",
-          "family": "Compartido familiar (hasta 5)",
-          "export": "Exportar a Excel y PDF",
-          "priority": "Soporte prioritario"
+          "ai": "Chatbot con IA",
+          "import": "Importación de Bancos (PDF)",
+          "history": "Historial Ilimitado",
+          "users": "2 Usuarios"
+        }
+      },
+      "familyPlus": {
+        "name": "Family Plus",
+        "tagline": "Sistema Total",
+        "badge": "MEJOR VALOR",
+        "cta": "Obtener Family Plus",
+        "features": {
+          "mealPlanner": "Planificador de Menús",
+          "groceryList": "Lista de Compras Inteligente",
+          "calendar": "Calendario Familiar",
+          "users": "Hasta 5 Usuarios"
         }
       }
     },
     "cta": {
-      "title": "¿Listo para Tomar el Control?",
-      "subtitle": "Únete a miles de familias mexicanas que administran sus finanzas con confianza."
+      "title": "¿Listo para dormir tranquilo?",
+      "subtitle": "Únete a familias mexicanas que ya dejaron de estresarse por dinero.",
+      "button": "Inicia tu Transformación",
+      "microcopy": "14 días gratis. Sin tarjeta. Sin letra chica."
     },
     "footer": {
       "privacy": "Privacidad",
       "terms": "Términos",
-      "contact": "Contacto"
+      "contact": "Contacto",
+      "tagline": "De la niebla financiera a la claridad total.",
+      "productTitle": "Producto",
+      "companyTitle": "Empresa",
+      "legalTitle": "Legal",
+      "features": "Funciones",
+      "pricing": "Precios",
+      "security": "Seguridad",
+      "about": "Nosotros",
+      "blog": "Blog",
+      "careers": "Empleos",
+      "madeWith": "Hecho con",
+      "inMexico": "en México"
+    },
+    "premium": {
+      "hero": {
+        "badge": "Diseñado para México 🇲🇽",
+        "title": "El sistema operativo para",
+        "titleGradient": "el patrimonio de tu familia.",
+        "subtitle": "Deja de sobrevivir quincena a quincena. Organiza, invierte y construye la libertad financiera que tu familia merece.",
+        "cta": "CREAR CUENTA",
+        "demo": "Ver Demo"
+      },
+      "features": {
+        "title": "Del caos al control total.",
+        "subtitle": "Retoma el control de tus finanzas con herramientas diseñadas para la claridad, no para la confusión.",
+        "visibility": {
+          "title": "Visibilidad 360°",
+          "body": "Conecta tus cuentas y entiende a dónde va tu dinero. Sin hojas de cálculo."
+        },
+        "sharedGoals": {
+          "title": "Metas Compartidas",
+          "body": "Diseñada para familias. Alineen sus objetivos de ahorro y construyan juntos."
+        },
+        "growth": {
+          "title": "Crecimiento Real",
+          "body": "Estrategias de inversión optimizadas y automáticas para combatir la inflación en México."
+        }
+      },
+      "pillars": {
+        "title": "Nuestros 3 Pilares de Riqueza.",
+        "education": {
+          "title": "Educación",
+          "desc": "Finanzas sin términos complicados. Aprende haciendo."
+        },
+        "automation": {
+          "title": "Automatización",
+          "desc": "El secreto es la constancia. Ahorro automático sin esfuerzo."
+        },
+        "security": {
+          "title": "Seguridad",
+          "desc": "Tecnología bancaria para tu tranquilidad."
+        }
+      },
+      "whyUs": {
+        "title": "La mejor opción para México.",
+        "subtitle": "Construido localmente, con estándares globales.",
+        "economy": {
+          "title": "Entendemos tu economía.",
+          "body": "Adaptado al contexto fiscal mexicano (SAT), hábitos locales y estructura familiar. No somos una app traducida; somos una solución nativa."
+        },
+        "noFees": {
+          "title": "Sin Comisiones Ocultas.",
+          "body": "Libertad real para tu dinero."
+        },
+        "community": {
+          "title": "Comunidad.",
+          "body": "Únete a miles de familias."
+        }
+      },
+      "finalCta": {
+        "title": "¿Listo para transformar tu futuro financiero?",
+        "button": "EMPEZAR AHORA"
+      },
+      "nativeAdvantage": {
+        "badge": "INGENIERÍA MEXICANA",
+        "origin": {
+          "title": "Diseñado para México, no traducido.",
+          "body": "Las apps gringas no entienden de Aguinaldos, Tandas o el SAT. Nosotros sí. Una solución nativa para tu realidad económica."
+        },
+        "intelligence": {
+          "title": "Inteligencia Fiscal Integrada.",
+          "body": "Maximizamos tu dinero entendiendo las reglas del juego local. Detectamos oportunidades que otros ignoran.",
+          "cardTitle": "Oportunidad Fiscal Detectada"
+        },
+        "offer": {
+          "title": "Libertad sin Letras Chiquitas.",
+          "body": "Sin comisiones de manejo de cuenta. Sin saldos mínimos. Tu dinero crece, no se encoge.",
+          "chart": {
+            "banks": "Bancos",
+            "nestera": "Nestera"
+          }
+        },
+        "cta": "EMPEZAR AHORA"
+      },
+      "leakDetector": {
+        "activeScan": "Escaneo Activo",
+        "forgottenSub": "Suscripción olvidada",
+        "streaming": "Streaming mensual",
+        "detected": "DETECTADO",
+        "antExpenses": "Gastos Hormiga",
+        "weeklyAvg": "Promedio semanal",
+        "msiRemaining": "MSI Restantes",
+        "paymentsOf": "{current} de {total} pagos",
+        "totalWaste": "Desperdicio Total:",
+        "perMonth": "/ mes"
+      }
+    },
+    "onboarding": {
+        "2fa": {
+            "title": "¿Quieres blindar tu cuenta ahora?",
+            "body": "Tu contraseña es la llave... el 2FA es la alarma."
+        }
     }
   },
   "Sidebar": {
@@ -183,6 +372,12 @@
   },
   "Dashboard": {
     "welcome": "¡Bienvenido, {name}!",
+    "greeting": {
+      "morning": "Buenos días",
+      "afternoon": "Buenas tardes",
+      "evening": "Buenas noches",
+      "familyPrefix": "Familia"
+    },
     "export": "Exportar",
     "viewAll": "Ver Todo",
     "totalDebt": "Deuda Total",
@@ -229,8 +424,62 @@
         "spendingDown": "Vas por buen camino. Tus gastos bajaron un {percent}% esta semana. ¡Excelente trabajo!",
         "spendingUp": "Tus gastos aumentaron {percent}% esta semana. Considera revisar tus transacciones recientes.",
         "positiveBalance": "Tienes un balance positivo. Sigue rastreando tus gastos para mantenerte en buen camino.",
-        "buildSavings": "Trabajemos en construir tus ahorros. Comienza revisando tus gastos hormiga."
+        "buildSavings": "Trabajemos en construir tus ahorros. Comienza revisando tus gastos hormiga.",
+        "quincenaStart": "Llegó la quincena. Separa tu ahorro antes de gastar.",
+        "quincenaMid": "Vas bien. Te queda el {percent}% de tu presupuesto para estos {days} días.",
+        "quincenaEnd": "Cierre fuerte. Evita gastos hormiga hasta el día {day}."
+      },
+      "runway": {
+        "safe": "Faltan {days} días para la quincena. A este ritmo, llegas tranquilo y con ahorro.",
+        "warning": "Faltan {days} días. Ojo: Tu ritmo de gasto está alto. Considera reducir gastos hormiga.",
+        "danger": "Faltan {days} días. Cuidado: Tu saldo podría agotarse antes de llegar."
+      },
+      "rescue": {
+        "trigger": "Detecto que tu quincena está en riesgo. ¿Quieres que hagamos un plan de emergencia de 3 días?",
+        "cta": "Crear plan de emergencia"
       }
+    },
+    "quincena": {
+      "title": "Tu Quincena",
+      "day": "Día {current} de {total}",
+      "daysRemaining": "{count} días restantes",
+      "spent": "gastado",
+      "available": "disponible",
+      "safeToSpend": "Seguro para gastar",
+      "dailyBudget": "{amount}/día de presupuesto",
+      "status": {
+        "onTrack": "En buen camino",
+        "warning": "Precaución",
+        "danger": "¡Alerta!"
+      },
+      "insight": {
+        "onTrack": "Vas bien. Te queda {percent}% para {days} días.",
+        "warning": "Cuidado. Reduce tus gastos hasta la próxima quincena.",
+        "danger": "¡Frena! Evita gastos hormiga los próximos {days} días."
+      }
+    },
+    "antExpenses": {
+      "title": "Gastos Hormiga",
+      "subtitle": "El café, el Oxxo, el Uber...",
+      "thisWeek": "Esta semana",
+      "thisMonth": "Este mes",
+      "yearlyImpact": "Impacto Anual",
+      "dailyAverage": "Promedio diario",
+      "projection": "Si sigues así, perderás {amount} este año",
+      "saved": "Ahorraste {amount} vs la semana pasada",
+      "toggle": {
+        "daily": "Vista Diaria",
+        "yearly": "Proyección Anual"
+      }
+    },
+    "debtSplit": {
+      "title": "Deudas y MSI",
+      "toxic": "Deuda Tóxica",
+      "toxicDesc": "Paga cuanto antes",
+      "msi": "Meses Sin Intereses",
+      "msiDesc": "Pagos fijos, sin prisa",
+      "total": "Total",
+      "monthlyPayment": "Pago mensual"
     }
   },
   "Transactions": {
@@ -270,7 +519,9 @@
     "title": "Presupuesto",
     "description": "Administra tus asignaciones mensuales",
     "addCategory": "Agregar Categoría",
+    "addCategoryDescription": "Crea una nueva categoría de gasto con límite mensual",
     "addExpense": "Agregar Gasto",
+    "addExpenseDescription": "Registra un nuevo gasto en tu presupuesto",
     "totalBudget": "Presupuesto Total",
     "spent": "Gastado",
     "remaining": "Restante",
@@ -296,6 +547,7 @@
     "title": "Metas",
     "description": "Establece y rastrea tus metas financieras",
     "createGoal": "Crear Meta",
+    "createGoalDescription": "Define una nueva meta de ahorro con fecha límite",
     "saved": "ahorrado",
     "goal": "meta",
     "daysLeft": "{days} días restantes",
@@ -396,7 +648,7 @@
     "savedThisMonth": "Ahorrado Este Mes",
     "spendingBreakdownDesc": "Rastrea tus gastos necesarios vs evitables a lo largo del tiempo",
     "greatProgress": "¡Gran Progreso!",
-    "greatProgressDesc": "Ahorraste <strong1>{saved}</strong1> este mes reduciendo 'gastos hormiga' evitables. ¡Sigue así y ahorrarás <strong1>{yearSaved}</strong1> al año!",
+    "greatProgressDesc": "Ahorraste <strong>{saved}</strong> este mes reduciendo 'gastos hormiga' evitables. ¡Sigue así y ahorrarás <strong>{yearSaved}</strong> al año!",
     "tripExpenses": "Gastos Totales del Viaje",
     "tripTransactions": "Transacciones del Viaje",
     "from": "Desde",
@@ -447,14 +699,33 @@
   },
   "Auth": {
     "login": {
-      "title": "Family Wealth OS",
-      "subtitle": "Acceso seguro solo para miembros de la familia autorizados",
+      "title": "Bienvenido a Nestera",
+      "subtitle": "El sistema operativo para el patrimonio de tu familia.",
       "googleButton": "Continuar con Google",
       "signingIn": "Iniciando sesión...",
       "accessDenied": "Acceso Denegado",
       "accessRestricted": "Acceso Restringido: Esta aplicación es solo para miembros de la familia autorizados.",
       "unexpectedError": "Ocurrió un error inesperado. Por favor intenta de nuevo.",
-      "mfaRequired": "La verificación de 2FA es requerida para todos los usuarios."
+      "mfaRequired": "La verificación de 2FA es requerida para todos los usuarios.",
+      "welcomeBack": "Bienvenido de nuevo",
+      "startLegacy": "Comienza tu legado",
+      "recoverAccess": "Recuperar Acceso",
+      "divider": "o con correo electrónico",
+      "emailLabel": "Correo Electrónico",
+      "emailPlaceholder": "nombre@ejemplo.com",
+      "passwordLabel": "Contraseña",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "submitLogin": "ENTRAR",
+      "submitSignup": "CREAR CUENTA",
+      "submitRecovery": "ENVIAR ENLACE",
+      "noAccount": "¿No tienes cuenta? Regístrate",
+      "hasAccount": "¿Ya tienes cuenta? Inicia Sesión",
+      "backToLogin": "Volver al inicio de sesión",
+      "checkEmail": "Revisa tu correo",
+      "checkEmailDesc": "Hemos enviado un enlace de confirmación.",
+      "recoverySent": "Enlace enviado",
+      "recoverySentDesc": "Si el correo existe, recibirás instrucciones."
     }
   },
   "Investments": {
@@ -563,5 +834,147 @@
     "basedOnDailyAverage": "Basado en tu promedio diario este mes",
     "quickAdd": "Agregar Rápido",
     "receipt": "Recibo"
+  },
+  "Chat": {
+    "name": "Sabio",
+    "subtitle": "Tu Asesor Financiero Personal",
+    "welcome": "¡Hola, soy Sabio! 👋",
+    "welcomeMessage": "Soy tu asesor financiero personal. Pregúntame lo que quieras sobre tus gastos, deudas, o cómo construir tu patrimonio más rápido.",
+    "tryAsking": "Intenta preguntar:",
+    "placeholder": "Pregúntale a Sabio...",
+    "thinking": "Pensando...",
+    "error": "Algo salió mal. Por favor intenta de nuevo.",
+    "suggestions": {
+      "onTrack": "¿Voy bien este mes?",
+      "cutSpending": "¿Dónde puedo reducir gastos?",
+      "payDebt": "¿Cómo pago mis deudas más rápido?"
+    }
+  },
+  "WelcomeModal": {
+    "title": "Bienvenido a tu Libertad Financiera",
+    "subtitle": "Tu camino hacia la tranquilidad empieza hoy",
+    "body": "Nestera no es el SAT. No estamos aquí para juzgarte, sino para ayudarte a encontrar el dinero que no sabías que tenías. Empecemos por conectar tus cuentas o registrar tu primer Gasto Hormiga.",
+    "cta": "Empezar mi Transformación",
+    "skip": "Explorar primero",
+    "features": {
+      "noJudgment": "Sin juicios, pura claridad",
+      "mexican": "Diseñado para México",
+      "secure": "100% privado y seguro"
+    }
+  },
+  "Onboarding": {
+    "dna": "Tu ADN Financiero",
+    "back": "Atrás",
+    "yes": "Sí",
+    "no": "No",
+    "welcome": {
+      "title": "Construyamos tu camino a la libertad",
+      "desc": "Esto toma 2 minutos. Tus respuestas personalizan tu experiencia.",
+      "cta": "Empezar"
+    },
+    "school": {
+      "title": "¿Pagas colegiaturas o escuelas?",
+      "desc": "Inscripciones, mensualidades, útiles escolares, etc."
+    },
+    "debt": {
+      "title": "¿Tienes deudas o MSI?",
+      "desc": "Tarjetas de crédito, préstamos, meses sin intereses."
+    },
+    "painPoint": {
+      "title": "¿Cuál es tu mayor dolor financiero?",
+      "desc": "Esto nos ayuda a priorizar lo que ves primero.",
+      "options": {
+        "ants": "Gastos hormiga (cafés, Oxxo, Uber)",
+        "debts": "Deudas que no bajan",
+        "chaos": "El caos total, no sé ni por dónde empezar"
+      }
+    },
+    "complete": {
+      "title": "¡Tu ADN Financiero está listo!",
+      "desc": "Personalizamos tu dashboard basado en tus respuestas.",
+      "cta": "Ir a mi Dashboard",
+      "saving": "Guardando..."
+    }
+  },
+  "Modals": {
+    "common": {
+      "cancel": "Cancelar",
+      "save": "Guardar",
+      "saving": "Guardando...",
+      "add": "Agregar",
+      "create": "Crear",
+      "update": "Actualizar",
+      "delete": "Eliminar",
+      "amount": "Monto",
+      "date": "Fecha",
+      "description": "Descripción",
+      "category": "Categoría",
+      "optional": "(Opcional)",
+      "required": "Requerido",
+      "name": "Nombre",
+      "notes": "Notas"
+    },
+    "Transaction": {
+      "title": "Registrar Movimiento",
+      "titleEdit": "Editar Movimiento",
+      "typeLabel": "Tipo de Movimiento",
+      "income": "Ingreso",
+      "expense": "Gasto",
+      "merchant": "Comercio / Establecimiento",
+      "merchantPlaceholder": "Ej: Oxxo, Uber, Walmart",
+      "paymentMethod": "Método de Pago",
+      "addBtn": "Agregar Transacción",
+      "success": "Transacción registrada"
+    },
+    "Debt": {
+      "title": "Agregar Deuda",
+      "titleEdit": "Editar Deuda",
+      "lender": "Acreedor / Banco",
+      "lenderPlaceholder": "Ej: BBVA, Liverpool, Familiar",
+      "totalAmount": "Deuda Total",
+      "monthlyPayment": "Pago Mensual",
+      "interestRate": "Tasa de Interés (%)",
+      "dueDate": "Fecha de Vencimiento",
+      "msiCheckbox": "¿Es a Meses Sin Intereses?",
+      "msiMonths": "Número de Meses",
+      "addBtn": "Registrar Deuda",
+      "success": "Deuda registrada"
+    },
+    "Goal": {
+      "title": "Nueva Meta Financiera",
+      "titleEdit": "Editar Meta",
+      "namePlaceholder": "Ej: Viaje a Cancún, Fondo de Emergencia",
+      "targetAmount": "Monto Objetivo",
+      "currentAmount": "Monto Actual",
+      "targetDate": "Fecha Objetivo",
+      "priority": "Prioridad",
+      "priorityHigh": "Alta",
+      "priorityMedium": "Media",
+      "priorityLow": "Baja",
+      "addBtn": "Crear Meta",
+      "success": "Meta creada"
+    },
+    "Budget": {
+      "categoryTitle": "Nueva Categoría",
+      "categoryName": "Nombre de Categoría",
+      "categoryPlaceholder": "Ej: Entretenimiento, Transporte",
+      "categoryIcon": "Ícono",
+      "budgetAmount": "Presupuesto Mensual",
+      "addCategoryBtn": "Agregar Categoría",
+      "expenseTitle": "Registrar Gasto",
+      "selectCategory": "Seleccionar Categoría",
+      "addExpenseBtn": "Registrar Gasto",
+      "success": "Categoría agregada"
+    },
+    "Account": {
+      "title": "Actualizar Saldo",
+      "currentBalance": "Saldo Actual",
+      "newBalance": "Nuevo Saldo",
+      "updateBtn": "Actualizar",
+      "success": "Saldo actualizado"
+    }
   }
 }
+
+
+

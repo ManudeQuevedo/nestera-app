@@ -50,19 +50,13 @@ export default async function LocaleLayout({
 
   return (
     <html lang={locale} suppressHydrationWarning>
-      <head>
-        <style
-          dangerouslySetInnerHTML={{
-            __html: `
-            html { visibility: hidden; }
-            html.theme-ready { visibility: visible; }
-          `,
-          }}
-        />
-      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
-        <ThemeProvider>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange>
           <NextIntlClientProvider messages={messages} locale={locale}>
             {children}
           </NextIntlClientProvider>

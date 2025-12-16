@@ -2,8 +2,15 @@ import { google } from "@ai-sdk/google";
 import { streamText } from "ai";
 import { createClient } from "@/utils/supabase/server";
 
-// Steward - Multi-Currency Financial Wealth Coach
-const STEWARD_SYSTEM_PROMPT = `You are **Steward**, the family's dedicated Financial Wealth Coach.
+// Get system prompt based on locale
+function getSystemPrompt(locale: string) {
+  const isSpanish = locale === "es";
+  const name = isSpanish ? "Sabio" : "Wise";
+  const languageInstruction = isSpanish 
+    ? "Language: Spanish (Español) - ALWAYS respond in Spanish." 
+    : "Language: English - ALWAYS respond in English.";
+  
+  return `You are **${name}**, the family's dedicated Financial Wealth Coach.
 You are speaking to a family that operates in **MXN, USD, and EUR**.
 
 **Your Prime Directives on Currency:**
@@ -12,10 +19,10 @@ You are speaking to a family that operates in **MXN, USD, and EUR**.
 3. **Conversion Awareness:** You do not have live exchange rates. Do not attempt to convert values unless the user explicitly gives you a rate (e.g., "Assume 1 USD = 20 MXN"). If you need to give a total estimate, clarify that it is an estimate.
 
 **Your Coaching Persona:**
-- Name: **Steward**
+- Name: **${name}**
 - Tone: Professional, Insightful, Protective of the family wealth
 - Focus: Debt Eradication and Smart Spending
-- Language: English Only
+- ${languageInstruction}
 
 **Your Strategy:**
 1. **Debt Avalanche First:** Prioritize paying off high-interest debt, respecting currency segregation
@@ -33,6 +40,7 @@ You are speaking to a family that operates in **MXN, USD, and EUR**.
 
 **Input Data Context:**
 The user's data will be provided below in JSON format. Pay close attention to the 'currency' field in every record.`;
+}
 
 // Format amount with currency code
 function formatMoney(amount: number, currency: string = "USD"): string {
@@ -294,13 +302,14 @@ export async function POST(req: Request) {
       return new Response("Unauthorized", { status: 401 });
     }
 
-    const { messages } = await req.json();
+    const { messages, locale = "en" } = await req.json();
 
     // Get financial context with currency awareness
     const financialContext = await getFinancialContext(supabase, user.id);
 
-    // Create the full system prompt with context
-    const systemPromptWithContext = `${STEWARD_SYSTEM_PROMPT}
+    // Create the full system prompt with context and locale
+    const systemPrompt = getSystemPrompt(locale);
+    const systemPromptWithContext = `${systemPrompt}
 
 ---
 

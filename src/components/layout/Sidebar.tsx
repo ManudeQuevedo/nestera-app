@@ -2,6 +2,7 @@
 
 import { Link, usePathname } from "@/navigation";
 import { useTranslations } from "next-intl";
+import { canAccess } from "@/lib/permissions";
 import {
   LayoutDashboard,
   Wallet,
@@ -15,6 +16,7 @@ import {
   ChevronLeft,
   ChevronRight,
   GraduationCap,
+  Lock,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -35,9 +37,12 @@ import {
 } from "@/components/ui/tooltip";
 import { SettingsDialog } from "@/components/settings/SettingsDialog";
 import { AuthButton } from "@/components/auth/AuthButton";
+import { useSidebar } from "@/components/layout/SidebarContext";
+import { SidebarFamilyGreeting } from "@/components/layout/sidebar/SidebarFamilyGreeting";
 
 interface SidebarProps {
   categories: Category[];
+  plan: string;
 }
 
 interface NavItem {
@@ -49,10 +54,12 @@ interface NavItem {
     | "antExpenses"
     | "budget"
     | "goals"
-    | "jfkSchool";
+    | "jfkSchool"
+    | "mealPlanner";
   href: string;
   icon: React.ElementType;
   badge?: number;
+  requiredFeature?: string;
 }
 
 const mainNavItems: NavItem[] = [
@@ -63,7 +70,19 @@ const mainNavItems: NavItem[] = [
   { translationKey: "antExpenses", href: "/ant-expenses", icon: Activity },
   { translationKey: "budget", href: "/budget", icon: PieChart },
   { translationKey: "goals", href: "/goals", icon: Target },
-  { translationKey: "jfkSchool", href: "/jfk-school", icon: GraduationCap },
+  {
+    translationKey: "jfkSchool",
+    href: "/jfk-school",
+    icon: GraduationCap,
+    requiredFeature: "family_calendar",
+  },
+  // Meal Planner - Premium Feature Demo
+  {
+    translationKey: "mealPlanner" as any,
+    href: "/planning",
+    icon: Menu,
+    requiredFeature: "meal_planner",
+  },
 ];
 
 interface SidebarContentProps {
@@ -71,7 +90,7 @@ interface SidebarContentProps {
   onLinkClick?: () => void;
   collapsed: boolean;
   onToggleCollapse?: () => void;
-  isFloating?: boolean;
+  plan: string;
 }
 
 function SidebarContent({
@@ -79,19 +98,26 @@ function SidebarContent({
   onLinkClick,
   collapsed,
   onToggleCollapse,
-  isFloating = false,
+  plan,
 }: SidebarContentProps) {
   const t = useTranslations("Sidebar");
+  const [upgradeModalOpen, setUpgradeModalOpen] = useState(false);
 
   return (
     <TooltipProvider delayDuration={0}>
       <div
         className={cn(
           "flex flex-col h-full transition-all duration-300",
+          // Capsule styling
+          "rounded-3xl",
           // Light mode
-          "bg-white dark:bg-transparent",
+          "bg-white",
           // Dark mode: Glass panel
-          "dark:glass-panel",
+          "dark:bg-[#0B1121]/80 dark:backdrop-blur-xl",
+          // Subtle edge
+          "border border-slate-200/50 dark:border-white/5",
+          // Shadow for separation
+          "shadow-sm dark:shadow-2xl",
           // Width
           collapsed ? "w-[72px]" : "w-60"
         )}>
@@ -132,13 +158,24 @@ function SidebarContent({
           )}
         </div>
 
+        {/* Family Greeting Identity Card */}
+        <div className={cn("px-2 pt-3", collapsed && "px-1")}>
+          <SidebarFamilyGreeting
+            familyName={null}
+            firstName={null}
+            email={null}
+            avatarUrl={null}
+            collapsed={collapsed}
+          />
+        </div>
+
         {/* Main Nav */}
         <div
           className={cn(
             "flex-1 overflow-y-auto py-3",
             collapsed ? "px-2" : "px-2"
           )}>
-          <div className="space-y-1">
+          <nav className="space-y-1">
             {mainNavItems.map((item) => {
               const Icon = item.icon;
               const currentPath = pathname.replace(/^\/[a-z]{2}/, "") || "/";
@@ -146,6 +183,65 @@ function SidebarContent({
                 currentPath === item.href ||
                 (item.href !== "/" && currentPath.startsWith(item.href));
 
+              const hasAccess = item.requiredFeature
+                ? canAccess(item.requiredFeature, plan)
+                : true;
+
+              const label =
+                item.translationKey === "mealPlanner"
+                  ? "Meal Planner"
+                  : t(item.translationKey);
+
+              // LOCKED STATE
+              if (!hasAccess) {
+                const lockedItem = (
+                  <div
+                    key={item.href}
+                    onClick={() => {
+                      alert("Upgrade required for " + label);
+                      // setUpgradeModalOpen(true);
+                    }}
+                    className={cn(
+                      "group flex items-center h-9 relative rounded-lg transition-all duration-200 cursor-pointer overflow-hidden",
+                      "text-slate-400 dark:text-slate-600 opacity-70 hover:bg-slate-50 dark:hover:bg-white/5",
+                      collapsed
+                        ? "justify-center px-0"
+                        : "justify-start gap-3 px-3"
+                    )}>
+                    <Icon
+                      className={cn(
+                        "flex-shrink-0",
+                        collapsed ? "h-6 w-6" : "h-4 w-4"
+                      )}
+                    />
+                    {!collapsed && (
+                      <span className="flex-1 truncate text-left text-[13px] font-medium tracking-tight">
+                        {label}
+                      </span>
+                    )}
+                    {!collapsed && (
+                      <Lock className="h-3 w-3 text-slate-300 dark:text-slate-700 ml-2" />
+                    )}
+                  </div>
+                );
+
+                if (collapsed) {
+                  return (
+                    <Tooltip key={item.href}>
+                      <TooltipTrigger asChild>{lockedItem}</TooltipTrigger>
+                      <TooltipContent
+                        side="right"
+                        className="font-medium text-xs bg-slate-900 text-white border-slate-800 dark:glass-tooltip dark:border-white/10">
+                        {label}{" "}
+                        <span className="ml-1 opacity-50">(Locked)</span>
+                      </TooltipContent>
+                    </Tooltip>
+                  );
+                }
+                return lockedItem;
+              }
+
+              // UNLOCKED STATE
               const button = (
                 <Link key={item.href} href={item.href} onClick={onLinkClick}>
                   <Button
@@ -175,7 +271,7 @@ function SidebarContent({
                     </span>
                     {!collapsed && (
                       <span className="flex-1 text-left text-[13px] font-medium tracking-tight">
-                        {t(item.translationKey)}
+                        {label}
                       </span>
                     )}
                   </Button>
@@ -189,7 +285,7 @@ function SidebarContent({
                     <TooltipContent
                       side="right"
                       className="font-medium text-xs bg-slate-900 text-white border-slate-800 dark:glass-tooltip dark:border-white/10">
-                      {t(item.translationKey)}
+                      {label}
                     </TooltipContent>
                   </Tooltip>
                 );
@@ -197,7 +293,7 @@ function SidebarContent({
 
               return button;
             })}
-          </div>
+          </nav>
         </div>
 
         {/* Bottom Section */}
@@ -254,54 +350,36 @@ function SidebarContent({
   );
 }
 
-export function Sidebar({ categories }: SidebarProps) {
+export function Sidebar({ categories, plan }: SidebarProps) {
+  const { isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen } =
+    useSidebar();
   const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const [collapsed, setCollapsed] = useState(false);
 
   return (
     <>
-      {/* Mobile Trigger */}
-      <Sheet open={mobileOpen} onOpenChange={setMobileOpen}>
-        <SheetTrigger asChild>
-          <Button
-            variant="ghost"
-            size="icon"
-            className="fixed top-4 left-4 z-40 md:hidden bg-white/80 dark:bg-slate-900/80 backdrop-blur-sm border border-slate-200 dark:border-white/10 shadow-lg">
-            <Menu className="h-5 w-5" />
-          </Button>
-        </SheetTrigger>
+      {/* Desktop Sidebar */}
+      <div className="hidden md:flex h-full">
+        <SidebarContent
+          pathname={pathname}
+          collapsed={isCollapsed}
+          onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
+          plan={plan}
+        />
+      </div>
+
+      {/* Mobile Sidebar */}
+      <Sheet open={isMobileOpen} onOpenChange={setIsMobileOpen}>
         <SheetContent
           side="left"
-          className="p-0 w-60 bg-white dark:bg-slate-900/95 dark:backdrop-blur-2xl border-r border-slate-200 dark:border-white/5">
-          <SheetHeader className="sr-only">
-            <SheetTitle>Navigation Menu</SheetTitle>
-          </SheetHeader>
+          className="p-0 border-none bg-transparent w-[300px]">
           <SidebarContent
             pathname={pathname}
+            onLinkClick={() => setIsMobileOpen(false)}
             collapsed={false}
-            onLinkClick={() => setMobileOpen(false)}
+            plan={plan}
           />
         </SheetContent>
       </Sheet>
-
-      {/* Desktop Sidebar - Floating */}
-      <div
-        className={cn(
-          "hidden md:block fixed z-30 transition-all duration-300",
-          // Floating: margins on all sides except right
-          "top-4 bottom-4 left-4",
-          collapsed ? "w-[72px]" : "w-60"
-        )}>
-        <div className="h-full">
-          <SidebarContent
-            pathname={pathname}
-            collapsed={collapsed}
-            onToggleCollapse={() => setCollapsed(!collapsed)}
-            isFloating={true}
-          />
-        </div>
-      </div>
     </>
   );
 }

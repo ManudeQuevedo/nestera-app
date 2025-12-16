@@ -1,8 +1,8 @@
 import { createServerClient } from '@supabase/ssr'
 import { NextResponse, type NextRequest } from 'next/server'
 
-// Routes that don't require authentication
-const PUBLIC_ROUTES = ['/login', '/auth', '/setup-mfa', '/verify-mfa']
+// Routes that require authentication
+const PROTECTED_ROUTES = ['/dashboard', '/settings', '/onboarding']
 
 export async function updateSession(request: NextRequest) {
   let supabaseResponse = NextResponse.next({
@@ -47,18 +47,20 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser()
 
-  // Check if this is a public route
-  // Handle locale prefixes (e.g., /en/login, /es/login)
-  const isPublicRoute = PUBLIC_ROUTES.some((route) => {
+  // Check if this is a protected route
+  // Handle locale prefixes (e.g., /en/dashboard, /es/dashboard)
+  const isProtectedRoute = PROTECTED_ROUTES.some((route) => {
     const localePath = pathname.match(/^\/(?:en|es)(\/.*)?$/);
     const pathWithoutLocale = localePath ? localePath[1] || "/" : pathname;
+    
+    // Check for exact match or sub-paths
     return (
       pathWithoutLocale === route || pathWithoutLocale.startsWith(`${route}/`)
     );
   });
 
   // No user and trying to access protected route -> redirect to login
-  if (!user && !isPublicRoute) {
+  if (!user && isProtectedRoute) {
     const url = request.nextUrl.clone();
     // Persist locale if present
     const localeMatch = pathname.match(/^\/(en|es)/);
@@ -68,7 +70,7 @@ export async function updateSession(request: NextRequest) {
   }
 
   // User exists, check MFA status for protected routes
-  if (user && !isPublicRoute) {
+  if (user && isProtectedRoute) {
     try {
       // Get MFA factors and AAL level
       const { data: factors } = await supabase.auth.mfa.listFactors();
@@ -102,18 +104,14 @@ export async function updateSession(request: NextRequest) {
     }
   }
 
-  // User is on login page but already authenticated with aal2 -> redirect to home
+  // User is on login page but already authenticated with aal2 -> redirect to dashboard
   if (user && (pathname === "/login" || pathname.match(/^\/(?:en|es)\/login$/))) {
     try {
-      const { data: aalData } =
-        await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
-      if (aalData?.currentLevel === "aal2") {
         const url = request.nextUrl.clone();
         const localeMatch = pathname.match(/^\/(en|es)/);
         const locale = localeMatch ? localeMatch[1] : "en";
-        url.pathname = `/${locale}/dashboard` // Explicitly go to dashboard
+        url.pathname = `/${locale}/dashboard`
         return NextResponse.redirect(url);
-      }
     } catch (error) {
       // Ignore
     }

@@ -1,8 +1,7 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Plus, Filter, Download } from "lucide-react";
 import { getTransactions, getCategories } from "@/actions/transactions";
 import { TransactionsTable } from "@/components/transactions/TransactionsTable";
+import { TransactionsHeaderActions } from "@/components/transactions/TransactionsHeaderActions";
 import { PageShell } from "@/components/layout/PageShell";
 import { getTranslations } from "next-intl/server";
 
@@ -23,24 +22,7 @@ export default async function TransactionsPage({
       title={t("title")}
       description={t("description")}
       headerAction={
-        <>
-          <Button
-            variant="outline"
-            className="bg-white dark:bg-card shadow-sm border-none">
-            <Filter className="w-4 h-4 mr-2" />
-            {t("filter")}
-          </Button>
-          <Button
-            variant="outline"
-            className="bg-white dark:bg-card shadow-sm border-none">
-            <Download className="w-4 h-4 mr-2" />
-            {t("export")}
-          </Button>
-          <Button>
-            <Plus className="w-4 h-4 mr-2" />
-            {t("addTransaction")}
-          </Button>
-        </>
+        <TransactionsHeaderActions categories={categories || []} />
       }>
       <Card className="bg-white dark:bg-card shadow-sm rounded-xl border-none">
         <CardContent className="p-0">

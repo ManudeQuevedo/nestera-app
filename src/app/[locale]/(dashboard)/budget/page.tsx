@@ -1,9 +1,7 @@
 import { getCategories, getTransactions } from "@/actions/transactions";
 import { BudgetBentoCompact } from "@/components/budget/BudgetBentoCompact";
-import { BudgetPageHeader } from "@/components/budget/BudgetPageHeader";
 import { PageShell } from "@/components/layout/PageShell";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { BudgetHeaderActions } from "@/components/budget/BudgetHeaderActions";
 import { getTranslations } from "next-intl/server";
 
 export default async function BudgetPage({
@@ -44,20 +42,7 @@ export default async function BudgetPage({
     <PageShell
       title={t("title")}
       description={t("description")}
-      headerAction={
-        <>
-          <Button
-            variant="outline"
-            className="bg-white dark:bg-card shadow-sm border-none">
-            <Plus className="w-4 h-4 mr-2" />
-            {t("addCategory")}
-          </Button>
-          <Button>
-            <Plus className="w-4 h-4 mr-2" />
-            {t("addExpense")}
-          </Button>
-        </>
-      }>
+      headerAction={<BudgetHeaderActions />}>
       <BudgetBentoCompact
         categories={categories || []}
         transactions={transactions || []}

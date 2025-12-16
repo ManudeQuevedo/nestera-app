@@ -1,5 +1,4 @@
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import {
   Plus,
@@ -14,6 +13,7 @@ import {
 } from "lucide-react";
 import { getGoals, seedDefaultGoals } from "@/actions/goals";
 import { PageShell } from "@/components/layout/PageShell";
+import { GoalsHeaderActions } from "@/components/goals/GoalsHeaderActions";
 import { getTranslations } from "next-intl/server";
 
 const iconMap: Record<string, React.ElementType> = {
@@ -47,12 +47,7 @@ export default async function GoalsPage({
     <PageShell
       title={t("title")}
       description={t("description")}
-      headerAction={
-        <Button>
-          <Plus className="w-4 h-4 mr-2" />
-          {t("createGoal")}
-        </Button>
-      }>
+      headerAction={<GoalsHeaderActions />}>
       <div className="grid gap-6 md:grid-cols-2">
         {goals.map((goal) => {
           const Icon = iconMap[goal.icon || "Target"] || Target;

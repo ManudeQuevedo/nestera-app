@@ -3,6 +3,10 @@
 
 @custom-variant dark (&:is(.dark *));
 
+html {
+  scroll-behavior: smooth;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -59,8 +63,8 @@
 :root {
   --radius: 0.75rem;
   
-  --background: #e7ecef;
-  --foreground: #0f172a;
+  --background: #f8fafc; /* slate-50 - off-white for softer feel */
+  --foreground: #0f172a; /* slate-900 - almost black */
   
   --card: #ffffff;
   --card-foreground: #0f172a;
@@ -75,7 +79,7 @@
   --secondary-foreground: #0f172a;
   
   --muted: #f1f5f9;
-  --muted-foreground: #64748b;
+  --muted-foreground: #475569; /* slate-600 - darker for better contrast (was slate-500) */
   
   --accent: #f1f5f9;
   --accent-foreground: #0f172a;
@@ -112,11 +116,11 @@
 */
 .dark {
   --background: #030712;
-  --foreground: #e2e8f0;
+  --foreground: #f1f5f9; /* slate-100 for high contrast (was slate-200) */
   
   /* Smoked Glass cards */
   --card: rgba(11, 17, 33, 0.6);
-  --card-foreground: #e2e8f0;
+  --card-foreground: #f1f5f9; /* slate-100 */
   
   --popover: rgba(11, 17, 33, 0.9);
   --popover-foreground: #ffffff;
@@ -125,18 +129,18 @@
   --primary-foreground: #030712;
   
   --secondary: rgba(11, 17, 33, 0.4);
-  --secondary-foreground: #e2e8f0;
+  --secondary-foreground: #f1f5f9;
   
   --muted: rgba(11, 17, 33, 0.5);
-  --muted-foreground: #64748b;
+  --muted-foreground: #94a3b8; /* slate-400 - brighter for readability (was slate-500) */
   
   --accent: rgba(11, 17, 33, 0.6);
   --accent-foreground: #ffffff;
   
   --destructive: #f87171;
   
-  --input: rgba(255, 255, 255, 0.05);
-  --border: rgba(255, 255, 255, 0.05);
+  --input: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.08);
   
   --ring: rgba(255, 255, 255, 0.2);
   
@@ -148,26 +152,32 @@
   
   /* Smoked Glass sidebar (heavier) */
   --sidebar: rgba(11, 17, 33, 0.8);
-  --sidebar-foreground: #e2e8f0;
+  --sidebar-foreground: #f1f5f9;
   --sidebar-primary: #ffffff;
   --sidebar-primary-foreground: #030712;
-  --sidebar-accent: rgba(255, 255, 255, 0.05);
+  --sidebar-accent: rgba(255, 255, 255, 0.08);
   --sidebar-accent-foreground: #ffffff;
-  --sidebar-border: rgba(255, 255, 255, 0.05);
+  --sidebar-border: rgba(255, 255, 255, 0.08);
   --sidebar-ring: rgba(255, 255, 255, 0.2);
 }
 
 @layer base {
   * {
-    @apply border-border outline-ring/50;
+    border-color: var(--border);
+    outline-color: var(--ring);
   }
   
   html, body {
-    @apply h-screen w-screen overflow-hidden;
+    height: 100%;
+    width: 100%;
   }
   
   body {
-    @apply antialiased transition-colors duration-300;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition-property: color, background-color, border-color, text-decoration-color, fill, stroke;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 300ms;
     background-color: var(--background);
     color: var(--foreground);
     font-feature-settings: "rlig" 1, "calt" 1;
@@ -175,13 +185,14 @@
   
   /* Typography - "Expensive" Text */
   h1, h2, h3, h4, h5, h6 {
-    @apply font-medium;
+    font-weight: 700; /* Bold */
     letter-spacing: -0.025em; /* tracking-tight */
     color: var(--foreground);
   }
   
   .dark h1, .dark h2, .dark h3, .dark h4, .dark h5, .dark h6 {
-    @apply text-white font-medium;
+    color: #ffffff;
+    font-weight: 700;
   }
   
   /* Tabular numbers for currency alignment */

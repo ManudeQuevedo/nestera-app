@@ -29,20 +29,42 @@ import { Category } from "@/types/finance";
 import { cn } from "@/lib/utils";
 import { useTranslations } from "next-intl";
 
+export interface TransactionInitialValues {
+  amount?: number;
+  description?: string;
+  category_id?: string;
+  date?: string;
+  type?: "income" | "expense";
+}
+
 interface AddTransactionDrawerProps {
   categories: Category[];
   trigger?: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  initialValues?: TransactionInitialValues;
 }
 
 export function AddTransactionDrawer({
   categories,
   trigger,
+  open: controlledOpen,
+  onOpenChange: setControlledOpen,
+  initialValues,
 }: AddTransactionDrawerProps) {
   const t = useTranslations("Transactions");
   const tCommon = useTranslations("Common");
 
-  const [open, setOpen] = React.useState(false);
-  const [type, setType] = React.useState<"income" | "expense">("expense");
+  const [internalOpen, setInternalOpen] = React.useState(false);
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const setOpen = isControlled
+    ? setControlledOpen || (() => {})
+    : setInternalOpen;
+
+  const [type, setType] = React.useState<"income" | "expense">(
+    initialValues?.type || "expense"
+  );
   const [isPending, setIsPending] = React.useState(false);
   const [isUnexpected, setIsUnexpected] = React.useState(false);
   const [usedEmergencyFund, setUsedEmergencyFund] = React.useState(false);
@@ -121,6 +143,7 @@ export function AddTransactionDrawer({
                   type="number"
                   step="0.01"
                   placeholder="0.00"
+                  defaultValue={initialValues?.amount}
                   className="pl-8 text-lg font-semibold"
                   required
                 />
@@ -129,7 +152,10 @@ export function AddTransactionDrawer({
 
             <div className="space-y-2">
               <Label htmlFor="category">{t("category")}</Label>
-              <Select name="category_id" required>
+              <Select
+                name="category_id"
+                required
+                defaultValue={initialValues?.category_id}>
                 <SelectTrigger>
                   <SelectValue placeholder={t("selectCategory")} />
                 </SelectTrigger>
@@ -150,7 +176,9 @@ export function AddTransactionDrawer({
                 id="date"
                 name="date"
                 type="date"
-                defaultValue={new Date().toISOString().split("T")[0]}
+                defaultValue={
+                  initialValues?.date || new Date().toISOString().split("T")[0]
+                }
                 required
               />
             </div>
@@ -162,6 +190,7 @@ export function AddTransactionDrawer({
                 name="description"
                 type="text"
                 placeholder={t("descriptionPlaceholder")}
+                defaultValue={initialValues?.description}
               />
             </div>
 

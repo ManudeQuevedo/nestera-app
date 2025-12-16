@@ -1,8 +1,7 @@
 import { getDebts } from "@/actions/debts";
 import { DebtsClient } from "./DebtsClient";
 import { PageShell } from "@/components/layout/PageShell";
-import { Button } from "@/components/ui/button";
-import { Plus } from "lucide-react";
+import { DebtsHeaderActions } from "@/components/debts/DebtsHeaderActions";
 import { getTranslations } from "next-intl/server";
 
 export default async function DebtsPage({
@@ -20,12 +19,7 @@ export default async function DebtsPage({
     <PageShell
       title={t("title")}
       description={t("description")}
-      headerAction={
-        <Button>
-          <Plus className="w-4 h-4 mr-2" />
-          {t("addDebt")}
-        </Button>
-      }>
+      headerAction={<DebtsHeaderActions />}>
       <DebtsClient debts={debts || []} />
     </PageShell>
   );

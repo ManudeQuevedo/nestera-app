@@ -2,87 +2,276 @@
   "Landing": {
     "login": "Log In",
     "getStarted": "Get Started",
-    "tryProFree": "Try Pro Free",
-    "tagline": "Smart Family Finance",
+    "tryProFree": "Start Your Transformation",
+    "tagline": "From anxiety to financial freedom",
     "startFree": "Start Free",
     "goToDashboard": "Go to Dashboard",
-    "learnMore": "Learn More",
-    "rights": "All rights reserved.",
+    "learnMore": "Learn How",
+    "rights": "All rights reserved. ",
     "nav": {
-      "about": "About",
+      "about": "The Problem",
       "solution": "Solution",
       "pricing": "Pricing",
       "goToDashboard": "Go to Dashboard",
       "logout": "Log Out"
     },
     "hero": {
-      "title": "Master Your Mexican Finances",
-      "subtitle": "Organize, understand, and improve your household's financial life with calm, intelligent guidance designed for Mexican families."
+      "badge": "Your Financial GPS",
+      "title": "Stop surviving paycheck to paycheck.",
+      "titleHighlight": "Start building freedom.",
+      "subtitle": "80% of your financial stress comes from the unknown. Nestera eliminates uncertainty and gives you back control of your money—no judgment, fully automatic.",
+      "cta": "Start Your Transformation (14 days free)",
+      "microcopy": "No commitment. Cancel anytime. But we promise you'll see your numbers like never before."
+    },
+    "problem": {
+      "badge": "The Silent Thief",
+      "title": "Where did the paycheck go?",
+      "description": "A coffee here, forgotten subscriptions, a convenience store run there, those 'Interest-Free' payments stacking up... Families in Mexico lose 15% to 30% of their income to invisible leaks. For some that's $4,000; for others, over $15,000 MXN a month. It’s not about how much you earn, but how much you keep.",
+      "stats": {
+        "lost": "15-30%",
+        "lostLabel": "income lost to invisible leaks",
+        "subscriptions": "3-5",
+        "subscriptionsLabel": "Forgotten subs & MSI",
+        "ants": "$15k+",
+        "antsLabel": "lost monthly on average"
+      }
     },
     "solution": {
-      "title": "Everything You Need",
-      "subtitle": "A complete financial operating system for your family"
+      "badge": "The Solution",
+      "title": "It's not another boring spreadsheet.",
+      "subtitle": "Spreadsheets demand work. Nestera gives answers. We connect your accounts, detect patterns, and tell you: 'Hey, you reduced your food delivery spending by 10% this week—nice!' It's like having a financial advisor in your pocket 24/7.",
+      "features": {
+        "msi": {
+          "title": "MSI Tracker (Interest-Free Payments)",
+          "description": "Don't let 'small monthly payments' snowball. See exactly when you'll finish paying off that TV or vacation."
+        },
+        "ants": {
+          "title": "Ant Expense Detector",
+          "description": "Coffee, parking, snacks. We identify the silent leaks eating away at your year-end bonus."
+        },
+        "ai": {
+          "title": "Your Personal Advisor (Wise)",
+          "description": "Ask anything. Wise responds in plain language and understands your reality."
+        },
+        "family": {
+          "title": "Couple Finances",
+          "description": "Share goals. Make decisions together. No more money fights."
+        }
+      },
+      "trustBadge": "Built for the Mexican economy (MXN, Tax-friendly, SAT-aware)"
     },
-    "features": {
-      "tracking": {
-        "title": "Expense Tracking",
-        "description": "Track income, expenses, and recurring payments effortlessly."
-      },
-      "budget": {
-        "title": "Smart Budgets",
-        "description": "Set family budgets and see your progress in real-time."
-      },
-      "insights": {
-        "title": "AI Insights",
-        "description": "Get intelligent recommendations to optimize your spending."
-      },
-      "reports": {
-        "title": "Visual Reports",
-        "description": "Beautiful charts and reports to understand your money flow."
-      },
-      "family": {
-        "title": "Family Sharing",
-        "description": "Share finances with your partner and make decisions together."
-      },
-      "security": {
-        "title": "Bank-Level Security",
-        "description": "Your data is encrypted and protected at all times."
+    "methodology": {
+      "badge": "The Method",
+      "title": "Small habits, giant freedom.",
+      "description": "Financial freedom isn't won in the lottery—it's built by understanding your daily numbers. We help you create 5-minute routines that transform anxiety into peace of mind.",
+      "steps": {
+        "step1": {
+          "title": "Connect",
+          "description": "Link your accounts in 2 minutes"
+        },
+        "step2": {
+          "title": "Observe",
+          "description": "See where every dollar goes"
+        },
+        "step3": {
+          "title": "Act",
+          "description": "Get intelligent suggestions"
+        }
+      }
+    },
+    "philosophy": {
+      "badge": "Our Manifesto",
+      "title": "Why we built Nestera",
+      "description": "We believe money isn't the goal—it's the tool. When you control your money, you reclaim your time and peace. Nestera is designed to give you that peace, not to shame you for spending.",
+      "quote": "\"We don't want you to feel guilty. We want you to feel in control.\""
+    },
+    "security": {
+      "badge": "Security",
+      "title": "Your privacy is sacred.",
+      "description": "Bank-grade encryption. We never sell your data. Your information is yours, period.",
+      "features": {
+        "encryption": "AES-256 Encryption",
+        "privacy": "Zero data selling",
+        "mexico": "Data protected in Mexico"
+      }
+    },
+    "lifeOS": {
+      "title": "Money is just the fuel. Your life is the journey.",
+      "subtitle": "Don't just track expenses. Plan dinners, organize school events, and sync your family calendar. All connected to your budget.",
+      "features": {
+        "mealPrep": "Plan weekly meals and auto-generate grocery lists.",
+        "familyCalendar": "Birthdays, tuition, and gatherings. Never forget a thing.",
+        "smartShopping": "Control 'Spending' right from the grocery cart."
       }
     },
     "pricing": {
-      "title": "Simple, Transparent Pricing",
-      "subtitle": "Start free, upgrade when you need more.",
+      "title": "Invest in your peace of mind.",
+      "subtitle": "Less than one coffee a week.",
       "month": "month",
+      "billing": {
+        "monthly": "Monthly",
+        "yearly": "Yearly",
+        "save": "Save 2 months",
+        "billedAnnually": "Billed annually",
+        "billedMonthly": "Billed monthly"
+      },
       "free": {
         "name": "Free",
-        "cta": "Get Started",
+        "tagline": "To start",
+        "cta": "Start Free",
         "features": {
-          "tracking": "Basic expense tracking",
-          "budgets": "Up to 5 budget categories",
-          "reports": "Monthly reports"
+          "tracking": "Manual Tracking",
+          "charts": "Basic Charts",
+          "users": "1 User"
         }
       },
       "pro": {
         "name": "Pro",
-        "badge": "Most Popular",
-        "cta": "Start 14-Day Trial",
+        "tagline": "Automation",
+        "badge": "POPULAR",
+        "cta": "Start Free Trial",
         "features": {
-          "everything": "Everything in Free",
-          "ai": "AI-powered insights",
-          "family": "Family sharing (up to 5)",
-          "export": "Excel & PDF exports",
-          "priority": "Priority support"
+          "ai": "AI Chatbot",
+          "import": "Bank Import (PDF)",
+          "history": "Unlimited History",
+          "users": "2 Users"
+        }
+      },
+      "familyPlus": {
+        "name": "Family Plus",
+        "tagline": "Total System",
+        "badge": "BEST VALUE",
+        "cta": "Get Family Plus",
+        "features": {
+          "mealPlanner": "Meal Planner",
+          "groceryList": "Smart Grocery List",
+          "calendar": "Family Calendar",
+          "users": "Up to 5 Users"
         }
       }
     },
     "cta": {
-      "title": "Ready to Take Control?",
-      "subtitle": "Join thousands of Mexican families managing their finances with confidence."
+      "title": "Ready to sleep peacefully?",
+      "subtitle": "Join families who stopped stressing about money.",
+      "button": "Start Your Transformation",
+      "microcopy": "14 days free. No credit card. No fine print."
     },
     "footer": {
       "privacy": "Privacy",
       "terms": "Terms",
-      "contact": "Contact"
+      "contact": "Contact",
+      "tagline": "From financial fog to total clarity.",
+      "productTitle": "Product",
+      "companyTitle": "Company",
+      "legalTitle": "Legal",
+      "features": "Features",
+      "pricing": "Pricing",
+      "security": "Security",
+      "about": "About",
+      "blog": "Blog",
+      "careers": "Careers",
+      "madeWith": "Made with",
+      "inMexico": "in Mexico"
+    },
+    "premium": {
+      "hero": {
+        "badge": "Designed for Mexico 🇲🇽",
+        "title": "The operating system for",
+        "titleGradient": "your family's wealth.",
+        "subtitle": "Stop living paycheck to paycheck. Organize, invest, and build the financial freedom your family deserves.",
+        "cta": "CREATE ACCOUNT",
+        "demo": "Watch Demo"
+      },
+      "features": {
+        "title": "From chaos to total control.",
+        "subtitle": "Regain control of your finances with tools designed for clarity, not confusion.",
+        "visibility": {
+          "title": "360° Visibility",
+          "body": "Connect your accounts and understand where your money goes. No spreadsheets."
+        },
+        "sharedGoals": {
+          "title": "Shared Goals",
+          "body": "Designed for families. Align your savings goals and build together."
+        },
+        "growth": {
+          "title": "Real Growth",
+          "body": "Optimized and automated investment strategies to beat inflation."
+        }
+      },
+      "pillars": {
+        "title": "Our 3 Pillars of Wealth.",
+        "education": {
+          "title": "Education",
+          "desc": "Finance without complicated terms. Learn by doing."
+        },
+        "automation": {
+          "title": "Automation",
+          "desc": "Consistency is key. Effortless automatic savings."
+        },
+        "security": {
+          "title": "Security",
+          "desc": "Bank-grade technology for your peace of mind."
+        }
+      },
+      "whyUs": {
+        "title": "The best option for Mexico.",
+        "subtitle": "Built locally, with global standards.",
+        "economy": {
+          "title": "We understand your economy.",
+          "body": "Adapted to the Mexican economy (SAT friendly), local habits, and family structure. We are not a translated app; we are a native solution."
+        },
+        "noFees": {
+          "title": "No Hidden Fees.",
+          "body": "Real freedom for your money."
+        },
+        "community": {
+          "title": "Community.",
+          "body": "Join thousands of families."
+        }
+      },
+      "finalCta": {
+        "title": "Ready to transform your financial future?",
+        "button": "START NOW"
+      },
+      "nativeAdvantage": {
+        "badge": "MEXICAN ENGINEERING",
+        "origin": {
+          "title": "Designed for Mexico, not just translated.",
+          "body": "US apps don't understand local taxes or economy. We do. A native solution for your financial reality."
+        },
+        "intelligence": {
+          "title": "Integrated Fiscal Intelligence.",
+          "body": "We maximize your money by understanding the local rules. We detect opportunities others ignore.",
+          "cardTitle": "Fiscal Opportunity Detected"
+        },
+        "offer": {
+          "title": "Freedom without Fine Print.",
+          "body": "No maintenance fees. No minimum balances. Your money grows, it doesn't shrink.",
+          "chart": {
+            "banks": "Banks",
+            "nestera": "Nestera"
+          }
+        },
+        "cta": "START NOW"
+      },
+      "leakDetector": {
+        "activeScan": "Active Scan",
+        "forgottenSub": "Forgotten Subscription",
+        "streaming": "Monthly streaming",
+        "detected": "DETECTED",
+        "antExpenses": "Ant Expenses",
+        "weeklyAvg": "Weekly average",
+        "msiRemaining": "Remaining MSI",
+        "paymentsOf": "{current} of {total} payments",
+        "totalWaste": "Total Waste:",
+        "perMonth": "/ month"
+      }
+    },
+    "onboarding": {
+        "2fa": {
+            "title": "Want to shield your account now?",
+            "body": "Your password is the key... 2FA is the alarm system."
+        }
     }
   },
   "Sidebar": {
@@ -100,6 +289,12 @@
   },
   "Dashboard": {
     "welcome": "Welcome back, {name}",
+    "greeting": {
+      "morning": "Good morning",
+      "afternoon": "Good afternoon",
+      "evening": "Good evening",
+      "familyPrefix": "Family"
+    },
     "totalBalance": "Total Balance",
     "debtSummary": "Debt Summary",
     "recentActivity": "Recent Activity",
@@ -197,7 +392,9 @@
     "title": "Budget",
     "description": "Manage your monthly budget allocations",
     "addCategory": "Add Category",
+    "addCategoryDescription": "Create a new expense category with a monthly limit",
     "addExpense": "Add Expense",
+    "addExpenseDescription": "Record a new expense in your budget",
     "totalBudget": "Total Budget",
     "spent": "Spent",
     "remaining": "Remaining",
@@ -223,6 +420,7 @@
     "title": "Goals",
     "description": "Set and track your family's financial goals",
     "createGoal": "Create Goal",
+    "createGoalDescription": "Define a new savings goal with a deadline",
     "saved": "saved",
     "goal": "goal",
     "daysLeft": "{days} days left",
@@ -323,7 +521,7 @@
     "savedThisMonth": "Saved This Month",
     "spendingBreakdownDesc": "Track your necessary vs avoidable expenses over time",
     "greatProgress": "Great Progress!",
-    "greatProgressDesc": "You saved <strong1>{saved}</strong1> this month by reducing avoidable 'ant expenses'. Keep this up and you'll save <strong1>{yearSaved}</strong1> yearly!",
+    "greatProgressDesc": "You saved <strong>{saved}</strong> this month by reducing avoidable 'ant expenses'. Keep this up and you'll save <strong>{yearSaved}</strong> yearly!",
     "tripExpenses": "Total Trip Expenses",
     "tripTransactions": "Trip Transactions",
     "from": "From",
@@ -374,14 +572,33 @@
   },
   "Auth": {
     "login": {
-      "title": "Family Wealth OS",
-      "subtitle": "Secure access for authorized family members only",
+      "title": "Welcome to Nestera",
+      "subtitle": "The operating system for your family's wealth.",
       "googleButton": "Continue with Google",
       "signingIn": "Signing in...",
       "accessDenied": "Access Denied",
       "accessRestricted": "Access Restricted: This application is for authorized family members only.",
       "unexpectedError": "An unexpected error occurred. Please try again.",
-      "mfaRequired": "2FA verification is required for all users."
+      "mfaRequired": "2FA verification is required for all users.",
+      "welcomeBack": "Welcome back",
+      "startLegacy": "Start your legacy",
+      "recoverAccess": "Recover Access",
+      "divider": "or with email",
+      "emailLabel": "Email",
+      "emailPlaceholder": "name@example.com",
+      "passwordLabel": "Password",
+      "passwordPlaceholder": "••••••••",
+      "forgotPassword": "Forgot your password?",
+      "submitLogin": "ENTER",
+      "submitSignup": "CREATE ACCOUNT",
+      "submitRecovery": "SEND LINK",
+      "noAccount": "Don't have an account? Sign up",
+      "hasAccount": "Already have an account? Log in",
+      "backToLogin": "Back to login",
+      "checkEmail": "Check your email",
+      "checkEmailDesc": "We sent a confirmation link.",
+      "recoverySent": "Link sent",
+      "recoverySentDesc": "If the email exists, you will receive instructions."
     }
   },
   "Investments": {
@@ -573,5 +790,112 @@
   },
   "PageShell": {
     "welcome": "Welcome, {name}!"
+  },
+  "Chat": {
+    "name": "Wise",
+    "subtitle": "Your Financial Wealth Coach",
+    "welcome": "Hi, I'm Wise! 👋",
+    "welcomeMessage": "I'm your personal financial coach. Ask me anything about your spending, debts, or how to build wealth faster.",
+    "tryAsking": "Try asking:",
+    "placeholder": "Ask Wise anything...",
+    "thinking": "Thinking...",
+    "error": "Something went wrong. Please try again.",
+    "suggestions": {
+      "onTrack": "Am I on track this month?",
+      "cutSpending": "Where can I cut spending?",
+      "payDebt": "How do I pay off debt faster?"
+    }
+  },
+  "WelcomeModal": {
+    "title": "Welcome to Your Financial Freedom",
+    "subtitle": "Your path to peace of mind starts today",
+    "body": "Nestera isn't here to judge you—we're here to help you find the money you didn't know you had. Let's start by connecting your accounts or logging your first 'Ant Expense' (those sneaky daily micro-purchases).",
+    "cta": "Start My Transformation",
+    "skip": "Explore first",
+    "features": {
+      "noJudgment": "No judgment, pure clarity",
+      "mexican": "Built for Mexico",
+      "secure": "100% private and secure"
+    }
+  },
+  "Modals": {
+    "common": {
+      "cancel": "Cancel",
+      "save": "Save",
+      "saving": "Saving...",
+      "add": "Add",
+      "create": "Create",
+      "update": "Update",
+      "delete": "Delete",
+      "amount": "Amount",
+      "date": "Date",
+      "description": "Description",
+      "category": "Category",
+      "optional": "(Optional)",
+      "required": "Required",
+      "name": "Name",
+      "notes": "Notes"
+    },
+    "Transaction": {
+      "title": "Add Transaction",
+      "titleEdit": "Edit Transaction",
+      "typeLabel": "Transaction Type",
+      "income": "Income",
+      "expense": "Expense",
+      "merchant": "Merchant / Store",
+      "merchantPlaceholder": "e.g., Coffee Shop, Uber, Walmart",
+      "paymentMethod": "Payment Method",
+      "addBtn": "Add Transaction",
+      "success": "Transaction added"
+    },
+    "Debt": {
+      "title": "Add Debt",
+      "titleEdit": "Edit Debt",
+      "lender": "Lender / Bank",
+      "lenderPlaceholder": "e.g., Chase, Credit Card, Family",
+      "totalAmount": "Total Debt",
+      "monthlyPayment": "Monthly Payment",
+      "interestRate": "Interest Rate (%)",
+      "dueDate": "Due Date",
+      "msiCheckbox": "Is this Interest-Free Installments (MSI)?",
+      "msiMonths": "Number of Months",
+      "addBtn": "Add Debt",
+      "success": "Debt added"
+    },
+    "Goal": {
+      "title": "New Financial Goal",
+      "titleEdit": "Edit Goal",
+      "namePlaceholder": "e.g., Vacation Fund, Emergency Fund",
+      "targetAmount": "Target Amount",
+      "currentAmount": "Current Amount",
+      "targetDate": "Target Date",
+      "priority": "Priority",
+      "priorityHigh": "High",
+      "priorityMedium": "Medium",
+      "priorityLow": "Low",
+      "addBtn": "Create Goal",
+      "success": "Goal created"
+    },
+    "Budget": {
+      "categoryTitle": "New Category",
+      "categoryName": "Category Name",
+      "categoryPlaceholder": "e.g., Entertainment, Transportation",
+      "categoryIcon": "Icon",
+      "budgetAmount": "Monthly Budget",
+      "addCategoryBtn": "Add Category",
+      "expenseTitle": "Log Expense",
+      "selectCategory": "Select Category",
+      "addExpenseBtn": "Log Expense",
+      "success": "Category added"
+    },
+    "Account": {
+      "title": "Update Balance",
+      "currentBalance": "Current Balance",
+      "newBalance": "New Balance",
+      "updateBtn": "Update",
+      "success": "Balance updated"
+    }
   }
 }
+
+
