@@ -22,14 +22,11 @@ export default async function LoginPage({
     // Check if user has TOTP factor enrolled
     const hasTOTP = factors?.totp && factors.totp.length > 0;
 
-    if (!hasTOTP) {
-      // Need to enroll MFA
-      redirect({ href: "/setup-mfa", locale });
-    } else if (aalData?.currentLevel !== "aal2") {
+    if (hasTOTP && aalData?.currentLevel !== "aal2") {
       // Has MFA but not verified this session
       redirect({ href: "/verify-mfa", locale });
     } else {
-      // Fully authenticated
+      // Fully authenticated (or No MFA configured)
       redirect({ href: "/", locale });
     }
   }

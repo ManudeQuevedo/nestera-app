@@ -165,11 +165,20 @@ html {
   * {
     border-color: var(--border);
     outline-color: var(--ring);
+    /* Remove blue flash on tap for native feel */
+    -webkit-tap-highlight-color: transparent;
   }
   
   html, body {
     height: 100%;
     width: 100%;
+    /* Prevent horizontal scroll - native app behavior */
+    overflow-x: hidden;
+  }
+  
+  /* Use dynamic viewport height for mobile Safari bottom bar */
+  html {
+    min-height: 100dvh;
   }
   
   body {
@@ -181,6 +190,22 @@ html {
     background-color: var(--background);
     color: var(--foreground);
     font-feature-settings: "rlig" 1, "calt" 1;
+    /* Prevent overscroll bounce on iOS */
+    overscroll-behavior-y: none;
+    /* Enforce min height with safe area */
+    min-height: 100dvh;
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  /* Prevent auto-zoom on input focus (iOS requires 16px min) */
+  input, select, textarea {
+    font-size: 16px !important;
+  }
+  
+  @media (min-width: 768px) {
+    input, select, textarea {
+      font-size: inherit !important;
+    }
   }
   
   /* Typography - "Expensive" Text */

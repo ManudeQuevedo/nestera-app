@@ -17,21 +17,28 @@ export default async function DashboardLayout({
   } = await supabase.auth.getUser();
 
   let plan = "FREE";
+  let appSettings = null;
 
   if (user) {
     const { data: profile } = await supabase
       .from("profiles")
-      .select("subscription_tier")
+      .select("subscription_tier, app_settings")
       .eq("id", user.id)
       .single();
 
     if (profile?.subscription_tier) {
       plan = profile.subscription_tier;
     }
+    if (profile?.app_settings) {
+      appSettings = profile.app_settings;
+    }
   }
 
   return (
-    <DashboardClientLayout categories={categories || []} plan={plan}>
+    <DashboardClientLayout
+      categories={categories || []}
+      plan={plan}
+      appSettings={appSettings}>
       {children}
     </DashboardClientLayout>
   );

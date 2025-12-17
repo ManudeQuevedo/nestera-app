@@ -13,6 +13,7 @@
       "solution": "Solution",
       "pricing": "Pricing",
       "goToDashboard": "Go to Dashboard",
+      "settings": "Settings",
       "logout": "Log Out"
     },
     "hero": {
@@ -23,10 +24,15 @@
       "cta": "Start Your Transformation (14 days free)",
       "microcopy": "No commitment. Cancel anytime. But we promise you'll see your numbers like never before."
     },
+    "trust": {
+      "title": "World Class Infrastructure",
+      "subtitle": "Your data lives on the same servers used by the world's largest companies."
+    },
     "problem": {
       "badge": "The Silent Thief",
       "title": "Where did the paycheck go?",
       "description": "A coffee here, forgotten subscriptions, a convenience store run there, those 'Interest-Free' payments stacking up... Families in Mexico lose 15% to 30% of their income to invisible leaks. For some that's $4,000; for others, over $15,000 MXN a month. It’s not about how much you earn, but how much you keep.",
+      "investmentKick": "Nestera is not an expense, it's the tool that plugs these leaks and pays for its own subscription from the very first month.",
       "stats": {
         "lost": "15-30%",
         "lostLabel": "income lost to invisible leaks",
@@ -200,6 +206,10 @@
       },
       "pillars": {
         "title": "Our 3 Pillars of Wealth.",
+        "subtitle": "Solid principles for a shielded future.",
+        "benefit_1": "100% Transparent",
+        "benefit_2": "Results in 30 days",
+        "benefit_3": "Secure Technology",
         "education": {
           "title": "Education",
           "desc": "Finance without complicated terms. Learn by doing."
@@ -272,6 +282,70 @@
             "title": "Want to shield your account now?",
             "body": "Your password is the key... 2FA is the alarm system."
         }
+    },
+    "manifesto": {
+      "headline": "You don't need another pretty App.",
+      "body": "You need an ally who understands your family. Most tools force you to change to fit their charts. We believe the opposite. Nestera adapts to your life, your unexpected events, and your real goals, so you finally feel your money is working for you, not the other way around."
+    },
+    "visuals": {
+      "education": {
+        "tipTitle": "Daily Tip",
+        "tipBody": "The 50/30/20 rule helps you organize expenses without stress."
+      },
+      "automation": {
+        "income": "Income",
+        "savings": "Auto Savings",
+        "badge": "10% Sent"
+      },
+      "security": {
+        "encryption": "AES-256 Encryption",
+        "biometrics": "Biometric Auth",
+        "anonymous": "Datos Anónimos"
+      }
+    }
+  },
+  "Footer": {
+    "product": "Product",
+    "support": "Support",
+    "legal": "Legal",
+    "copyright": "© 2025 Nestera. All rights reserved."
+  },
+  "LandingPage": {
+    "TechStack": {
+      "label": "World-Class Infrastructure",
+      "title": "Your data lives on the same servers used by the world's largest companies.",
+      "stripe": "Secure Payments",
+      "supabase": "Encrypted Database"
+    },
+    "Security": {
+      "title": "Bank-Grade Security, Simplified.",
+      "subtitle": "Your peace of mind is our priority. Here is how we protect your assets.",
+      "encryption": {
+        "title": "Digital Armor",
+        "description": "We use AES-256 encryption (the same standard as your bank). Your info travels in 'digital vaults' that only you can open."
+      },
+      "privacy": {
+        "title": "Absolute Privacy",
+        "description": "Nestera is a 'black box' to us. We do not sell your data, we do not share it, and our engineers cannot see your transactions."
+      },
+      "availability": {
+        "title": "Always Available",
+        "description": "Your data is automatically backed up to the cloud in real-time. If you lose your phone or switch devices, your legacy remains intact."
+      }
+    },
+    "FamilyFeatures": {
+      "mealPrep": {
+        "title": "Weekly Menu",
+        "description": "Plan your meals and auto-generate grocery lists. Say goodbye to 'what's for dinner?'."
+      },
+      "calendar": {
+        "title": "Family Calendar",
+        "description": "Birthdays, tuition payments, and gatherings. Everything synced in one place."
+      },
+      "shopping": {
+        "title": "Smart Shopping",
+        "description": "Control spending right from the cart. Avoid buying what you already have in the pantry."
+      }
     }
   },
   "Sidebar": {

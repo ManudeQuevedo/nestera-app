@@ -14,6 +14,8 @@ interface SidebarContextType {
   toggleCollapsed: () => void;
   isMobileOpen: boolean;
   setIsMobileOpen: (open: boolean) => void;
+  isSettingsOpen: boolean;
+  setIsSettingsOpen: (open: boolean) => void;
 }
 
 const SidebarContext = createContext<SidebarContextType | undefined>(undefined);
@@ -23,6 +25,7 @@ const STORAGE_KEY = "nestera-sidebar-collapsed";
 export function SidebarProvider({ children }: { children: ReactNode }) {
   const [isCollapsed, setIsCollapsedState] = useState(false);
   const [isMobileOpen, setIsMobileOpen] = useState(false);
+  const [isSettingsOpen, setIsSettingsOpen] = useState(false);
   const [isHydrated, setIsHydrated] = useState(false);
 
   // Load from localStorage on mount
@@ -57,6 +60,8 @@ export function SidebarProvider({ children }: { children: ReactNode }) {
         toggleCollapsed,
         isMobileOpen,
         setIsMobileOpen,
+        isSettingsOpen,
+        setIsSettingsOpen,
       }}>
       {children}
     </SidebarContext.Provider>

@@ -49,13 +49,16 @@ export default async function LocaleLayout({
   const messages = await getMessages({ locale });
 
   return (
-    <html lang={locale} suppressHydrationWarning>
+    <html
+      lang={locale}
+      className="light"
+      style={{ colorScheme: "light" }}
+      suppressHydrationWarning>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <ThemeProvider
           attribute="class"
-          defaultTheme="system"
-          enableSystem
+          forcedTheme="light"
           disableTransitionOnChange>
           <NextIntlClientProvider messages={messages} locale={locale}>
             {children}

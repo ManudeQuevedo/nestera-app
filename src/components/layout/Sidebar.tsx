@@ -18,6 +18,7 @@ import {
   ChevronRight,
   GraduationCap,
   Lock,
+  CalendarDays,
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
@@ -44,9 +45,14 @@ import { SidebarFamilyGreeting } from "@/components/layout/sidebar/SidebarFamily
 interface SidebarProps {
   categories: Category[];
   plan: string;
+  appSettings?: {
+    sidebar_labels?: Record<string, string>;
+    enabled_modules?: string[];
+  };
 }
 
 interface NavItem {
+  id: string; // Stable ID for DB lookups
   translationKey:
     | "dashboard"
     | "debts"
@@ -64,21 +70,50 @@ interface NavItem {
 }
 
 const mainNavItems: NavItem[] = [
-  { translationKey: "dashboard", href: "/dashboard", icon: LayoutDashboard },
-  { translationKey: "debts", href: "/debts", icon: Wallet },
-  { translationKey: "transactions", href: "/transactions", icon: Receipt },
-  { translationKey: "insights", href: "/report", icon: FileText },
-  { translationKey: "antExpenses", href: "/ant-expenses", icon: Activity },
-  { translationKey: "budget", href: "/budget", icon: PieChart },
-  { translationKey: "goals", href: "/goals", icon: Target },
   {
+    id: "dashboard",
+    translationKey: "dashboard",
+    href: "/dashboard",
+    icon: LayoutDashboard,
+  },
+  { id: "debts", translationKey: "debts", href: "/debts", icon: Wallet },
+  {
+    id: "transactions",
+    translationKey: "transactions",
+    href: "/transactions",
+    icon: Receipt,
+  },
+  {
+    id: "insights",
+    translationKey: "insights",
+    href: "/report",
+    icon: FileText,
+  },
+  {
+    id: "antExpenses",
+    translationKey: "antExpenses",
+    href: "/ant-expenses",
+    icon: Activity,
+  },
+  { id: "budget", translationKey: "budget", href: "/budget", icon: PieChart },
+  { id: "goals", translationKey: "goals", href: "/goals", icon: Target },
+  {
+    id: "school_payments",
     translationKey: "jfkSchool",
     href: "/jfk-school",
     icon: GraduationCap,
-    requiredFeature: "family_calendar",
+    requiredFeature: "school_expenses", // Will be checked against has_school_expenses
+  },
+  // Events - Financial Calendar
+  {
+    id: "events",
+    translationKey: "events" as any,
+    href: "/events",
+    icon: CalendarDays,
   },
   // Meal Planner - Premium Feature Demo
   {
+    id: "mealPlanner",
     translationKey: "mealPlanner" as any,
     href: "/planning",
     icon: Menu,
@@ -92,6 +127,10 @@ interface SidebarContentProps {
   collapsed: boolean;
   onToggleCollapse?: () => void;
   plan: string;
+  appSettings?: {
+    sidebar_labels?: Record<string, string>;
+    enabled_modules?: string[];
+  };
 }
 
 function SidebarContent({
@@ -100,9 +139,14 @@ function SidebarContent({
   collapsed,
   onToggleCollapse,
   plan,
+  appSettings,
 }: SidebarContentProps) {
   const t = useTranslations("Sidebar");
   const [upgradeModalOpen, setUpgradeModalOpen] = useState(false);
+  const { isSettingsOpen, setIsSettingsOpen } = useSidebar();
+
+  const labels = appSettings?.sidebar_labels || {};
+  const enabledModules = appSettings?.enabled_modules || null; // If null, show all (allow default)
 
   return (
     <TooltipProvider delayDuration={0}>
@@ -178,6 +222,11 @@ function SidebarContent({
           )}>
           <nav className="space-y-1">
             {mainNavItems.map((item) => {
+              // 1. Check Visibility (if enabled_modules is present)
+              if (enabledModules && !enabledModules.includes(item.id)) {
+                return null;
+              }
+
               const Icon = item.icon;
               const currentPath = pathname.replace(/^\/[a-z]{2}/, "") || "/";
               const isActive =
@@ -188,10 +237,12 @@ function SidebarContent({
                 ? canAccess(item.requiredFeature, plan)
                 : true;
 
+              // 2. Resolve Label (Custom > Translation)
               const label =
-                item.translationKey === "mealPlanner"
+                labels[item.id] ||
+                (item.translationKey === "mealPlanner"
                   ? "Meal Planner"
-                  : t(item.translationKey);
+                  : t(item.translationKey));
 
               // LOCKED STATE
               if (!hasAccess) {
@@ -351,7 +402,7 @@ function SidebarContent({
   );
 }
 
-export function Sidebar({ categories, plan }: SidebarProps) {
+export function Sidebar({ categories, plan, appSettings }: SidebarProps) {
   const { isCollapsed, setIsCollapsed, isMobileOpen, setIsMobileOpen } =
     useSidebar();
   const pathname = usePathname();
@@ -365,6 +416,7 @@ export function Sidebar({ categories, plan }: SidebarProps) {
           collapsed={isCollapsed}
           onToggleCollapse={() => setIsCollapsed(!isCollapsed)}
           plan={plan}
+          appSettings={appSettings}
         />
       </div>
 
@@ -378,6 +430,7 @@ export function Sidebar({ categories, plan }: SidebarProps) {
             onLinkClick={() => setIsMobileOpen(false)}
             collapsed={false}
             plan={plan}
+            appSettings={appSettings}
           />
         </SheetContent>
       </Sheet>

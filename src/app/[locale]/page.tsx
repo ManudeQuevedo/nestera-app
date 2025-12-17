@@ -1,6 +1,6 @@
 import { createClient } from "@/utils/supabase/server";
 import { setRequestLocale } from "next-intl/server";
-import { GlassNavbar } from "@/components/marketing/GlassNavbar";
+import { PublicNavbar } from "@/components/marketing/PublicNavbar";
 import { LandingClient } from "@/components/marketing/LandingClient";
 import { LandingFooter } from "@/components/marketing/LandingFooter";
 
@@ -20,8 +20,8 @@ export default async function LandingPage({ params }: LandingPageProps) {
 
   return (
     <>
-      {/* Glassmorphic Floating Navbar */}
-      <GlassNavbar user={user} locale={locale} />
+      {/* Glassmorphic Floating Navbar (Zen Theme) */}
+      <PublicNavbar user={user} locale={locale} />
 
       {/* Scrollytelling Landing Page */}
       <LandingClient user={user} />

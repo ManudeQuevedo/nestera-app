@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bienvenida a Nestera</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #F8FAFC;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    }
+    table {
+      border-spacing: 0;
+      border-collapse: collapse;
+    }
+    td {
+      padding: 0;
+    }
+    img {
+      border: 0;
+    }
+    .wrapper {
+      width: 100%;
+      background-color: #F8FAFC;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 600px;
+      margin: 0 auto;
+      background-color: #FFFFFF;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      overflow: hidden;
+    }
+    .content {
+      padding: 40px 48px;
+    }
+    .logo {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .heading {
+      color: #0F172A;
+      font-size: 24px;
+      font-weight: 700;
+      line-height: 1.3;
+      margin-bottom: 16px;
+      text-align: center;
+    }
+    .body-text {
+      color: #475569;
+      font-size: 16px;
+      line-height: 1.6;
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    .button-container {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+    .button {
+      display: inline-block;
+      background-color: #047857;
+      color: #FFFFFF;
+      font-size: 16px;
+      font-weight: 600;
+      text-decoration: none;
+      padding: 12px 32px;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+    }
+    .footer {
+      background-color: #F1F5F9;
+      padding: 24px;
+      text-align: center;
+      color: #94A3B8;
+      font-size: 12px;
+    }
+    /* Mobile Responsiveness */
+    @media screen and (max-width: 600px) {
+      .content {
+        padding: 32px 24px;
+      }
+      .heading {
+        font-size: 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrapper">
+    <table role="presentation" width="100%" border="0" cellspacing="0" cellpadding="0">
+      <tr>
+        <td align="center">
+          <div class="container">
+            <div class="content">
+              <!-- Logo -->
+              <div class="logo">
+                <img src="https://gjstjylhyyqscidjment.supabase.co/storage/v1/object/public/assets/nestera-logo.png" alt="Nestera" width="48" height="48" style="display:inline-block; border-radius: 12px;" />
+              </div>
+
+              <!-- Heading -->
+              <h1 class="heading">Tu camino a la tranquilidad financiera comienza aquí.</h1>
+
+              <!-- Body -->
+              <p class="body-text">
+                Gracias por unirte a Nestera. Estás a un solo paso de tomar el control total de tus finanzas y comenzar a construir el futuro que tu familia merece.
+              </p>
+
+              <!-- Button -->
+              <div class="button-container">
+                <a href="{{ .ConfirmationURL }}" class="button" target="_blank">Confirmar mi correo</a>
+              </div>
+            </div>
+
+            <!-- Footer -->
+            <div class="footer">
+              <p style="margin: 0;">Si no creaste esta cuenta, puedes ignorar este correo.</p>
+              <p style="margin: 8px 0 0 0;">© 2025 Nestera.</p>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+</html>

@@ -25,10 +25,12 @@ export async function GET(request: Request) {
         
       const userLocale = profile?.language || "en";
 
-      if (!hasTOTP) {
-        // Redirect to MFA setup
-        return NextResponse.redirect(`${origin}/${userLocale}/setup-mfa`);
-      }
+      /* 
+       * 2FA is now OPTIONAL. 
+       * We only redirect to /verify-mfa if the user HAS factors AND needs to verify them.
+       * If they have no factors, we simply proceed to the dashboard (or onboarding via middleware).
+       */
+
       
       // Check AAL level
       const { data: aalData } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();

@@ -37,19 +37,35 @@ import { LanguageSwitcher } from "@/components/settings/LanguageSwitcher";
 
 interface SettingsDialogProps {
   trigger?: React.ReactNode;
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
 }
 
 type Theme = "light" | "dark" | "system";
 type Currency = "USD" | "MXN" | "EUR";
 
-export function SettingsDialog({ trigger }: SettingsDialogProps) {
+export function SettingsDialog({
+  trigger,
+  open: controlledOpen,
+  onOpenChange: setControlledOpen,
+}: SettingsDialogProps) {
   const { theme: currentTheme, setTheme: setGlobalTheme } = useTheme();
   const [uploading, setUploading] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
-  const [open, setOpen] = useState(false);
+  const [internalOpen, setInternalOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
+
+  const isControlled = controlledOpen !== undefined;
+  const open = isControlled ? controlledOpen : internalOpen;
+  const setOpen = (newOpen: boolean) => {
+    if (setControlledOpen) {
+      setControlledOpen(newOpen);
+    } else {
+      setInternalOpen(newOpen);
+    }
+  };
 
   const [theme, setTheme] = useState<Theme>("light");
   const [currency, setCurrency] = useState<Currency>("USD");

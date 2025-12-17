@@ -9,6 +9,7 @@ import { RecentTransactions } from "@/components/dashboard/RecentTransactions";
 import { DebtSummaryCard } from "@/components/dashboard/DebtSummaryCard";
 import { GoalsCard } from "@/components/dashboard/GoalsCard";
 import { NesteraCompass } from "@/components/dashboard/NesteraCompass";
+import { DashboardEmptyState } from "@/components/dashboard/DashboardEmptyState";
 import { createClient } from "@/utils/supabase/server";
 import { getTranslations } from "next-intl/server";
 
@@ -152,6 +153,11 @@ export default async function Home({
 
   // Check for suspicious transactions (mock for demo)
   const suspiciousCount = 0; // In production, detect anomalies
+
+  // Show empty state if no transactions exist (cold start)
+  if (transactions.length === 0) {
+    return <DashboardEmptyState userName={firstName} />;
+  }
 
   return (
     <div className="space-y-6 lg:space-y-8 pb-8">

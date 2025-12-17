@@ -13,6 +13,7 @@
       "solution": "Solución",
       "pricing": "Precios",
       "goToDashboard": "Ir al Panel",
+      "settings": "Configuración",
       "logout": "Cerrar Sesión"
     },
     "hero": {
@@ -23,10 +24,15 @@
       "cta": "Inicia tu Transformación (14 días gratis)",
       "microcopy": "Sin compromiso. Cancela cuando quieras. Tu información 100% segura en servidores mexicanos."
     },
+    "trust": {
+      "title": "Infraestructura de Clase Mundial",
+      "subtitle": "Tu información vive en los mismos servidores que usan las empresas más grandes del mundo."
+    },
     "problem": {
       "badge": "El Ladrón Silencioso",
       "title": "¿A dónde se fue la Quincena?",
       "description": "Un café aquí, suscripciones olvidadas, el Oxxo allá, esos 'Paguitos' a Meses Sin Intereses... En México, las familias pierden entre el 15% y el 30% de su ingreso en fugas invisibles. Para algunos son $4,000; para otros, más de $15,000 al mes. No es que ganes poco, es que tu dinero tiene agujeros. Nestera los encuentra por ti.",
+      "investmentKick": "Nestera no es un gasto, es la herramienta que tapa estos agujeros y paga su propia suscripción desde el primer mes.",
       "stats": {
         "lost": "15-30%",
         "lostLabel": "de tu ingreso en fugas invisibles",
@@ -93,6 +99,20 @@
         "encryption": "Encriptación AES-256",
         "privacy": "Cero venta de datos",
         "mexico": "Datos protegidos en México"
+      }
+    },
+    "FamilyFeatures": {
+      "mealPrep": {
+        "title": "Menú Semanal",
+        "description": "Planifica tus comidas y genera la lista del súper automática. Adiós al '¿qué vamos a comer?'."
+      },
+      "calendar": {
+        "title": "Calendario Familiar",
+        "description": "Cumpleaños, pagos de colegiatura y reuniones. Todo sincronizado en un solo lugar."
+      },
+      "shopping": {
+        "title": "Compras Inteligentes",
+        "description": "Controla el gasto desde el carrito. Evita comprar lo que ya tienes en la alacena."
       }
     },
     "lifeOS": {
@@ -200,6 +220,10 @@
       },
       "pillars": {
         "title": "Nuestros 3 Pilares de Riqueza.",
+        "subtitle": "Sólidos principios para un futuro blindado.",
+        "benefit_1": "Fácil de usar",
+        "benefit_2": "Seguro y Privado",
+        "benefit_3": "Soporte 24/7",
         "education": {
           "title": "Educación",
           "desc": "Finanzas sin términos complicados. Aprende haciendo."
@@ -272,6 +296,70 @@
             "title": "¿Quieres blindar tu cuenta ahora?",
             "body": "Tu contraseña es la llave... el 2FA es la alarma."
         }
+    },
+    "manifesto": {
+        "headline": "No necesitas otra App bonita.",
+        "body": "Necesitas un aliado que entienda a tu familia. La mayoría de las herramientas te obligan a cambiar para encajar en sus gráficas. Nosotros creemos lo opuesto. Nestera se adapta a tu vida."
+    },
+    "visuals": {
+      "education": {
+        "tipTitle": "Dato del día",
+        "tipBody": "La regla 50/30/20 te ayuda a organizar tus gastos sin estrés."
+      },
+      "automation": {
+        "income": "Ingreso",
+        "savings": "Ahorro Auto.",
+        "badge": "10% Enviado"
+      },
+      "security": {
+        "encryption": "Encriptación AES-256",
+        "biometrics": "Auth Biométrica",
+        "anonymous": "Datos Anónimos"
+      }
+    }
+  },
+  "Footer": {
+    "product": "Producto",
+    "support": "Soporte",
+    "legal": "Legal",
+    "copyright": "© 2025 Nestera. Todos los derechos reservados."
+  },
+  "LandingPage": {
+    "TechStack": {
+      "label": "Infraestructura de Clase Mundial",
+      "title": "Tu información vive en los mismos servidores que usan las empresas más grandes del mundo.",
+      "stripe": "Pagos Seguros",
+      "supabase": "Base de Datos Encriptada"
+    },
+    "Security": {
+      "title": "Seguridad Bancaria, Explicada Simple.",
+      "subtitle": "Tu tranquilidad es nuestra moneda de cambio. Así protegemos lo tuyo.",
+      "encryption": {
+        "title": "Blindaje Digital",
+        "description": "Usamos encriptación AES-256 (la misma que usa tu banco). Tu información viaja en 'cajas fuertes digitales' que solo tú puedes abrir."
+      },
+      "privacy": {
+        "title": "Privacidad Absoluta",
+        "description": "Nestera es una 'caja negra' para nosotros. No vendemos tus datos, no compartimos tu información y nuestros ingenieros no pueden ver tus movimientos."
+      },
+      "availability": {
+        "title": "Siempre Disponible",
+        "description": "Tus datos se respaldan automáticamente en la nube en tiempo real. Si pierdes tu celular o cambias de computadora, tu patrimonio sigue intacto."
+      }
+    },
+    "FamilyFeatures": {
+      "mealPrep": {
+        "title": "Menú Semanal",
+        "description": "Planifica tus comidas y genera la lista del súper automática. Adiós al '¿qué vamos a comer?'."
+      },
+      "calendar": {
+        "title": "Calendario Familiar",
+        "description": "Cumpleaños, pagos de colegiatura y reuniones. Todo sincronizado en un solo lugar."
+      },
+      "shopping": {
+        "title": "Compras Inteligentes",
+        "description": "Controla el gasto desde el carrito. Evita comprar lo que ya tienes en la alacena."
+      }
     }
   },
   "Sidebar": {
@@ -283,6 +371,8 @@
     "budget": "Presupuesto",
     "goals": "Metas",
     "jfkSchool": "Escuela JFK",
+    "events": "Eventos",
+    "mealPlanner": "Planificador de Comidas",
     "settings": "Configuración",
     "signOut": "Cerrar Sesión",
     "familyWealth": "Finanzas Familiares"

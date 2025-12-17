@@ -74,11 +74,14 @@ export async function updateSession(request: NextRequest) {
   if (user && isProtectedRoute && !pathname.startsWith('/onboarding') && pathname !== '/onboarding') {
       const { data: profile } = await supabase
         .from('profiles')
-        .select('is_onboarded')
+        .select('has_completed_onboarding, onboarding_step')
         .eq('id', user.id)
         .single();
       
-      if (profile && !profile.is_onboarded) {
+      // User must complete all 7 steps (or have legacy has_completed_onboarding = true)
+      const isOnboardingComplete = profile?.has_completed_onboarding || (profile?.onboarding_step && profile.onboarding_step >= 7);
+      
+      if (profile && !isOnboardingComplete) {
         const url = request.nextUrl.clone();
         const localeMatch = pathname.match(/^\/(en|es)/);
         const locale = localeMatch ? localeMatch[1] : "en";
@@ -95,7 +98,7 @@ export async function updateSession(request: NextRequest) {
         const locale = localeMatch ? localeMatch[1] : "en";
         url.pathname = `/${locale}/dashboard`
         return NextResponse.redirect(url);
-    } catch (error) {
+    } catch {
       // Ignore
     }
   }

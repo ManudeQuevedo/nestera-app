@@ -51,7 +51,28 @@ export async function POST(request: NextRequest) {
     // Parse with AI
     const result = await parseStatementWithAI(pdfText);
 
-    return NextResponse.json(result);
+    // Store in bank_imports for ephemeral staging (Data Bridge pattern)
+    const { data: importRecord, error: importError } = await supabase
+      .from("bank_imports")
+      .insert({
+        user_id: user.id,
+        raw_data: result.transactions,
+        status: "reviewing",
+        file_path: null, // We don't store the file, just parsed data
+      })
+      .select("id")
+      .single();
+
+    if (importError) {
+      console.error("Bank import staging error:", importError);
+      // Don't fail the request, just return without importId
+      return NextResponse.json(result);
+    }
+
+    return NextResponse.json({
+      ...result,
+      importId: importRecord.id,
+    });
   } catch (error) {
     console.error("Statement upload error:", error);
     return NextResponse.json(
@@ -60,3 +81,4 @@ export async function POST(request: NextRequest) {
     );
   }
 }
+
