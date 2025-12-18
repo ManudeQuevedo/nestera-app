@@ -1,4 +1,11 @@
 {
+  "Pricing": {
+    "yearSuffix": "año",
+    "monthSuffix": "mes",
+    "equivalentTo": "Equivale a",
+    "saveLabel": "MEJOR VALOR",
+    "subscribeButton": "Elegir Plan Anual"
+  },
   "Landing": {
     "login": "Iniciar Sesión",
     "getStarted": "Comenzar",
@@ -394,7 +401,20 @@
     "saved": "¡Guardado!",
     "profile": "Perfil",
     "notifications": "Notificaciones",
-    "privacy": "Privacidad"
+    "privacy": "Privacidad",
+    "trial": {
+      "status": "Estado de la Prueba",
+      "familyPlusTrial": "Family Plus (Prueba Gratuita)",
+      "daysRemaining": "{days} días restantes",
+      "cancelTrial": "Cancelar Prueba",
+      "cancelConfirm": "¿Estás seguro? Perderás acceso a las funciones premium.",
+      "manageTrial": "Gestionar Prueba",
+      "manageSubscription": "Gestionar Suscripción",
+      "lastChanceTitle": "¡Última Oportunidad!",
+      "lastChanceBody": "Tu prueba termina mañana. ¿Quieres conservar tus datos premium?",
+      "keepPremium": "Conservar Premium",
+      "downgrade": "Dejar que expire"
+    }
   },
   "Common": {
     "add": "Agregar",

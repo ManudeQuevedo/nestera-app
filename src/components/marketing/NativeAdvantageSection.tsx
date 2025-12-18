@@ -112,7 +112,9 @@ export function NativeAdvantageSection() {
   ];
 
   return (
-    <section className="py-24 px-6 md:px-12 bg-slate-50 relative overflow-hidden">
+    <section
+      id="solution"
+      className="py-24 px-6 md:px-12 bg-slate-50 relative overflow-hidden">
       {/* Subtle Engineering Grid Background */}
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:24px_24px] pointer-events-none" />
 

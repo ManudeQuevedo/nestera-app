@@ -74,7 +74,7 @@ export function GlassNavbar({ user, locale }: GlassNavbarProps) {
         className={cn(
           "fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300",
           scrolled
-            ? "bg-white/70 dark:bg-[#020617]/80 backdrop-blur-md shadow-sm border-b border-slate-200/50 dark:border-white/5 py-3"
+            ? "bg-white/50 dark:bg-slate-900/50 backdrop-blur-xl backdrop-saturate-150 shadow-lg shadow-slate-900/5 border-b border-white/20 dark:border-white/10 py-3"
             : "bg-transparent py-5"
         )}>
         <div className="max-w-7xl mx-auto px-4 md:px-6">

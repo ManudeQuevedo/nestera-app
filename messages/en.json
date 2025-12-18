@@ -1,4 +1,11 @@
 {
+  "Pricing": {
+    "yearSuffix": "year",
+    "monthSuffix": "mo",
+    "equivalentTo": "Like paying",
+    "saveLabel": "BEST VALUE",
+    "subscribeButton": "Choose Yearly"
+  },
   "Landing": {
     "login": "Log In",
     "getStarted": "Get Started",
@@ -357,6 +364,8 @@
     "budget": "Budget",
     "goals": "Goals",
     "jfkSchool": "JFK School",
+    "events": "Events",
+    "mealPlanner": "Meal Planner",
     "settings": "Settings",
     "signOut": "Sign Out",
     "familyWealth": "Family Wealth"
@@ -799,7 +808,20 @@
     "saved": "Saved!",
     "profile": "Profile",
     "notifications": "Notifications",
-    "privacy": "Privacy"
+    "privacy": "Privacy",
+    "trial": {
+      "status": "Trial Status",
+      "familyPlusTrial": "Family Plus (Free Trial)",
+      "daysRemaining": "{days} days left",
+      "cancelTrial": "Cancel Trial",
+      "cancelConfirm": "Are you sure? You'll lose access to premium features.",
+      "manageTrial": "Manage Trial",
+      "manageSubscription": "Manage Subscription",
+      "lastChanceTitle": "Last Chance!",
+      "lastChanceBody": "Your trial ends tomorrow. Want to keep your premium data?",
+      "keepPremium": "Keep Premium",
+      "downgrade": "Let it expire"
+    }
   },
   "Common": {
     "add": "Add",

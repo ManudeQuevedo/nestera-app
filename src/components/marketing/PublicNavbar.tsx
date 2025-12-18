@@ -31,10 +31,25 @@ export function PublicNavbar({ user, locale }: PublicNavbarProps) {
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      // Check both window and body scroll since CSS may cause body to scroll instead of window
+      const scrollPosition =
+        window.scrollY ||
+        document.body.scrollTop ||
+        document.documentElement.scrollTop;
+      setScrolled(scrollPosition > 20);
     };
+
+    // Listen on both window and body for scroll events
     window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    document.body.addEventListener("scroll", handleScroll);
+
+    // Initial check
+    handleScroll();
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      document.body.removeEventListener("scroll", handleScroll);
+    };
   }, []);
 
   const navLinks = [
@@ -43,13 +58,29 @@ export function PublicNavbar({ user, locale }: PublicNavbarProps) {
     { label: t("nav.pricing"), href: "#pricing" },
   ];
 
+  const handleSmoothScroll = (
+    e: React.MouseEvent<HTMLAnchorElement>,
+    href: string
+  ) => {
+    e.preventDefault();
+    const targetId = href.replace("#", "");
+    const targetElement = document.getElementById(targetId);
+
+    if (targetElement) {
+      targetElement.scrollIntoView({
+        behavior: "smooth",
+        block: "start",
+      });
+    }
+  };
+
   return (
     <>
       <nav
         className={cn(
           "fixed top-0 left-0 right-0 z-50 transition-all duration-300 w-full",
           scrolled
-            ? "bg-white/70 backdrop-blur-md shadow-sm border-b border-slate-200/50 py-3"
+            ? "bg-white/80 backdrop-blur-xl backdrop-saturate-150 shadow-lg shadow-slate-900/5 border-b border-slate-200/80 py-3"
             : "bg-transparent border-transparent py-5"
         )}>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
@@ -71,7 +102,8 @@ export function PublicNavbar({ user, locale }: PublicNavbarProps) {
                 <a
                   key={link.href}
                   href={link.href}
-                  className="text-sm font-medium text-slate-600 hover:text-emerald-500 transition-colors duration-200">
+                  onClick={(e) => handleSmoothScroll(e, link.href)}
+                  className="text-sm font-medium text-slate-600 hover:text-emerald-500 transition-colors duration-200 cursor-pointer">
                   {link.label}
                 </a>
               ))}
@@ -164,8 +196,11 @@ export function PublicNavbar({ user, locale }: PublicNavbarProps) {
                 <a
                   key={link.href}
                   href={link.href}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="px-4 py-3 rounded-xl text-base font-medium text-slate-600 hover:text-emerald-500 hover:bg-slate-100 transition-all">
+                  onClick={(e) => {
+                    handleSmoothScroll(e, link.href);
+                    setMobileMenuOpen(false);
+                  }}
+                  className="px-4 py-3 rounded-xl text-base font-medium text-slate-600 hover:text-emerald-500 hover:bg-slate-100 transition-all cursor-pointer">
                   {link.label}
                 </a>
               ))}

@@ -8,7 +8,9 @@ export function WhyNesteraSection() {
   const t = useTranslations("Landing");
 
   return (
-    <section className="relative py-24 overflow-hidden bg-gradient-to-b from-slate-50 to-white">
+    <section
+      id="about"
+      className="relative py-24 overflow-hidden bg-gradient-to-b from-slate-50 to-white">
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         {/* PART 1: PHILOSOPHY (Manifesto) */}
         <div className="text-center max-w-4xl mx-auto mb-20 md:mb-32">

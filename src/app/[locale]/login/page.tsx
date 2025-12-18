@@ -13,8 +13,27 @@ export default async function LoginPage({
     data: { user },
   } = await supabase.auth.getUser();
 
-  // If already logged in, check MFA status
+  // If already logged in, check onboarding and MFA status
   if (user) {
+    // First check onboarding status
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("onboarding_completed, has_completed_onboarding, onboarding_step")
+      .eq("id", user.id)
+      .single();
+
+    // Check if onboarding is complete (support both legacy and new fields)
+    const isOnboardingComplete =
+      profile?.onboarding_completed ||
+      profile?.has_completed_onboarding ||
+      (profile?.onboarding_step && profile.onboarding_step >= 7);
+
+    // If onboarding not complete, skip 2FA and go to onboarding
+    if (!isOnboardingComplete) {
+      redirect({ href: "/onboarding", locale });
+    }
+
+    // Only check 2FA for onboarded users
     const { data: factors } = await supabase.auth.mfa.listFactors();
     const { data: aalData } =
       await supabase.auth.mfa.getAuthenticatorAssuranceLevel();

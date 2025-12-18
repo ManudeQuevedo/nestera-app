@@ -34,6 +34,9 @@ import {
 import { createClient } from "@/utils/supabase/client";
 import { useTheme } from "next-themes";
 import { LanguageSwitcher } from "@/components/settings/LanguageSwitcher";
+import { cancelTrial, updateWorkspaceModules } from "@/actions/settings";
+import { Switch } from "@/components/ui/switch";
+import { Wallet, GraduationCap, Banknote } from "lucide-react";
 
 interface SettingsDialogProps {
   trigger?: React.ReactNode;
@@ -74,6 +77,18 @@ export function SettingsDialog({
     tier: string;
     status: string;
   } | null>(null);
+  const [trialInfo, setTrialInfo] = useState<{
+    isOnTrial: boolean;
+    daysRemaining: number;
+  }>({ isOnTrial: false, daysRemaining: 0 });
+  const [cancelingTrial, setCancelingTrial] = useState(false);
+
+  // Workspace Modules state
+  const [workspaceModules, setWorkspaceModules] = useState({
+    hasDebts: false,
+    hasSchoolExpenses: false,
+    enableCashWallet: false,
+  });
 
   // Initialize with current theme
   useEffect(() => {
@@ -99,7 +114,7 @@ export function SettingsDialog({
         const { data: profile } = await supabase
           .from("profiles")
           .select(
-            "theme, currency_preference, avatar_url, subscription_tier, subscription_status"
+            "theme, currency_preference, avatar_url, subscription_tier, subscription_status, plan_tier, trial_ends_at, has_debts, has_school_expenses, enable_cash_wallet"
           )
           .eq("id", user.id)
           .single();
@@ -113,6 +128,28 @@ export function SettingsDialog({
             tier: profile.subscription_tier || "FREE",
             status: profile.subscription_status || "inactive",
           });
+
+          // Load workspace modules
+          setWorkspaceModules({
+            hasDebts: profile.has_debts || false,
+            hasSchoolExpenses: profile.has_school_expenses || false,
+            enableCashWallet: profile.enable_cash_wallet || false,
+          });
+
+          // Check for active trial
+          const planTier = profile.plan_tier || "free";
+          const trialEndsAt = profile.trial_ends_at;
+
+          if (planTier === "family_plus" && trialEndsAt) {
+            const now = new Date();
+            const endDate = new Date(trialEndsAt);
+            const diffTime = endDate.getTime() - now.getTime();
+            const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+            if (diffDays > 0) {
+              setTrialInfo({ isOnTrial: true, daysRemaining: diffDays });
+            }
+          }
         }
       } else {
         // Not logged in, use localStorage theme
@@ -376,6 +413,63 @@ export function SettingsDialog({
               </div>
             )}
 
+            {/* Trial Status Section */}
+            {trialInfo.isOnTrial && (
+              <div className="rounded-xl border border-amber-500/30 bg-gradient-to-r from-amber-900/10 to-transparent p-4">
+                <div className="flex items-start justify-between gap-4">
+                  <div className="flex gap-3">
+                    <div className="mt-1 flex h-8 w-8 items-center justify-center rounded-lg bg-amber-100 dark:bg-amber-500/10">
+                      <Sparkles className="h-4 w-4 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <div>
+                      <h4 className="font-bold text-slate-900 dark:text-white">
+                        Family Plus
+                        <span className="ml-2 inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-amber-100 text-amber-800 dark:bg-amber-500/20 dark:text-amber-300">
+                          Prueba Gratuita
+                        </span>
+                      </h4>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        <span className="text-amber-600 dark:text-amber-400 font-medium">
+                          {trialInfo.daysRemaining} días restantes
+                        </span>
+                      </p>
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-4 flex gap-2">
+                  <Button
+                    onClick={handleManageSubscription}
+                    className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold tracking-wide uppercase text-xs h-9">
+                    Conservar Premium
+                  </Button>
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={async () => {
+                      if (
+                        confirm(
+                          "¿Estás seguro? Perderás acceso a las funciones premium."
+                        )
+                      ) {
+                        setCancelingTrial(true);
+                        await cancelTrial();
+                        setTrialInfo({ isOnTrial: false, daysRemaining: 0 });
+                        setCancelingTrial(false);
+                        window.location.reload();
+                      }
+                    }}
+                    disabled={cancelingTrial}
+                    className="text-xs text-red-600 border-red-200 hover:bg-red-50 dark:hover:bg-red-900/20">
+                    {cancelingTrial ? (
+                      <Loader2 className="h-3 w-3 animate-spin" />
+                    ) : (
+                      "Cancelar"
+                    )}
+                  </Button>
+                </div>
+              </div>
+            )}
+
             {/* Theme Selector */}
             <div className="space-y-2">
               <Label>Theme</Label>
@@ -411,6 +505,90 @@ export function SettingsDialog({
               <p className="text-xs text-muted-foreground">
                 Select your preferred language for the interface.
               </p>
+            </div>
+
+            {/* Workspace Modules */}
+            <div className="space-y-3">
+              <Label className="text-base font-semibold">
+                Workspace Modules
+              </Label>
+              <p className="text-xs text-muted-foreground mb-4">
+                Enable or disable app sections based on your needs.
+              </p>
+
+              <div className="space-y-3">
+                <div className="flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <div className="flex items-center gap-3">
+                    <Wallet className="h-5 w-5 text-red-500" />
+                    <div>
+                      <span className="text-sm font-medium">Debt Tracker</span>
+                      <p className="text-xs text-slate-500">
+                        Track loans, cards, and debts
+                      </p>
+                    </div>
+                  </div>
+                  <Switch
+                    checked={workspaceModules.hasDebts}
+                    onCheckedChange={async (checked) => {
+                      setWorkspaceModules((prev) => ({
+                        ...prev,
+                        hasDebts: checked,
+                      }));
+                      await updateWorkspaceModules({ hasDebts: checked });
+                    }}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <div className="flex items-center gap-3">
+                    <GraduationCap className="h-5 w-5 text-blue-500" />
+                    <div>
+                      <span className="text-sm font-medium">
+                        School Payments
+                      </span>
+                      <p className="text-xs text-slate-500">
+                        Track tuition and education
+                      </p>
+                    </div>
+                  </div>
+                  <Switch
+                    checked={workspaceModules.hasSchoolExpenses}
+                    onCheckedChange={async (checked) => {
+                      setWorkspaceModules((prev) => ({
+                        ...prev,
+                        hasSchoolExpenses: checked,
+                      }));
+                      await updateWorkspaceModules({
+                        hasSchoolExpenses: checked,
+                      });
+                    }}
+                  />
+                </div>
+
+                <div className="flex items-center justify-between p-3 rounded-lg border border-slate-200 dark:border-slate-700">
+                  <div className="flex items-center gap-3">
+                    <Banknote className="h-5 w-5 text-amber-500" />
+                    <div>
+                      <span className="text-sm font-medium">Cash Wallet</span>
+                      <p className="text-xs text-slate-500">
+                        Track cash transactions
+                      </p>
+                    </div>
+                  </div>
+                  <Switch
+                    checked={workspaceModules.enableCashWallet}
+                    onCheckedChange={async (checked) => {
+                      setWorkspaceModules((prev) => ({
+                        ...prev,
+                        enableCashWallet: checked,
+                      }));
+                      await updateWorkspaceModules({
+                        enableCashWallet: checked,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
             </div>
 
             {/* Currency Selector */}

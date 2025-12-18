@@ -1,84 +1,119 @@
 "use client";
 
-import { useState, useEffect } from "react";
-import { useTranslations } from "next-intl";
+import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import {
   Card,
   CardContent,
-  CardDescription,
   CardFooter,
   CardHeader,
   CardTitle,
+  CardDescription,
 } from "@/components/ui/card";
+import { Switch } from "@/components/ui/switch";
+import { Slider } from "@/components/ui/slider";
+import { Label } from "@/components/ui/label";
 import {
-  CheckCircle2,
   ChevronRight,
   ChevronLeft,
   Sparkles,
+  User,
+  Users,
+  Heart,
+  Calendar,
+  Wallet,
   GraduationCap,
-  Shield,
+  Banknote,
+  Coffee,
+  ShoppingBag,
+  Utensils,
+  CreditCard,
+  Cigarette,
+  Smartphone,
   Upload,
-  Brain,
-  LayoutDashboard,
+  Check,
   Loader2,
-  FileText,
 } from "lucide-react";
-import { saveOnboardingStep, completeOnboarding } from "@/actions/onboarding";
-import { commitTransactions } from "@/actions/transaction-review";
+import {
+  saveOnboardingStep,
+  saveConfiguratorSettings,
+  completeOnboarding,
+} from "@/actions/onboarding";
 import { useRouter } from "next/navigation";
-import { StatementUploader } from "@/components/importer/StatementUploader";
 import { StatementUploaderForReview } from "@/components/importer/StatementUploaderForReview";
 import { TransactionReviewWizard } from "@/components/importer/TransactionReviewWizard";
+import { commitTransactions } from "@/actions/transaction-review";
 import type { ReviewTransaction } from "@/hooks/useTransactionReview";
+import { cn } from "@/lib/utils";
 
-// Define steps - matching implementation plan
-type WizardStep = 1 | 2 | 3 | 4 | 5 | 6 | 7;
+type WizardStep = 1 | 2 | 3 | 4 | 5;
 
 const STEP_TITLES: Record<WizardStep, string> = {
-  1: "Welcome",
-  2: "Profile Setup",
-  3: "Security",
-  4: "Import Data",
-  5: "Review Categories",
-  6: "Customize Sidebar",
-  7: "Complete",
+  1: "The Tribe",
+  2: "The Rhythm",
+  3: "Reality Check",
+  4: "The Vices",
+  5: "The Bridge",
 };
+
+// Vice options for the tag cloud
+const VICE_OPTIONS = [
+  { id: "amazon", label: "Amazon/Temu", icon: ShoppingBag },
+  { id: "eating_out", label: "Eating Out", icon: Utensils },
+  { id: "msi", label: "MSI (Meses Sin Intereses)", icon: CreditCard },
+  { id: "vices", label: "Cigarros/Vices", icon: Cigarette },
+  { id: "coffee", label: "Coffee", icon: Coffee },
+  { id: "tech", label: "Tech/Gadgets", icon: Smartphone },
+];
 
 interface OnboardingWizardProps {
   initialStep?: WizardStep;
 }
 
 export function OnboardingWizard({ initialStep = 1 }: OnboardingWizardProps) {
-  const t = useTranslations("Onboarding");
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState<WizardStep>(initialStep);
   const [isLoading, setIsLoading] = useState(false);
 
-  // Form State
-  const [profileData, setProfileData] = useState({
-    familyName: "",
-    familySize: 2,
-  });
-  const [enable2FA, setEnable2FA] = useState(false);
-  const [customLabels, setCustomLabels] = useState({
-    schoolPayments: "",
-  });
-  const [showStatementUploader, setShowStatementUploader] = useState(false);
+  // Configurator State
+  const [familyMode, setFamilyMode] = useState<"solo" | "partner" | "family">(
+    "solo"
+  );
+  const [incomeFrequency, setIncomeFrequency] = useState<
+    "monthly" | "biweekly" | "variable"
+  >("monthly");
+  const [cashUsageLevel, setCashUsageLevel] = useState(30);
+  const [hasDebts, setHasDebts] = useState(false);
+  const [hasSchoolExpenses, setHasSchoolExpenses] = useState(false);
+  const [selectedVices, setSelectedVices] = useState<string[]>([]);
+
+  // Import state
   const [parsedTransactions, setParsedTransactions] = useState<
     ReviewTransaction[]
   >([]);
 
-  // Progress bar percentage
-  const progress = ((currentStep - 1) / 6) * 100;
+  const progress = ((currentStep - 1) / 4) * 100;
 
   const nextStep = async () => {
-    if (currentStep < 7) {
+    if (currentStep < 5) {
       setIsLoading(true);
-      // Save progress to DB
+
+      // Save config based on step
+      if (currentStep === 1) {
+        await saveConfiguratorSettings({ familyMode });
+      } else if (currentStep === 2) {
+        await saveConfiguratorSettings({ incomeFrequency });
+      } else if (currentStep === 3) {
+        await saveConfiguratorSettings({
+          hasDebts,
+          hasSchoolExpenses,
+          cashUsageLevel,
+        });
+      } else if (currentStep === 4) {
+        await saveConfiguratorSettings({ antExpenseVices: selectedVices });
+      }
+
       await saveOnboardingStep(currentStep + 1, {});
       setCurrentStep((currentStep + 1) as WizardStep);
       setIsLoading(false);
@@ -95,15 +130,21 @@ export function OnboardingWizard({ initialStep = 1 }: OnboardingWizardProps) {
     setIsLoading(true);
     try {
       await completeOnboarding({
-        sidebarLabels: {
-          jfkSchool: customLabels.schoolPayments || "School Payments",
-        },
+        sidebarLabels: { jfkSchool: "School Payments" },
       });
       router.push("/dashboard");
     } catch (error) {
       console.error("Onboarding failed", error);
       setIsLoading(false);
     }
+  };
+
+  const toggleVice = (viceId: string) => {
+    setSelectedVices((prev) =>
+      prev.includes(viceId)
+        ? prev.filter((v) => v !== viceId)
+        : [...prev, viceId]
+    );
   };
 
   const slideVariants = {
@@ -113,10 +154,10 @@ export function OnboardingWizard({ initialStep = 1 }: OnboardingWizardProps) {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 flex items-center justify-center p-4">
-      <Card className="w-full max-w-2xl shadow-2xl border-slate-200/50 bg-white/80 backdrop-blur-xl">
+    <div className="min-h-screen bg-gradient-to-br from-slate-50 to-slate-100 dark:from-slate-900 dark:to-slate-800 flex items-center justify-center p-4 md:p-8">
+      <Card className="w-full max-w-4xl shadow-2xl border-slate-200/50 dark:border-slate-700/50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl">
         {/* Progress Bar */}
-        <div className="h-1.5 bg-slate-100 rounded-t-xl overflow-hidden">
+        <div className="h-2 bg-slate-100 dark:bg-slate-800 rounded-t-xl overflow-hidden">
           <motion.div
             className="h-full bg-gradient-to-r from-emerald-500 to-emerald-600"
             initial={{ width: 0 }}
@@ -126,15 +167,15 @@ export function OnboardingWizard({ initialStep = 1 }: OnboardingWizardProps) {
         </div>
 
         {/* Step Indicator */}
-        <div className="px-6 pt-4 flex items-center justify-between text-xs text-slate-400">
-          <span>Step {currentStep} of 7</span>
-          <span className="font-medium text-slate-600">
+        <div className="px-10 pt-6 flex items-center justify-between text-sm text-slate-400">
+          <span>Step {currentStep} of 5</span>
+          <span className="font-medium text-slate-600 dark:text-slate-300">
             {STEP_TITLES[currentStep]}
           </span>
         </div>
 
         <AnimatePresence mode="wait">
-          {/* STEP 1: WELCOME */}
+          {/* STEP 1: THE TRIBE */}
           {currentStep === 1 && (
             <motion.div
               key="step1"
@@ -142,43 +183,77 @@ export function OnboardingWizard({ initialStep = 1 }: OnboardingWizardProps) {
               initial="enter"
               animate="center"
               exit="exit">
-              <CardHeader>
-                <div className="w-14 h-14 bg-emerald-100 rounded-2xl flex items-center justify-center mb-4 text-emerald-600">
-                  <Sparkles className="w-7 h-7" />
-                </div>
-                <CardTitle className="text-2xl font-bold text-slate-900">
-                  ¡Bienvenido a Nestera!
+              <CardHeader className="px-10 pt-8">
+                <CardTitle className="text-3xl font-bold text-slate-900 dark:text-white">
+                  ¿Para quién construyes riqueza?
                 </CardTitle>
-                <CardDescription className="text-lg text-slate-600 mt-2">
-                  Tu prueba gratuita de 14 días ha sido activada. Vamos a
-                  configurar tu espacio de trabajo.
+                <CardDescription className="text-lg text-slate-600 dark:text-slate-400 mt-2">
+                  Selecciona el modo que mejor describa tu situación.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="bg-emerald-50 border border-emerald-100 p-4 rounded-xl flex items-start gap-3">
-                  <CheckCircle2 className="w-5 h-5 text-emerald-600 mt-0.5 shrink-0" />
-                  <div>
-                    <h4 className="font-semibold text-emerald-900 text-sm">
-                      Funciones Pro Desbloqueadas
-                    </h4>
-                    <p className="text-emerald-700 text-xs mt-1">
-                      Tienes acceso completo a Chat con IA, Conexiones
-                      Bancarias, y Sincronización Familiar.
-                    </p>
-                  </div>
+              <CardContent className="px-10 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {[
+                    {
+                      id: "solo",
+                      label: "Solo",
+                      desc: "Finanzas individuales",
+                      icon: User,
+                    },
+                    {
+                      id: "partner",
+                      label: "Pareja",
+                      desc: "Finanzas compartidas",
+                      icon: Heart,
+                    },
+                    {
+                      id: "family",
+                      label: "Familia",
+                      desc: "Con hijos o dependientes",
+                      icon: Users,
+                    },
+                  ].map((option) => (
+                    <button
+                      key={option.id}
+                      onClick={() =>
+                        setFamilyMode(option.id as typeof familyMode)
+                      }
+                      className={cn(
+                        "p-8 rounded-2xl border-2 transition-all duration-200 text-left",
+                        familyMode === option.id
+                          ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20"
+                          : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
+                      )}>
+                      <option.icon
+                        className={cn(
+                          "h-10 w-10 mb-4",
+                          familyMode === option.id
+                            ? "text-emerald-600"
+                            : "text-slate-400"
+                        )}
+                      />
+                      <h3 className="font-bold text-lg text-slate-900 dark:text-white">
+                        {option.label}
+                      </h3>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        {option.desc}
+                      </p>
+                    </button>
+                  ))}
                 </div>
               </CardContent>
-              <CardFooter>
+              <CardFooter className="px-10 pb-10 pt-6 flex justify-end">
                 <Button
-                  className="w-full bg-slate-900 text-white hover:bg-slate-800"
                   onClick={nextStep}
-                  disabled={isLoading}>
+                  disabled={isLoading}
+                  size="lg"
+                  className="bg-slate-900 dark:bg-white dark:text-slate-900 hover:bg-slate-800 dark:hover:bg-slate-100 px-8">
                   {isLoading ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <>
-                      Comenzar Configuración
-                      <ChevronRight className="w-4 h-4 ml-2" />
+                      Continuar
+                      <ChevronRight className="h-4 w-4 ml-2" />
                     </>
                   )}
                 </Button>
@@ -186,7 +261,7 @@ export function OnboardingWizard({ initialStep = 1 }: OnboardingWizardProps) {
             </motion.div>
           )}
 
-          {/* STEP 2: PROFILE SETUP */}
+          {/* STEP 2: THE RHYTHM */}
           {currentStep === 2 && (
             <motion.div
               key="step2"
@@ -194,56 +269,76 @@ export function OnboardingWizard({ initialStep = 1 }: OnboardingWizardProps) {
               initial="enter"
               animate="center"
               exit="exit">
-              <CardHeader>
-                <CardTitle className="text-xl font-bold text-slate-900">
-                  Cuéntanos sobre tu familia
+              <CardHeader className="px-10 pt-8">
+                <CardTitle className="text-3xl font-bold text-slate-900 dark:text-white">
+                  ¿Cuál es tu ritmo de ingresos?
                 </CardTitle>
-                <CardDescription>
-                  Esta información nos ayuda a personalizar tu experiencia.
+                <CardDescription className="text-lg text-slate-600 dark:text-slate-400 mt-2">
+                  Esto nos ayuda a optimizar tus proyecciones de flujo.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="space-y-2">
-                  <Label htmlFor="familyName">Nombre de la Familia</Label>
-                  <Input
-                    id="familyName"
-                    placeholder="Ej: Familia García"
-                    value={profileData.familyName}
-                    onChange={(e) =>
-                      setProfileData({
-                        ...profileData,
-                        familyName: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-                <div className="space-y-2">
-                  <Label htmlFor="familySize">Número de Miembros</Label>
-                  <Input
-                    id="familySize"
-                    type="number"
-                    min={1}
-                    max={20}
-                    value={profileData.familySize}
-                    onChange={(e) =>
-                      setProfileData({
-                        ...profileData,
-                        familySize: parseInt(e.target.value) || 1,
-                      })
-                    }
-                  />
+              <CardContent className="px-10 space-y-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {[
+                    {
+                      id: "monthly",
+                      label: "Mensual",
+                      desc: "Pago una vez al mes",
+                    },
+                    {
+                      id: "biweekly",
+                      label: "Quincenal",
+                      desc: "Pago cada 15 días",
+                    },
+                    {
+                      id: "variable",
+                      label: "Variable",
+                      desc: "Freelance o comisiones",
+                    },
+                  ].map((option) => (
+                    <button
+                      key={option.id}
+                      onClick={() =>
+                        setIncomeFrequency(option.id as typeof incomeFrequency)
+                      }
+                      className={cn(
+                        "p-8 rounded-2xl border-2 transition-all duration-200 text-left",
+                        incomeFrequency === option.id
+                          ? "border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20"
+                          : "border-slate-200 dark:border-slate-700 hover:border-slate-300 dark:hover:border-slate-600"
+                      )}>
+                      <Calendar
+                        className={cn(
+                          "h-10 w-10 mb-4",
+                          incomeFrequency === option.id
+                            ? "text-emerald-600"
+                            : "text-slate-400"
+                        )}
+                      />
+                      <h3 className="font-bold text-lg text-slate-900 dark:text-white">
+                        {option.label}
+                      </h3>
+                      <p className="text-sm text-slate-500 dark:text-slate-400 mt-1">
+                        {option.desc}
+                      </p>
+                    </button>
+                  ))}
                 </div>
               </CardContent>
-              <CardFooter className="flex justify-between">
+              <CardFooter className="px-10 pb-10 pt-6 flex justify-between">
                 <Button variant="ghost" onClick={prevStep}>
-                  <ChevronLeft className="w-4 h-4 mr-2" /> Atrás
+                  <ChevronLeft className="h-4 w-4 mr-2" /> Atrás
                 </Button>
-                <Button onClick={nextStep} disabled={isLoading}>
+                <Button
+                  onClick={nextStep}
+                  disabled={isLoading}
+                  size="lg"
+                  className="bg-slate-900 dark:bg-white dark:text-slate-900 px-8">
                   {isLoading ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
+                    <Loader2 className="h-4 w-4 animate-spin" />
                   ) : (
                     <>
-                      Continuar <ChevronRight className="w-4 h-4 ml-2" />
+                      Continuar <ChevronRight className="h-4 w-4 ml-2" />
                     </>
                   )}
                 </Button>
@@ -251,7 +346,7 @@ export function OnboardingWizard({ initialStep = 1 }: OnboardingWizardProps) {
             </motion.div>
           )}
 
-          {/* STEP 3: SECURITY (Optional 2FA) */}
+          {/* STEP 3: REALITY CHECK */}
           {currentStep === 3 && (
             <motion.div
               key="step3"
@@ -259,48 +354,107 @@ export function OnboardingWizard({ initialStep = 1 }: OnboardingWizardProps) {
               initial="enter"
               animate="center"
               exit="exit">
-              <CardHeader>
-                <div className="w-14 h-14 bg-blue-100 rounded-2xl flex items-center justify-center mb-4 text-blue-600">
-                  <Shield className="w-7 h-7" />
-                </div>
-                <CardTitle className="text-xl font-bold text-slate-900">
-                  Protege tu cuenta
+              <CardHeader className="px-10 pt-8">
+                <CardTitle className="text-3xl font-bold text-slate-900 dark:text-white">
+                  Hablemos de tu realidad financiera
                 </CardTitle>
-                <CardDescription>
-                  Recomendamos activar la autenticación de dos factores (2FA)
-                  para mayor seguridad.
+                <CardDescription className="text-lg text-slate-600 dark:text-slate-400 mt-2">
+                  Configura los módulos que necesitas.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="bg-amber-50 border border-amber-100 p-4 rounded-xl">
-                  <p className="text-amber-800 text-sm">
-                    💡 Puedes configurar 2FA más tarde desde Configuración {">"}{" "}
-                    Seguridad.
-                  </p>
+              <CardContent className="px-10 space-y-8">
+                {/* Debts Toggle */}
+                <div className="flex items-center justify-between p-6 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+                  <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-xl bg-red-100 dark:bg-red-900/30 flex items-center justify-center">
+                      <Wallet className="h-6 w-6 text-red-600 dark:text-red-400" />
+                    </div>
+                    <div>
+                      <Label className="text-base font-semibold text-slate-900 dark:text-white">
+                        ¿Tienes deudas activas?
+                      </Label>
+                      <p className="text-sm text-slate-500">
+                        Tarjetas, préstamos, créditos
+                      </p>
+                    </div>
+                  </div>
+                  <Switch checked={hasDebts} onCheckedChange={setHasDebts} />
+                </div>
+
+                {/* School Toggle */}
+                <div className="flex items-center justify-between p-6 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+                  <div className="flex items-center gap-4">
+                    <div className="h-12 w-12 rounded-xl bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
+                      <GraduationCap className="h-6 w-6 text-blue-600 dark:text-blue-400" />
+                    </div>
+                    <div>
+                      <Label className="text-base font-semibold text-slate-900 dark:text-white">
+                        ¿Pagas colegiaturas/educación?
+                      </Label>
+                      <p className="text-sm text-slate-500">
+                        Escuelas, cursos, tutorías
+                      </p>
+                    </div>
+                  </div>
+                  <Switch
+                    checked={hasSchoolExpenses}
+                    onCheckedChange={setHasSchoolExpenses}
+                  />
+                </div>
+
+                {/* Cash Slider */}
+                <div className="p-6 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800/50">
+                  <div className="flex items-center gap-4 mb-6">
+                    <div className="h-12 w-12 rounded-xl bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center">
+                      <Banknote className="h-6 w-6 text-amber-600 dark:text-amber-400" />
+                    </div>
+                    <div>
+                      <Label className="text-base font-semibold text-slate-900 dark:text-white">
+                        ¿Cuánto usas efectivo?
+                      </Label>
+                      <p className="text-sm text-slate-500">
+                        Porcentaje de tus gastos en cash
+                      </p>
+                    </div>
+                  </div>
+                  <Slider
+                    value={[cashUsageLevel]}
+                    onValueChange={(v: number[]) => setCashUsageLevel(v[0])}
+                    max={100}
+                    step={5}
+                    className="w-full"
+                  />
+                  <div className="flex justify-between text-sm text-slate-500 mt-2">
+                    <span>0% - Todo digital</span>
+                    <span className="font-bold text-emerald-600">
+                      {cashUsageLevel}%
+                    </span>
+                    <span>100% - Todo efectivo</span>
+                  </div>
                 </div>
               </CardContent>
-              <CardFooter className="flex justify-between">
+              <CardFooter className="px-10 pb-10 pt-6 flex justify-between">
                 <Button variant="ghost" onClick={prevStep}>
-                  <ChevronLeft className="w-4 h-4 mr-2" /> Atrás
+                  <ChevronLeft className="h-4 w-4 mr-2" /> Atrás
                 </Button>
-                <div className="flex gap-2">
-                  <Button variant="outline" onClick={nextStep}>
-                    Saltar por ahora
-                  </Button>
-                  <Button
-                    className="bg-blue-600 hover:bg-blue-700"
-                    onClick={() => {
-                      // TODO: Open 2FA setup modal
-                      nextStep();
-                    }}>
-                    Configurar 2FA
-                  </Button>
-                </div>
+                <Button
+                  onClick={nextStep}
+                  disabled={isLoading}
+                  size="lg"
+                  className="bg-slate-900 dark:bg-white dark:text-slate-900 px-8">
+                  {isLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <>
+                      Continuar <ChevronRight className="h-4 w-4 ml-2" />
+                    </>
+                  )}
+                </Button>
               </CardFooter>
             </motion.div>
           )}
 
-          {/* STEP 4: BANK STATEMENT UPLOAD */}
+          {/* STEP 4: THE VICES */}
           {currentStep === 4 && (
             <motion.div
               key="step4"
@@ -308,165 +462,124 @@ export function OnboardingWizard({ initialStep = 1 }: OnboardingWizardProps) {
               initial="enter"
               animate="center"
               exit="exit">
-              <CardHeader>
-                <div className="w-14 h-14 bg-violet-100 rounded-2xl flex items-center justify-center mb-4 text-violet-600">
-                  <Upload className="w-7 h-7" />
-                </div>
-                <CardTitle className="text-xl font-bold text-slate-900">
-                  Importa tus datos
+              <CardHeader className="px-10 pt-8">
+                <CardTitle className="text-3xl font-bold text-slate-900 dark:text-white">
+                  ¿A dónde "desaparece" tu dinero?
                 </CardTitle>
-                <CardDescription>
-                  Sube un estado de cuenta bancario (PDF) y Gemini AI analizará
-                  tus transacciones automáticamente.
+                <CardDescription className="text-lg text-slate-600 dark:text-slate-400 mt-2">
+                  Selecciona tus "gastos hormiga" más comunes. La IA los
+                  detectará.
                 </CardDescription>
               </CardHeader>
-              <CardContent className="space-y-4">
-                {/* Inline Statement Uploader with Real Gemini Parsing */}
-                <StatementUploaderForReview
-                  onSuccess={(transactions) => {
-                    setParsedTransactions(transactions);
-                    nextStep(); // Advance to category review
-                  }}
-                  onError={(error) => {
-                    console.error("Upload error:", error);
-                  }}
-                />
+              <CardContent className="px-10 space-y-6">
+                <div className="flex flex-wrap gap-4">
+                  {VICE_OPTIONS.map((vice) => (
+                    <button
+                      key={vice.id}
+                      onClick={() => toggleVice(vice.id)}
+                      className={cn(
+                        "flex items-center gap-3 px-5 py-3 rounded-full border-2 transition-all duration-200",
+                        selectedVices.includes(vice.id)
+                          ? "border-rose-500 bg-rose-50 dark:bg-rose-900/30 text-rose-700 dark:text-rose-300"
+                          : "border-slate-200 dark:border-slate-700 hover:border-slate-300 text-slate-600 dark:text-slate-400"
+                      )}>
+                      <vice.icon className="h-5 w-5" />
+                      <span className="font-medium">{vice.label}</span>
+                      {selectedVices.includes(vice.id) && (
+                        <Check className="h-4 w-4 ml-1" />
+                      )}
+                    </button>
+                  ))}
+                </div>
+                {selectedVices.length > 0 && (
+                  <p className="text-sm text-slate-500 dark:text-slate-400">
+                    Seleccionados: {selectedVices.length} — La IA buscará estos
+                    patrones en tus transacciones.
+                  </p>
+                )}
               </CardContent>
-              <CardFooter className="flex justify-between">
+              <CardFooter className="px-10 pb-10 pt-6 flex justify-between">
                 <Button variant="ghost" onClick={prevStep}>
-                  <ChevronLeft className="w-4 h-4 mr-2" /> Atrás
+                  <ChevronLeft className="h-4 w-4 mr-2" /> Atrás
                 </Button>
-                <Button variant="outline" onClick={nextStep}>
-                  Saltar por ahora <ChevronRight className="w-4 h-4 ml-2" />
+                <Button
+                  onClick={nextStep}
+                  disabled={isLoading}
+                  size="lg"
+                  className="bg-slate-900 dark:bg-white dark:text-slate-900 px-8">
+                  {isLoading ? (
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                  ) : (
+                    <>
+                      Continuar <ChevronRight className="h-4 w-4 ml-2" />
+                    </>
+                  )}
                 </Button>
               </CardFooter>
             </motion.div>
           )}
 
-          {/* STEP 5: CATEGORY REVIEW */}
+          {/* STEP 5: THE BRIDGE */}
           {currentStep === 5 && (
             <motion.div
               key="step5"
               variants={slideVariants}
               initial="enter"
               animate="center"
-              exit="exit"
-              className="w-full">
+              exit="exit">
               {parsedTransactions.length > 0 ? (
-                // Show the full Transaction Review Wizard
                 <TransactionReviewWizard
                   initialData={parsedTransactions}
-                  onBack={() => prevStep()}
+                  onBack={() => setParsedTransactions([])}
                   onConfirm={async (txs, newCats) => {
                     await commitTransactions(txs, newCats);
-                    setParsedTransactions([]); // Clear after commit
-                    nextStep(); // Move to sidebar customization
+                    await handleComplete();
                   }}
                 />
               ) : (
-                // No transactions - show placeholder
                 <>
-                  <CardHeader>
-                    <div className="w-14 h-14 bg-pink-100 rounded-2xl flex items-center justify-center mb-4 text-pink-600">
-                      <Brain className="w-7 h-7" />
+                  <CardHeader className="px-10 pt-8">
+                    <div className="h-16 w-16 bg-violet-100 dark:bg-violet-900/30 rounded-2xl flex items-center justify-center mb-4">
+                      <Upload className="h-8 w-8 text-violet-600 dark:text-violet-400" />
                     </div>
-                    <CardTitle className="text-xl font-bold text-slate-900">
-                      Revisa las categorías
+                    <CardTitle className="text-3xl font-bold text-slate-900 dark:text-white">
+                      Importa tus transacciones
                     </CardTitle>
-                    <CardDescription>
-                      La IA ha analizado tus transacciones. Revisa y ajusta las
-                      categorías según tus necesidades.
+                    <CardDescription className="text-lg text-slate-600 dark:text-slate-400 mt-2">
+                      Sube un estado de cuenta y Gemini AI categorizará todo
+                      automáticamente.
                     </CardDescription>
                   </CardHeader>
-                  <CardContent className="space-y-4">
-                    <div className="bg-slate-50 rounded-xl p-6 text-center">
-                      <p className="text-slate-500 text-sm">
-                        Aún no hay transacciones importadas.
-                      </p>
-                      <p className="text-slate-400 text-xs mt-1">
-                        Puedes importar estados de cuenta después desde el
-                        Dashboard.
-                      </p>
-                    </div>
+                  <CardContent className="px-10 space-y-6">
+                    <StatementUploaderForReview
+                      onSuccess={(transactions) => {
+                        setParsedTransactions(transactions);
+                      }}
+                      onError={(error) => {
+                        console.error("Upload error:", error);
+                      }}
+                    />
                   </CardContent>
-                  <CardFooter className="flex justify-between">
+                  <CardFooter className="px-10 pb-10 pt-6 flex justify-between">
                     <Button variant="ghost" onClick={prevStep}>
-                      <ChevronLeft className="w-4 h-4 mr-2" /> Atrás
+                      <ChevronLeft className="h-4 w-4 mr-2" /> Atrás
                     </Button>
-                    <Button onClick={nextStep}>
-                      Continuar <ChevronRight className="w-4 h-4 ml-2" />
+                    <Button
+                      variant="outline"
+                      onClick={handleComplete}
+                      disabled={isLoading}>
+                      {isLoading ? (
+                        <Loader2 className="h-4 w-4 animate-spin" />
+                      ) : (
+                        <>
+                          Saltar e ir al Dashboard
+                          <ChevronRight className="h-4 w-4 ml-2" />
+                        </>
+                      )}
                     </Button>
                   </CardFooter>
                 </>
               )}
-            </motion.div>
-          )}
-
-          {/* STEP 6: SIDEBAR CUSTOMIZATION */}
-          {currentStep === 6 && (
-            <motion.div
-              key="step6"
-              variants={slideVariants}
-              initial="enter"
-              animate="center"
-              exit="exit">
-              <CardHeader>
-                <div className="w-14 h-14 bg-amber-100 rounded-2xl flex items-center justify-center mb-4 text-amber-600">
-                  <LayoutDashboard className="w-7 h-7" />
-                </div>
-                <CardTitle className="text-xl font-bold text-slate-900">
-                  Personaliza tu menú
-                </CardTitle>
-                <CardDescription>
-                  Renombra las secciones del menú para que se adapten a tu
-                  vocabulario familiar.
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="space-y-3">
-                  <Label
-                    htmlFor="schoolLabel"
-                    className="text-slate-700 font-medium">
-                    Sección de Pagos Escolares
-                  </Label>
-                  <div className="relative">
-                    <GraduationCap className="absolute left-3 top-3 h-4 w-4 text-slate-400" />
-                    <Input
-                      id="schoolLabel"
-                      placeholder="Ej: Colegio JFK, Los Niños, Educación"
-                      className="pl-9"
-                      value={customLabels.schoolPayments}
-                      onChange={(e) =>
-                        setCustomLabels({
-                          ...customLabels,
-                          schoolPayments: e.target.value,
-                        })
-                      }
-                    />
-                  </div>
-                  <p className="text-xs text-slate-500">
-                    Predeterminado: "Pagos Escolares"
-                  </p>
-                </div>
-              </CardContent>
-              <CardFooter className="flex justify-between">
-                <Button variant="ghost" onClick={prevStep}>
-                  <ChevronLeft className="w-4 h-4 mr-2" /> Atrás
-                </Button>
-                <Button
-                  onClick={handleComplete}
-                  disabled={isLoading}
-                  className="bg-emerald-600 hover:bg-emerald-700 text-white">
-                  {isLoading ? (
-                    <Loader2 className="w-4 h-4 animate-spin" />
-                  ) : (
-                    <>
-                      Finalizar Configuración
-                      <CheckCircle2 className="w-4 h-4 ml-2" />
-                    </>
-                  )}
-                </Button>
-              </CardFooter>
             </motion.div>
           )}
         </AnimatePresence>

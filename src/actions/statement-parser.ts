@@ -3,9 +3,12 @@
 import { createGoogleGenerativeAI } from "@ai-sdk/google";
 import { generateText } from "ai";
 
-const google = createGoogleGenerativeAI({
-  apiKey: process.env.GOOGLE_GENERATIVE_AI_API_KEY,
-});
+// Validate API key at module level
+const API_KEY = process.env.GOOGLE_GENERATIVE_AI_API_KEY;
+
+const google = API_KEY 
+  ? createGoogleGenerativeAI({ apiKey: API_KEY })
+  : null;
 
 export interface ExtractedTransaction {
   date: string;
@@ -54,6 +57,15 @@ export async function parseStatementWithAI(
   pdfText: string
 ): Promise<ParseStatementResult> {
   try {
+    // Check if AI client is available
+    if (!google) {
+      return {
+        success: false,
+        transactions: [],
+        error: "El servicio de IA no está configurado.",
+      };
+    }
+
     if (!pdfText || pdfText.trim().length < 50) {
       return {
         success: false,

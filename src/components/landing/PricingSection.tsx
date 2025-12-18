@@ -23,7 +23,9 @@ export function PricingSection() {
     {
       key: "free",
       icon: Leaf,
-      price: "$0",
+      monthlyPrice: 0,
+      yearlyTotal: 0,
+      monthlyEquivalent: 0,
       color: "bg-slate-100 dark:bg-slate-800",
       accent: "text-slate-600 dark:text-slate-400",
       buttonVariant: "outline" as const,
@@ -32,7 +34,9 @@ export function PricingSection() {
     {
       key: "pro",
       icon: Zap,
-      price: billingCycle === "yearly" ? "$129" : "$169",
+      monthlyPrice: 169,
+      yearlyTotal: 129 * 12, // $1,548/year (saves vs. $169 × 12 = $2,028)
+      monthlyEquivalent: 129,
       color:
         "bg-white dark:bg-slate-900 border-emerald-500 ring-4 ring-emerald-500/10",
       accent: "text-emerald-500",
@@ -43,7 +47,9 @@ export function PricingSection() {
     {
       key: "familyPlus",
       icon: Users,
-      price: billingCycle === "yearly" ? "$199" : "$249",
+      monthlyPrice: 249,
+      yearlyTotal: 199 * 12, // $2,388/year (saves vs. $249 × 12 = $2,988)
+      monthlyEquivalent: 199,
       color:
         "bg-gradient-to-b from-blue-50 to-white dark:from-slate-800 dark:to-slate-900 border-blue-500",
       accent: "text-blue-500",
@@ -51,6 +57,13 @@ export function PricingSection() {
       features: ["mealPlanner", "groceryList", "calendar", "users"],
     },
   ];
+
+  const formatMoney = (amount: number) =>
+    new Intl.NumberFormat("es-MX", {
+      style: "currency",
+      currency: "MXN",
+      maximumFractionDigits: 0,
+    }).format(amount);
 
   return (
     <section
@@ -135,16 +148,50 @@ export function PricingSection() {
                   <tier.icon className={cn("h-5 w-5", tier.accent)} />
                   {t(`${tier.key}.name`)}
                 </h3>
-                <div className="flex items-baseline gap-1">
-                  <span className="text-4xl font-bold text-slate-900 dark:text-white">
-                    {tier.price}
-                  </span>
-                  {tier.price !== "$0" && (
+
+                {/* Price Display */}
+                {tier.monthlyPrice === 0 ? (
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-4xl font-bold text-slate-900 dark:text-white">
+                      $0
+                    </span>
+                  </div>
+                ) : billingCycle === "yearly" ? (
+                  <div className="flex flex-col">
+                    {/* Total Annual Amount */}
+                    <div className="flex items-baseline gap-1">
+                      <span className="text-4xl font-bold tracking-tight text-slate-900 dark:text-white">
+                        {formatMoney(tier.yearlyTotal)}
+                      </span>
+                      <span className="text-sm font-semibold text-slate-500 dark:text-slate-400">
+                        /{t("billing.yearly").toLowerCase()}
+                      </span>
+                    </div>
+                    {/* Monthly Breakdown */}
+                    <div className="mt-1 flex items-center gap-1.5">
+                      <span className="rounded-full bg-emerald-100 dark:bg-emerald-500/20 px-2 py-0.5 text-[10px] font-bold text-emerald-700 dark:text-emerald-400">
+                        {t(`${tier.key}.badge`) || t("billing.save")}
+                      </span>
+                      <p className="text-xs text-slate-500 dark:text-slate-400">
+                        Equivale a{" "}
+                        <span className="font-medium text-slate-900 dark:text-white">
+                          {formatMoney(tier.monthlyEquivalent)}
+                        </span>{" "}
+                        /mes
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  <div className="flex items-baseline gap-1">
+                    <span className="text-4xl font-bold text-slate-900 dark:text-white">
+                      {formatMoney(tier.monthlyPrice)}
+                    </span>
                     <span className="text-slate-500 dark:text-slate-400">
                       / {t("month")}
                     </span>
-                  )}
-                </div>
+                  </div>
+                )}
+
                 <p className="text-sm text-slate-500 dark:text-slate-400 mt-2">
                   {t(`${tier.key}.tagline`)}
                 </p>

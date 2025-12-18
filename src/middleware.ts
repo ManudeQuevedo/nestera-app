@@ -44,8 +44,8 @@ export const config = {
      * - favicon.ico (favicon file)
      * - api/ (API routes)
      * - auth/ (Auth routes)
-     * - monitoring/ (Monitoring routes)
+     * - monitoring (Sentry tunnel - with or without locale prefix)
      */
-    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$|api/|auth/|monitoring/).*)",
+    "/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$|api/|auth/|monitoring|en/monitoring|es/monitoring).*)",
   ],
 };

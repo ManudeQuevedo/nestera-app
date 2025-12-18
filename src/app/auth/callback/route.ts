@@ -16,27 +16,37 @@ export async function GET(request: Request) {
       const hasTOTP = factors?.totp && factors.totp.length > 0;
       
 
-      // Get user's preferred language
+      // Get user's preferred language and onboarding status
+      const { data: { user } } = await supabase.auth.getUser();
       const { data: profile } = await supabase
         .from("profiles")
-        .select("language")
-        .eq("id", (await supabase.auth.getUser()).data.user!.id)
+        .select("language, onboarding_completed, has_completed_onboarding, onboarding_step")
+        .eq("id", user!.id)
         .single();
         
       const userLocale = profile?.language || "en";
+      
+      // Check if onboarding is complete (support both legacy and new fields)
+      const isOnboardingComplete = profile?.onboarding_completed || 
+        profile?.has_completed_onboarding || 
+        (profile?.onboarding_step && profile.onboarding_step >= 7);
 
       /* 
-       * 2FA is now OPTIONAL. 
-       * We only redirect to /verify-mfa if the user HAS factors AND needs to verify them.
-       * If they have no factors, we simply proceed to the dashboard (or onboarding via middleware).
+       * 2FA is OPTIONAL and only enforced AFTER onboarding is complete.
+       * If onboarding is not complete, skip 2FA check entirely and let 
+       * middleware redirect to /onboarding.
        */
-
       
-      // Check AAL level
+      if (!isOnboardingComplete) {
+        // User hasn't completed onboarding - redirect to onboarding (skip 2FA)
+        return NextResponse.redirect(`${origin}/${userLocale}/onboarding`);
+      }
+      
+      // Only enforce 2FA for onboarded users who have it set up
       const { data: aalData } = await supabase.auth.mfa.getAuthenticatorAssuranceLevel();
       
-      if (aalData?.currentLevel !== "aal2") {
-        // Needs MFA verification
+      if (hasTOTP && aalData?.currentLevel !== "aal2") {
+        // Has MFA but not verified this session - verify it
         return NextResponse.redirect(`${origin}/${userLocale}/verify-mfa`);
       }
       
